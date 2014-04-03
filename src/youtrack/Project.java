@@ -2,7 +2,7 @@ package youtrack;
 
 import youtrack.commands.AddIssue;
 import youtrack.commands.GetIssue;
-import youtrack.commands.GetIssueList;
+import youtrack.commands.GetIssues;
 import youtrack.commands.results.Result;
 
 import javax.xml.bind.annotation.*;
@@ -54,7 +54,7 @@ public class Project {
 
 	public List<Issue> listIssues(String query) {
 
-		Result result = youTrack.execute(new GetIssueList(query));
+		Result result = youTrack.execute(new GetIssues(query));
 
 		IssueList issueList = (IssueList) result.getData();
 

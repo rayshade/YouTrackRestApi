@@ -7,10 +7,10 @@ import java.util.Map;
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
-public class GetIssueList extends Command {
+public class GetIssues extends Command {
 	private final String query;
 
-	public GetIssueList(String query) {
+	public GetIssues(String query) {
 
 		this.query = query;
 	}

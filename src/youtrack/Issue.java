@@ -20,10 +20,16 @@ import java.util.List;
 @XmlRootElement(name = "issue")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Issue {
+
+	/*
+	* These lists provide live access to issue comments and so on.
+	*
+	*/
+
 	@XmlTransient
 	public CommandBasedList<IssueComment> comments;
-	/*@XmlTransient
-	public CommandBasedList<IssueAttachment> attachments;*/
+	@XmlTransient
+	public CommandBasedList<IssueAttachment> attachments;
 	@XmlTransient
 	public CommandBasedList<IssueLink> links;
 
@@ -44,7 +50,7 @@ public class Issue {
 
 	Issue() {
 		comments = new CommandBasedList<IssueComment>(this, AddComment.class, RemoveComment.class, GetIssueComments.class);
-//		attachments = new CommandBasedList<IssueComment>(this, AddComment.class, RemoveComment.class, GetIssueComments.class);
+		attachments = new CommandBasedList<IssueAttachment>(this, AddAttachment.class, RemoveAttachment.class, GetIssueAttachments.class);
 		links = new CommandBasedList<IssueLink>(this, AddIssueLink.class, RemoveIssueLink.class, GetIssueLinks.class);
 	}
 
@@ -88,42 +94,6 @@ public class Issue {
 	public String getTag() {
 		return tag;
 	}
-
-/*
-	public List<IssueComment> getComments() {
-		Result result = youTrack.execute(new GetIssueComments(this));
-
-		CommentList commentList = (CommentList) result.getData();
-
-		return (commentList == null) ? null : commentList.getComments();
-	}
-
-	public boolean removeComment(IssueComment comment) {
-
-		Result result = youTrack.execute(new RemoveComment(this, comment));
-
-		return (result.success());
-	}
-
-	public IssueComment addComment(String text) {
-
-		Result result = youTrack.execute(new AddComment(this, IssueComment.createComment(text)));
-
-		if (result.success()) {
-
-			result = youTrack.execute(new GetIssueComments(this));
-
-			if (result.success()) {
-
-				List<IssueComment> comments = this.getComments();
-				return comments.get(comments.size() - 1);
-			}
-
-		}
-
-		return null;
-	}
-*/
 
 	@Override
 	public String toString() {
@@ -271,45 +241,6 @@ public class Issue {
 
 	}
 
-/*
-	public List<IssueLink> links() {
-
-		Result result = youTrack.execute(new GetIssueLinks(this));
-
-		if (result.success()) {
-			return ((LinkList) result.getData()).getLinks();
-		} else return null;
-	}
-
-	public IssueLink addLink(Issue target, IssueLink.LinkTypes relation) {
-
-		return this.addLink(target.getId(), relation);
-
-	}
-
-	public IssueLink addLink(String target, IssueLink.LinkTypes relation) {
-
-		Result result = youTrack.execute(new AddIssueLink(this, IssueLink.createLink(target, relation)));
-
-
-		if (result.success()) {
-
-			List<IssueLink> links = this.links();
-
-			return links.get(links.size() - 1);
-
-		} else return null;
-
-	}
-
-	public boolean removeLink(IssueLink link) {
-
-		Result result = youTrack.execute(new RemoveIssueLink(this, link));
-
-		return result.success();
-	}
-*/
-
 	YouTrack getYouTrack() {
 		return youTrack;
 	}
@@ -336,18 +267,6 @@ public class Issue {
 			this.fields.putAll(issue.fields);
 			return true;
 		} else return false;
-	}
-
-	public IssueAttachment addAttachment(String fileName) {
-		return null;
-	}
-
-	public boolean removeAttachment(IssueAttachment attachment) {
-		return false;
-	}
-
-	public List<IssueAttachment> attachments() {
-		return null;
 	}
 
 }
