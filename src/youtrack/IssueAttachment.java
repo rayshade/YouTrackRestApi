@@ -34,4 +34,12 @@ public class IssueAttachment {
 		issueAttachment.url = fileName;
 		return issueAttachment;
 	}
+
+	@Override
+	public String toString() {
+		return "IssueAttachment{" +
+				"url='" + url + '\'' +
+				", name='" + name + '\'' +
+				'}';
+	}
 }
