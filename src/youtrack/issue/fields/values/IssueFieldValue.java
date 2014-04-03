@@ -1,0 +1,21 @@
+package youtrack.issue.fields.values;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ * Created by egor.malyshev on 28.03.2014.
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "value")
+public class IssueFieldValue extends BaseIssueFieldValue {
+
+	public IssueFieldValue() {
+
+	}
+
+	public IssueFieldValue(String value) {
+		super(value);
+	}
+}
