@@ -1,5 +1,8 @@
 package youtrack.commands;
 
+import youtrack.Issue;
+import youtrack.IssueAttachment;
+
 import java.net.HttpURLConnection;
 import java.util.Map;
 
@@ -7,9 +10,17 @@ import java.util.Map;
  * Created by egor.malyshev on 03.04.2014.
  */
 public class RemoveAttachment extends Command {
+	private final Issue issue;
+	private final IssueAttachment attachment;
+
+	public RemoveAttachment(Issue issue, IssueAttachment attachment) {
+		this.issue = issue;
+		this.attachment = attachment;
+	}
+
 	@Override
 	public String getUrl() {
-		return null;
+		return "issue/" + issue.getId() + "/attachment/" + attachment.getId();
 	}
 
 	@Override
@@ -19,12 +30,12 @@ public class RemoveAttachment extends Command {
 
 	@Override
 	public String getRequestMethod() {
-		return null;
+		return "DELETE";
 	}
 
 	@Override
 	public boolean usesAuthorization() {
-		return false;
+		return true;
 	}
 
 	@Override

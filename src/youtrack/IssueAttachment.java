@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
@@ -18,14 +20,6 @@ public class IssueAttachment {
 	@XmlAttribute(name = "name")
 	private String name;
 
-	public String getUrl() {
-		return url;
-	}
-
-	public String getName() {
-		return name;
-	}
-
 	public IssueAttachment() {
 	}
 
@@ -35,11 +29,29 @@ public class IssueAttachment {
 		return issueAttachment;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	public String toString() {
 		return "IssueAttachment{" +
 				"url='" + url + '\'' +
 				", name='" + name + '\'' +
 				'}';
+	}
+
+	public String getId() {
+
+		Pattern extractor = Pattern.compile("\\?file=([0-9\\-]+)", Pattern.UNICODE_CASE);
+		Matcher matcher = extractor.matcher(url);
+		if (matcher.find()) {
+			return matcher.group(1);
+		} else return null;
+
 	}
 }
