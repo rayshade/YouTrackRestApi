@@ -63,23 +63,24 @@ public class Sample {
 
 		//Let's do same thing for tags. Notice that we're caching the list for output.
 
-//			List<IssueTag> issueTags = issue.tags.list();
-//
-//			System.out.println("Total tags: " + issueTags.size());
-//			for (IssueTag tag : issueTags) {
-//				System.out.println(tag.toString());
-//			}
-//
+		List<IssueTag> issueTags = issue.tags.list();
+
+		System.out.println("Total tags: " + issueTags.size());
+
+		for (IssueTag tag : issueTags) {
+			System.out.println(tag.toString());
+		}
+
 		//Suppose we don't like one of the tags and want to remove them.
 
-//			IssueTag issueTag = issueTags.get(0);
+		IssueTag issueTag = issueTags.get(0);
 
-//			System.out.println("Removing tag " + issueTag.toString());
+		System.out.println("Removing tag " + issueTag.toString());
 
-//			issue.tags.remove(issueTag);
+		issue.tags.remove(issueTag);
 
 		//Now re-read issue state and show the number of tags.
-//			System.out.println("Total tags: " + issue.tags.list().size());
+		System.out.println("Total tags: " + issue.tags.list().size());
 
 		//And finally, let's see attachments.
 
