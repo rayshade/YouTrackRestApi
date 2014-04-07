@@ -18,4 +18,11 @@ public class IssueFieldValue extends BaseIssueFieldValue {
 	public IssueFieldValue(String value) {
 		super(value);
 	}
+
+	public static IssueFieldValue createValue(String value) {
+		IssueFieldValue issueFieldValue = new IssueFieldValue();
+		issueFieldValue.setValue(value);
+		return issueFieldValue;
+	}
+
 }

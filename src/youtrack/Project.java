@@ -4,8 +4,10 @@ import youtrack.commands.AddIssue;
 import youtrack.commands.GetIssue;
 import youtrack.commands.GetIssues;
 import youtrack.commands.results.Result;
+import youtrack.exceptions.NoSuchIssueFieldException;
 
 import javax.xml.bind.annotation.*;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -52,7 +54,7 @@ public class Project {
 	 * @return list of @link Issue instances or null if there was an error.
 	 */
 
-	public List<Issue> issues(String query) {
+	public List<Issue> issues(String query) throws IOException, NoSuchIssueFieldException {
 
 		Result result = youTrack.execute(new GetIssues(query));
 
@@ -74,7 +76,7 @@ public class Project {
 	 * @return @link Issue instance or null if there was an error.
 	 */
 
-	public Issue issue(String id) {
+	public Issue issue(String id) throws IOException, NoSuchIssueFieldException {
 
 		Result result = youTrack.execute(new GetIssue(id));
 
@@ -96,7 +98,7 @@ public class Project {
 	 * @return @link Issue instance or null if there was an error.
 	 */
 
-	public Issue create(String summary, String description) {
+	public Issue create(String summary, String description) throws IOException, NoSuchIssueFieldException {
 
 		Result result = youTrack.execute(new AddIssue(this.id, summary, description));
 

@@ -3,6 +3,7 @@ package youtrack.commands;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.xml.sax.SAXException;
 import youtrack.*;
+import youtrack.exceptions.NoSuchIssueFieldException;
 import youtrack.issue.fields.*;
 import youtrack.issue.fields.values.AttachmentFieldValue;
 import youtrack.issue.fields.values.LinkFieldValue;
@@ -58,7 +59,7 @@ public abstract class Command {
 		return jaxbUnmarshaller.unmarshal(streamReader);
 	}
 
-	public abstract HttpMethodBase commandMethod(String baseHost);
+	public abstract HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException;
 
 	/**
 	 * Class to work around the JAXB name handling.

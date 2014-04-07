@@ -6,7 +6,10 @@ import youtrack.commands.Command;
 import youtrack.commands.GetProjects;
 import youtrack.commands.Login;
 import youtrack.commands.results.Result;
+import youtrack.exceptions.AuthenticationErrorException;
+import youtrack.exceptions.NoSuchIssueFieldException;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,29 +48,21 @@ public class YouTrack {
 	 * @return instance of @link Result containing command execution results.
 	 */
 
-	Result execute(Command command) {
+	Result execute(Command command) throws IOException, NoSuchIssueFieldException {
 
-		Result result = null;
+		HttpClient httpClient = new HttpClient();
 
-		try {
+		HttpMethodBase method = command.commandMethod(hostAddress);
 
-			HttpClient httpClient = new HttpClient();
-
-			HttpMethodBase method = command.commandMethod(hostAddress);
-
-			if (command.usesAuthorization()) {
-				method.addRequestHeader("Cookie", authorization);
-			}
-
-			httpClient.executeMethod(method);
-
-			result = new Result(command.getResult(), method.getStatusCode());
-
-			method.releaseConnection();
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		if (command.usesAuthorization()) {
+			method.addRequestHeader("Cookie", authorization);
 		}
+
+		httpClient.executeMethod(method);
+
+		Result result = new Result(command.getResult(), method.getStatusCode());
+
+		method.releaseConnection();
 		return result;
 	}
 
@@ -77,7 +72,7 @@ public class YouTrack {
 	 * @return list of @link Project instances or null if there was an error.
 	 */
 
-	public List<Project> projects() {
+	public List<Project> projects() throws IOException, NoSuchIssueFieldException {
 
 		Result result = execute(new GetProjects());
 
@@ -98,7 +93,7 @@ public class YouTrack {
 	 * Retrieved token is stored for later use with all commands that need authentication.
 	 */
 
-	public boolean login(String userName, String password) {
+	public void login(String userName, String password) throws AuthenticationErrorException, IOException, NoSuchIssueFieldException {
 
 		Result result = execute(new Login(userName, password));
 
@@ -106,9 +101,7 @@ public class YouTrack {
 
 			authorization = (String) result.getData();
 
-			return true;
-
-		} else return false;
+		} else throw new AuthenticationErrorException();
 
 	}
 
@@ -118,14 +111,13 @@ public class YouTrack {
 	 * @return @link Project instance or null if there was an error.
 	 */
 
-	public Project project(String id) {
+	public Project project(String id) throws IOException, NoSuchIssueFieldException {
 
 		Result result = execute(new GetProjects());
 
 		ProjectList projectList = (ProjectList) result.getData();
 
 		if (projectList != null) {
-
 
 			Project project = projectList.getProject(id);
 

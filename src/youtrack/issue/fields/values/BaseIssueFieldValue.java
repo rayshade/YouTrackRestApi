@@ -19,6 +19,10 @@ public abstract class BaseIssueFieldValue {
 
 	}
 
+	protected BaseIssueFieldValue(String value) {
+		this.value = value;
+	}
+
 	public String getValue() {
 		return value;
 	}
@@ -32,9 +36,5 @@ public abstract class BaseIssueFieldValue {
 		return "BaseIssueFieldValue{" +
 				"value='" + value + '\'' +
 				'}';
-	}
-
-	protected BaseIssueFieldValue(String value) {
-		this.value = value;
 	}
 }

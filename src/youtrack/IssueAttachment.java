@@ -1,9 +1,17 @@
 package youtrack;
 
+import com.sun.istack.internal.NotNull;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +31,7 @@ public class IssueAttachment {
 	IssueAttachment() {
 	}
 
-	public static IssueAttachment createAttachment(String fileName) {
+	public static IssueAttachment createAttachment(@NotNull String fileName) {
 		IssueAttachment issueAttachment = new IssueAttachment();
 		issueAttachment.url = fileName;
 		return issueAttachment;
@@ -53,5 +61,32 @@ public class IssueAttachment {
 			return matcher.group(1);
 		} else return null;
 
+	}
+
+	public void saveAs(@NotNull String path) throws IOException {
+
+		HttpClient client = new HttpClient();
+
+		GetMethod get = new GetMethod(this.url);
+
+		client.executeMethod(get);
+
+		InputStream in = get.getResponseBodyAsStream();
+
+		if (!path.endsWith("/")) path += "/";
+
+		FileOutputStream out = new FileOutputStream(new File(path + this.name));
+
+		byte[] b = new byte[1024];
+
+		int len;
+
+		while ((len = in.read(b)) != -1) {
+			out.write(b, 0, len);
+		}
+
+		in.close();
+		out.close();
+		get.releaseConnection();
 	}
 }
