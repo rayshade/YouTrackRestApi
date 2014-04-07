@@ -32,6 +32,8 @@ public class Issue {
 	public CommandBasedList<IssueAttachment> attachments;
 	@XmlTransient
 	public CommandBasedList<IssueLink> links;
+	@XmlTransient
+	public CommandBasedList<IssueTag> tags;
 
 	@XmlAttribute(name = "id")
 	private String id;
@@ -41,8 +43,6 @@ public class Issue {
 	/*
 	This is used to work around the issue with JAXB not being able to unmarshal a Map.
 	 */
-	@XmlElement(name = "tag")
-	private String tag;
 	@XmlTransient
 	private HashMap<String, IssueField> fields;
 	@XmlTransient
@@ -52,6 +52,7 @@ public class Issue {
 		comments = new CommandBasedList<IssueComment>(this, AddComment.class, RemoveComment.class, GetIssueComments.class);
 		attachments = new CommandBasedList<IssueAttachment>(this, AddAttachment.class, RemoveAttachment.class, GetIssueAttachments.class);
 		links = new CommandBasedList<IssueLink>(this, AddIssueLink.class, RemoveIssueLink.class, GetIssueLinks.class);
+		tags = new CommandBasedList<IssueTag>(this, AddIssueTag.class, RemoveIssueTag.class, GetIssueTags.class);
 	}
 
 	public void setFieldByName(String fieldName, BaseIssueFieldValue value) throws SetIssueFieldException {
@@ -91,16 +92,11 @@ public class Issue {
 		}
 	}
 
-	public String getTag() {
-		return tag;
-	}
-
 	@Override
 	public String toString() {
 		return "Issue{" +
 				"id='" + id + '\'' +
 				", fieldArray=" + fieldArray +
-				", tag='" + tag + '\'' +
 				'}';
 	}
 
@@ -262,7 +258,6 @@ public class Issue {
 	private boolean updateSelf() {
 		Issue issue = (Issue) youTrack.execute(new GetIssue(this.id)).getData();
 		if (issue != null) {
-			this.tag = issue.tag;
 			this.fields.clear();
 			this.fields.putAll(issue.fields);
 			return true;

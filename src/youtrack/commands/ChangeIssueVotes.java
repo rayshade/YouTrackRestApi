@@ -2,6 +2,7 @@ package youtrack.commands;
 
 
 import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
 
@@ -31,7 +32,11 @@ public class ChangeIssueVotes extends Command {
 	public HttpMethodBase commandMethod(String baseHost) {
 
 		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
-		postMethod.addParameter("command", ((vote) ? "vote" : "unvote"));
+
+
+		postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("command", ((vote) ? "vote" : "unvote"))});
+
+
 		return postMethod;
 	}
 }

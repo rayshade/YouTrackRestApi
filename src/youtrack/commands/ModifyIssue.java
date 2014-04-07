@@ -2,6 +2,7 @@ package youtrack.commands;
 
 
 import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
 
@@ -32,8 +33,13 @@ public class ModifyIssue extends Command {
 	@Override
 	public HttpMethodBase commandMethod(String baseHost) {
 		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId());
-		postMethod.addParameter("summary", ((summary == null) ? issue.getSummary() : summary));
-		postMethod.addParameter("description", ((description == null) ? issue.getDescription() : description));
+
+		postMethod.setRequestBody(new NameValuePair[]{
+				new NameValuePair("summary", ((summary == null) ? issue.getSummary() : summary)),
+				new NameValuePair("description", ((description == null) ? issue.getDescription() : description))
+
+		});
+
 		return postMethod;
 	}
 }

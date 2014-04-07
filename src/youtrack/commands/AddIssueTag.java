@@ -1,22 +1,22 @@
 package youtrack.commands;
 
-
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
-import youtrack.IssueLink;
+import youtrack.IssueTag;
 
 /**
- * Created by egor.malyshev on 03.04.2014.
+ * Created by egor.malyshev on 07.04.2014.
  */
-public class RemoveIssueLink extends Command {
+public class AddIssueTag extends Command {
 	private final Issue issue;
-	private final IssueLink link;
+	private final IssueTag issueTag;
 
-	public RemoveIssueLink(Issue issue, IssueLink link) {
+	public AddIssueTag(Issue issue, IssueTag issueTag) {
+
 		this.issue = issue;
-		this.link = link;
+		this.issueTag = issueTag;
 	}
 
 	@Override
@@ -33,11 +33,8 @@ public class RemoveIssueLink extends Command {
 	public HttpMethodBase commandMethod(String baseHost) {
 		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
 
-		postMethod.setRequestBody(new NameValuePair[]{
-				new NameValuePair("command", "remove " + link.getTypeOutward() + " " + link.getTarget())
+		postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("command", "tag " + issueTag.getTag())});
 
-		});
-		
 		return postMethod;
 	}
 }

@@ -2,8 +2,8 @@ package youtrack.commands;
 
 
 import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.issue.fields.IssueField;
 import youtrack.issue.fields.values.BaseIssueFieldValue;
@@ -50,11 +50,14 @@ public class ModifyIssueField extends Command {
 
 	@Override
 	public HttpMethodBase commandMethod(String baseHost) {
-		method = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
+		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
 
-		HttpMethodParams params = new HttpMethodParams();
-		params.setParameter("command", target.getName() + " " + newVaule.getValue());
-		method.setParams(params);
+		postMethod.setRequestBody(new NameValuePair[]{
+				new NameValuePair("command", target.getName() + " " + newVaule.getValue())
+
+		});
+
+		method = postMethod;
 
 		return method;
 	}
