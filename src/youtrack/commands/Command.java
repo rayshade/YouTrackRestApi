@@ -1,12 +1,12 @@
 package youtrack.commands;
 
+import org.apache.commons.httpclient.HttpMethodBase;
 import org.xml.sax.SAXException;
 import youtrack.*;
 import youtrack.issue.fields.*;
 import youtrack.issue.fields.values.AttachmentFieldValue;
 import youtrack.issue.fields.values.LinkFieldValue;
 import youtrack.issue.fields.values.MultiUserFieldValue;
-import youtrack.util.Service;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,41 +16,19 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.util.StreamReaderDelegate;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.util.Map;
 
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
 public abstract class Command {
 
-	public abstract String getUrl();
-
-	public abstract Map<String, String> getParams();
-
-	public abstract String getRequestMethod();
+	protected HttpMethodBase method;
 
 	public abstract boolean usesAuthorization();
 
-	public abstract Object getResult(HttpURLConnection httpURLConnection);
-
-	protected String getResponse(HttpURLConnection httpURLConnection) throws IOException {
-
-		BufferedReader reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), Service.ENC));
-		String responseBuffer;
-		String response = "";
-
-		while ((responseBuffer = reader.readLine()) != null) {
-			response += responseBuffer;
-		}
-
-		reader.close();
-		return response;
-	}
+	public abstract Object getResult();
 
 	/**
 	 * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.
@@ -78,6 +56,8 @@ public abstract class Command {
 
 		return jaxbUnmarshaller.unmarshal(streamReader);
 	}
+
+	public abstract HttpMethodBase commandMethod(String baseHost);
 
 	/**
 	 * Class to work around the JAXB name handling.

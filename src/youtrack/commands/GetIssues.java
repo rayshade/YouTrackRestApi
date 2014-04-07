@@ -1,8 +1,8 @@
 package youtrack.commands;
 
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
@@ -16,39 +16,30 @@ public class GetIssues extends Command {
 	}
 
 	@Override
-	public String getUrl() {
-		return "issue";
-	}
-
-	@Override
-	public Map<String, String> getParams() {
-		Map<String, String> result = new HashMap<String, String>();
-		result.put("filter", query);
-		return result;
-	}
-
-	@Override
-	public String getRequestMethod() {
-		return "GET";
-	}
-
-	@Override
 	public boolean usesAuthorization() {
 		return true;
 	}
 
 	@Override
-	public Object getResult(HttpURLConnection httpURLConnection) {
+	public Object getResult() {
 
 		try {
 
-			String response = getResponse(httpURLConnection);
-			return objectFromXml(response);
+			return objectFromXml(method.getResponseBodyAsString());
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
 		}
 
+	}
+
+	@Override
+	public HttpMethodBase commandMethod(String baseHost) {
+		method = new GetMethod(baseHost + "issue");
+		HttpMethodParams params = new HttpMethodParams();
+		params.setParameter("filter", query);
+		method.setParams(params);
+		return method;
 	}
 }

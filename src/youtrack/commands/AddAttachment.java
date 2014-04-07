@@ -1,14 +1,14 @@
 package youtrack.commands;
 
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
 import youtrack.Issue;
 import youtrack.IssueAttachment;
 
-import javax.xml.bind.DatatypeConverter;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
@@ -23,51 +23,38 @@ public class AddAttachment extends Command {
 	}
 
 	@Override
-	public String getUrl() {
-		return "issue/" + issue.getId() + "/attachment";
-	}
-
-	public IssueAttachment getAttachment() {
-		return attachment;
-	}
-
-	@Override
-	public Map<String, String> getParams() {
-		Map<String, String> result = new HashMap<String, String>();
-
-
-		try {
-
-
-			RandomAccessFile f = new RandomAccessFile(attachment.getUrl(), "rw");
-			byte[] data = new byte[(int) f.length()];
-
-			f.read(data);
-
-			String base64data = DatatypeConverter.printBase64Binary(data);
-
-
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
-		return result;
-	}
-
-	@Override
-	public String getRequestMethod() {
-		return "POST";
-	}
-
-	@Override
 	public boolean usesAuthorization() {
 		return true;
 	}
 
 	@Override
-	public Object getResult(HttpURLConnection httpURLConnection) {
+	public Object getResult() {
 		return null;
+	}
+
+	@Override
+	public HttpMethodBase commandMethod(String baseHost) {
+
+		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/attachment");
+
+		File file = new File(attachment.getUrl());
+
+		try {
+
+			Part[] parts = {
+					new FilePart(file.getName(), file)
+			};
+
+			postMethod.setRequestEntity(
+					new MultipartRequestEntity(parts, postMethod.getParams())
+			);
+
+			return postMethod;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+
 	}
 }

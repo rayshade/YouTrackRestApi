@@ -1,10 +1,10 @@
 package youtrack.commands;
 
+
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import youtrack.Issue;
 import youtrack.IssueAttachment;
-
-import java.net.HttpURLConnection;
-import java.util.Map;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
@@ -19,27 +19,19 @@ public class RemoveAttachment extends Command {
 	}
 
 	@Override
-	public String getUrl() {
-		return "issue/" + issue.getId() + "/attachment/" + attachment.getId();
-	}
-
-	@Override
-	public Map<String, String> getParams() {
-		return null;
-	}
-
-	@Override
-	public String getRequestMethod() {
-		return "DELETE";
-	}
-
-	@Override
 	public boolean usesAuthorization() {
 		return true;
 	}
 
 	@Override
-	public Object getResult(HttpURLConnection httpURLConnection) {
+	public Object getResult() {
 		return null;
+	}
+
+	@Override
+	public HttpMethodBase commandMethod(String baseHost) {
+
+		return new DeleteMethod(baseHost + "issue/" + issue.getId() + "/attachment/" + attachment.getId());
+
 	}
 }

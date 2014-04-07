@@ -1,8 +1,9 @@
 package youtrack.commands;
 
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 
 /**
  * Created by egor.malyshev on 31.03.2014.
@@ -17,30 +18,26 @@ public class Login extends Command {
 	}
 
 	@Override
-	public String getUrl() {
-		return "user/login";
-	}
-
-	@Override
-	public Map<String, String> getParams() {
-		Map<String, String> result = new HashMap<String, String>();
-		result.put("login", userName);
-		result.put("password", password);
-		return result;
-	}
-
-	@Override
-	public String getRequestMethod() {
-		return "POST";
-	}
-
-	@Override
 	public boolean usesAuthorization() {
 		return false;
 	}
 
 	@Override
-	public Object getResult(HttpURLConnection httpURLConnection) {
-		return httpURLConnection.getHeaderField("Set-Cookie");
+	public Object getResult() {
+		return method.getResponseHeader("Set-Cookie").getValue();
+	}
+
+	@Override
+	public HttpMethodBase commandMethod(String baseHost) {
+
+		PostMethod postMethod = new PostMethod(baseHost + "user/login");
+
+		postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("login", userName),
+						new NameValuePair("password", password)}
+		);
+
+		method = postMethod;
+
+		return method;
 	}
 }

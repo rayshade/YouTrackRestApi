@@ -1,26 +1,13 @@
 package youtrack.commands;
 
-import java.net.HttpURLConnection;
-import java.util.Map;
+
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.methods.GetMethod;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
 public class GetProjects extends Command {
-	@Override
-	public String getUrl() {
-		return "project/all";
-	}
-
-	@Override
-	public Map<String, String> getParams() {
-		return null;
-	}
-
-	@Override
-	public String getRequestMethod() {
-		return "GET";
-	}
 
 	@Override
 	public boolean usesAuthorization() {
@@ -28,18 +15,22 @@ public class GetProjects extends Command {
 	}
 
 	@Override
-	public Object getResult(HttpURLConnection httpURLConnection) {
+	public Object getResult() {
 
 		try {
 
-			String response = getResponse(httpURLConnection);
-
-			return objectFromXml(response);
+			return objectFromXml(method.getResponseBodyAsString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 
+	}
+
+	@Override
+	public HttpMethodBase commandMethod(String baseHost) {
+		method = new GetMethod(baseHost + "project/all");
+		return method;
 	}
 }

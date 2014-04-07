@@ -1,10 +1,9 @@
 package youtrack.commands;
 
-import youtrack.Issue;
 
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.methods.PostMethod;
+import youtrack.Issue;
 
 /**
  * Created by egor.malyshev on 02.04.2014.
@@ -21,30 +20,20 @@ public class ModifyIssue extends Command {
 	}
 
 	@Override
-	public String getUrl() {
-		return "issue/" + issue.getId();
-	}
-
-	@Override
-	public Map<String, String> getParams() {
-		Map<String, String> result = new HashMap<String, String>();
-		result.put("summary", ((summary == null) ? issue.getSummary() : summary));
-		result.put("description", ((description == null) ? issue.getDescription() : description));
-		return result;
-	}
-
-	@Override
-	public String getRequestMethod() {
-		return "POST";
-	}
-
-	@Override
 	public boolean usesAuthorization() {
 		return true;
 	}
 
 	@Override
-	public Object getResult(HttpURLConnection httpURLConnection) {
+	public Object getResult() {
 		return null;
+	}
+
+	@Override
+	public HttpMethodBase commandMethod(String baseHost) {
+		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId());
+		postMethod.addParameter("summary", ((summary == null) ? issue.getSummary() : summary));
+		postMethod.addParameter("description", ((description == null) ? issue.getDescription() : description));
+		return postMethod;
 	}
 }

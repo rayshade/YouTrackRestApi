@@ -1,9 +1,9 @@
 package youtrack.commands;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
@@ -21,40 +21,33 @@ public class AddIssue extends Command {
 	}
 
 	@Override
-	public String getUrl() {
-		return "issue";
-	}
-
-	@Override
-	public Map<String, String> getParams() {
-
-		Map<String, String> result = new HashMap<String, String>();
-		result.put("project", projectId);
-		result.put("summary", summary);
-		result.put("description", description);
-
-		return result;
-	}
-
-	@Override
-	public String getRequestMethod() {
-		return "PUT";
-	}
-
-	@Override
 	public boolean usesAuthorization() {
 		return true;
 	}
 
 	@Override
-	public Object getResult(HttpURLConnection httpURLConnection) {
+	public Object getResult() {
 		try {
-			getResponse(httpURLConnection);
-			String[] locations = httpURLConnection.getHeaderField("Location").split("/");
+			String[] locations = method.getResponseHeader("Location").getValue().split("/");
 			return locations[locations.length - 1];
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public HttpMethodBase commandMethod(String baseHost) {
+		method = new PutMethod(baseHost + "issue");
+
+		HttpMethodParams params = new HttpMethodParams();
+		params.setParameter("project", projectId);
+		params.setParameter("summary", summary);
+		params.setParameter("description", description);
+
+		method.setParams(params);
+
+		return method;
+
 	}
 }

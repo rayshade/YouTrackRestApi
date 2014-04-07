@@ -1,11 +1,11 @@
 package youtrack.commands;
 
+
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.methods.DeleteMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.IssueComment;
-
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
@@ -20,30 +20,22 @@ public class RemoveComment extends Command {
 	}
 
 	@Override
-	public String getUrl() {
-		return "issue/" + issue.getId() + "/comment/" + commentId;
-	}
-
-	@Override
-	public Map<String, String> getParams() {
-		Map<String, String> result = new HashMap<String, String>();
-		result.put("permanently", String.valueOf(true));
-		return result;
-	}
-
-	@Override
-	public String getRequestMethod() {
-		return "DELETE";
-	}
-
-	@Override
 	public boolean usesAuthorization() {
 		return true;
 	}
 
 	@Override
-	public Object getResult(HttpURLConnection httpURLConnection) {
+	public Object getResult() {
 		return null;
+	}
+
+	@Override
+	public HttpMethodBase commandMethod(String baseHost) {
+		DeleteMethod deleteMethod = new DeleteMethod(baseHost + "issue/" + issue.getId() + "/comment/" + commentId);
+		HttpMethodParams params = new HttpMethodParams();
+		params.setBooleanParameter("permanently", true);
+		deleteMethod.setParams(params);
+		return deleteMethod;
 	}
 
 }

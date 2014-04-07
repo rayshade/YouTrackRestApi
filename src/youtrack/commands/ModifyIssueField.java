@@ -1,12 +1,12 @@
 package youtrack.commands;
 
+
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.issue.fields.IssueField;
 import youtrack.issue.fields.values.BaseIssueFieldValue;
-
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by egor.malyshev on 02.04.2014.
@@ -24,47 +24,38 @@ public class ModifyIssueField extends Command {
 	}
 
 	@Override
-	public String getUrl() {
-		return "issue/" + issue.getId() + "/execute";
-	}
-
-	@Override
-	public Map<String, String> getParams() {
-		Map<String, String> result = new HashMap<String, String>();
-
-		result.put("command", target.getName() + " " + newVaule.getValue());
-
-		return result;
-	}
-
-	@Override
-	public String getRequestMethod() {
-		return "POST";
-	}
-
-	@Override
 	public boolean usesAuthorization() {
 		return true;
 	}
 
 	@Override
-	public Object getResult(HttpURLConnection httpURLConnection) {
+	public Object getResult() {
 
 		try {
-			String response = getResponse(httpURLConnection);
 
-			if (httpURLConnection.getResponseCode() == 200) {
+			if (method.getStatusCode() == 200) {
 
 				return null;
 
 			} else {
 
-				return objectFromXml(response);
+				return objectFromXml(method.getResponseBodyAsString());
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public HttpMethodBase commandMethod(String baseHost) {
+		method = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
+
+		HttpMethodParams params = new HttpMethodParams();
+		params.setParameter("command", target.getName() + " " + newVaule.getValue());
+		method.setParams(params);
+
+		return method;
 	}
 }
