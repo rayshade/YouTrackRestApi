@@ -77,7 +77,7 @@ public class YouTrack {
 	 * @return list of @link Project instances or null if there was an error.
 	 */
 
-	public List<Project> listProjects() {
+	public List<Project> projects() {
 
 		Result result = execute(new GetProjects());
 
@@ -98,7 +98,7 @@ public class YouTrack {
 	 * Retrieved token is stored for later use with all commands that need authentication.
 	 */
 
-	public boolean doLogin(String userName, String password) {
+	public boolean login(String userName, String password) {
 
 		Result result = execute(new Login(userName, password));
 

@@ -52,7 +52,7 @@ public class Project {
 	 * @return list of @link Issue instances or null if there was an error.
 	 */
 
-	public List<Issue> listIssues(String query) {
+	public List<Issue> issues(String query) {
 
 		Result result = youTrack.execute(new GetIssues(query));
 
