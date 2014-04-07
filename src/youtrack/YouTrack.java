@@ -1,11 +1,18 @@
 package youtrack;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import youtrack.commands.AddAttachment;
 import youtrack.commands.Command;
 import youtrack.commands.GetProjects;
 import youtrack.commands.Login;
 import youtrack.commands.results.Result;
 import youtrack.util.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -58,49 +65,79 @@ public class YouTrack {
 
 			String commandData = "";
 
-			if (command.getParams() != null) {
-				for (String commandKey : command.getParams().keySet()) {
-
-					commandData += commandKey + "=" + Service.encode(command.getParams().get(commandKey)) + "&";
-				}
-				commandData = commandData.substring(0, commandData.length() - 1);
-			}
-
 			URL url;
 			HttpURLConnection httpURLConnection;
 
-			if (command.getRequestMethod().equals("POST")) {
+			if (command instanceof AddAttachment) {
+
+				AddAttachment addAttachment = (AddAttachment) command;
 
 				url = new URL(hostAddress + command.getUrl());
 
+				PostMethod filePost = new PostMethod(url.toString());
+
+				File file = new File(addAttachment.getAttachment().getUrl());
+
+				Part[] parts = {
+						new FilePart(file.getName(), file)
+				};
+
+				filePost.setRequestEntity(
+						new MultipartRequestEntity(parts, filePost.getParams())
+				);
+
+				filePost.addRequestHeader("Cookie", authorization);
+
+				HttpClient htc = new HttpClient();
+
+				htc.executeMethod(filePost);
+
+				result = new Result(null, filePost.getStatusCode());
+
+				filePost.releaseConnection();
+
 			} else {
 
-				url = new URL(hostAddress + command.getUrl() + ((commandData.length() > 0) ? "?" : "") + commandData);
-			}
-
-			httpURLConnection = (HttpURLConnection) getUrlConnection(url);
-
-			if (command.getRequestMethod().equals("POST") || command.getRequestMethod().equals("PUT"))
-				httpURLConnection.setDoOutput(true);
-
-			httpURLConnection.setRequestMethod(command.getRequestMethod());
-
-			if (command.usesAuthorization()) {
-				httpURLConnection.setRequestProperty("Cookie", authorization);
-			}
-
-			if (command.getRequestMethod().equals("POST") || command.getRequestMethod().equals("PUT")) {
-				httpURLConnection.setRequestProperty("Content-Type", CONTENT_TYPE);
-				httpURLConnection.setRequestProperty("Content-Length", String.valueOf(commandData.getBytes(Service.ENC).length));
 				if (command.getParams() != null) {
-					OutputStreamWriter writer = new OutputStreamWriter(httpURLConnection.getOutputStream(), Service.ENC);
-					writer.write(commandData);
-					writer.flush();
-					writer.close();
-				}
-			}
+					for (String commandKey : command.getParams().keySet()) {
 
-			result = new Result(command.getResult(httpURLConnection), httpURLConnection.getResponseCode());
+						commandData += commandKey + "=" + Service.encode(command.getParams().get(commandKey)) + "&";
+					}
+					commandData = commandData.substring(0, commandData.length() - 1);
+				}
+
+
+				if (command.getRequestMethod().equals("POST")) {
+
+					url = new URL(hostAddress + command.getUrl());
+
+				} else {
+
+					url = new URL(hostAddress + command.getUrl() + ((commandData.length() > 0) ? "?" : "") + commandData);
+				}
+
+				httpURLConnection = (HttpURLConnection) getUrlConnection(url);
+
+				if (command.getRequestMethod().equals("POST") || command.getRequestMethod().equals("PUT"))
+					httpURLConnection.setDoOutput(true);
+
+				httpURLConnection.setRequestMethod(command.getRequestMethod());
+
+				if (command.usesAuthorization()) {
+					httpURLConnection.setRequestProperty("Cookie", authorization);
+				}
+
+				if (command.getRequestMethod().equals("POST") || command.getRequestMethod().equals("PUT")) {
+					httpURLConnection.setRequestProperty("Content-Type", CONTENT_TYPE);
+					if (command.getParams() != null) {
+						OutputStreamWriter writer = new OutputStreamWriter(httpURLConnection.getOutputStream(), Service.ENC);
+						writer.write(commandData);
+						writer.flush();
+						writer.close();
+					}
+				}
+				result = new Result(command.getResult(httpURLConnection), httpURLConnection.getResponseCode());
+			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

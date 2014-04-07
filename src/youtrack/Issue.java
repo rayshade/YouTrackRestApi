@@ -268,5 +268,4 @@ public class Issue {
 			return true;
 		} else return false;
 	}
-
 }

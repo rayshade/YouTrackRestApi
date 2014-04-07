@@ -14,9 +14,18 @@ public class AddComment extends Command {
 	private final String comment;
 	private final Issue issue;
 
+	public String getComment() {
+		return comment;
+	}
+
+	public Issue getIssue() {
+		return issue;
+	}
+
 	public AddComment(Issue issue, IssueComment comment) {
 		this.comment = comment.getText();
 		this.issue = issue;
+
 	}
 
 	@Override
