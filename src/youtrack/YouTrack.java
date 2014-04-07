@@ -66,6 +66,10 @@ public class YouTrack {
 		return result;
 	}
 
+	public String getHostAddress() {
+		return hostAddress;
+	}
+
 	/**
 	 * Retrieve a list of projects from current connection.
 	 *
@@ -101,7 +105,7 @@ public class YouTrack {
 
 			authorization = (String) result.getData();
 
-		} else throw new AuthenticationErrorException();
+		} else throw new AuthenticationErrorException(this, userName, password.replaceAll(".", "*"));
 
 	}
 
