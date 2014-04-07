@@ -16,7 +16,7 @@ public class LinkList {
 	@XmlElement(name = "issueLink")
 	private List<IssueLink> links;
 
-	public LinkList() {
+	LinkList() {
 
 	}
 

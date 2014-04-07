@@ -19,7 +19,7 @@ public class CommandBasedList<T> {
 	private final Class removeCommand;
 	private final Class listCommand;
 
-	public CommandBasedList(Issue owner, Class addCommand, Class removeCommand, Class listCommand) {
+	CommandBasedList(Issue owner, Class addCommand, Class removeCommand, Class listCommand) {
 		this.owner = owner;
 		this.addCommand = addCommand;
 		this.removeCommand = removeCommand;
@@ -78,4 +78,5 @@ public class CommandBasedList<T> {
 		}
 
 	}
+
 }

@@ -20,7 +20,7 @@ public class IssueAttachment {
 	@XmlAttribute(name = "name")
 	private String name;
 
-	public IssueAttachment() {
+	IssueAttachment() {
 	}
 
 	public static IssueAttachment createAttachment(String fileName) {

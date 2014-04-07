@@ -16,7 +16,7 @@ public class AttachmentList {
 	@XmlElement(name = "fileUrl")
 	private List<IssueAttachment> attachments;
 
-	public AttachmentList() {
+	AttachmentList() {
 
 	}
 

@@ -14,7 +14,7 @@ public class IssueTag {
 	@XmlValue
 	private String tag;
 
-	public IssueTag() {
+	IssueTag() {
 	}
 
 	public static IssueTag createTag(String tag) {

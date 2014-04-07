@@ -15,7 +15,7 @@ public class TagList {
 	@XmlElement(name = "tag")
 	private List<IssueTag> tags;
 
-	public TagList() {
+	TagList() {
 	}
 
 	public List<IssueTag> getTags() {
