@@ -40,7 +40,7 @@ public class YouTrack {
 
 	/**
 	 * Gets a @link YouTrack instance associated with given URL.
-	 * <p/>
+	 *
 	 * URL must correspond to the base REST API URL of YouTrack server you're connecting to.
 	 */
 
