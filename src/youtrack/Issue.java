@@ -66,8 +66,6 @@ public class Issue {
 
 			if (result.success()) {
 
-				youtrack.commands.results.Error error = (youtrack.commands.results.Error) result.getData();
-
 				throw new SetIssueFieldException(this, fields.get(fieldName), value);
 			}
 

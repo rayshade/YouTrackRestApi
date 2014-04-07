@@ -15,11 +15,11 @@ public abstract class BaseIssueFieldValue {
 	@XmlValue
 	private String value;
 
-	protected BaseIssueFieldValue() {
+	BaseIssueFieldValue() {
 
 	}
 
-	protected BaseIssueFieldValue(String value) {
+	BaseIssueFieldValue(String value) {
 		this.value = value;
 	}
 
@@ -27,7 +27,7 @@ public abstract class BaseIssueFieldValue {
 		return value;
 	}
 
-	public void setValue(String value) {
+	void setValue(String value) {
 		this.value = value;
 	}
 

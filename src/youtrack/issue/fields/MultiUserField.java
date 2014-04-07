@@ -24,7 +24,7 @@ public class MultiUserField extends IssueField {
 
 	@Override
 	public void setValue(BaseIssueFieldValue value) {
-		this.value= (MultiUserFieldValue) value;
+		this.value = (MultiUserFieldValue) value;
 	}
 
 }

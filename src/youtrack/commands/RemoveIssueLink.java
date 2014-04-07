@@ -37,7 +37,7 @@ public class RemoveIssueLink extends Command {
 				new NameValuePair("command", "remove " + link.getTypeOutward() + " " + link.getTarget())
 
 		});
-		
+
 		return postMethod;
 	}
 }

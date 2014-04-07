@@ -1,10 +1,10 @@
 package example;
 
-import youtrack.Issue;
-import youtrack.IssueComment;
-import youtrack.Project;
-import youtrack.YouTrack;
+import youtrack.*;
+import youtrack.exceptions.AuthenticationErrorException;
+import youtrack.exceptions.NoSuchIssueFieldException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -12,39 +12,86 @@ import java.util.List;
  */
 public class Example {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, AuthenticationErrorException, NoSuchIssueFieldException {
+
+
+		//Access a YouTrack instance by its REST URL.
 
 		YouTrack youTrack = YouTrack.getInstance("http://youtrack.jetbrains.com/rest/");
 
-		if (youTrack.doLogin("login", "password")) {
 
-			List<Project> projectList = youTrack.listProjects();
+		//Try to log in using some credentials.
 
-			System.out.println("Total projects: " + projectList.size());
+		youTrack.login("megor", "H8gpr09,");
 
-			Project project = youTrack.project("DOC");
+		//Get a list of all projects.
+		List<Project> projectList = youTrack.projects();
 
-			if (project != null) {
+		System.out.println("Total projects: " + projectList.size());
 
-				System.out.println("Project " + project.getName());
+		//Getting a specific project. I'm, using DOC so as not to introduce too many disturbance :)
 
-				Issue issue = project.issue("DOC-3261");
+		Project project = youTrack.project("DOC");
 
-				if (issue != null) {
-					System.out.println("Issue assignee: " + issue.getAssignee().getFullName());
+		//Output full name.
+		System.out.println("Project " + project.getName());
 
-					System.out.println(issue.comments.list().size() + " total comments");
+		//Now get some issue by its id:
+		Issue issue = project.issue("DOC-3261");
 
-					IssueComment newComment = issue.comments.add(IssueComment.createComment("Test comment from API!!"));
+		//Let's out some info:
 
-					System.out.println(issue.comments.list().size() + " total comments");
+		System.out.println("Assignee: " + issue.getAssignee().getFullName());
+		System.out.println("Summary: " + issue.getSummary());
+		System.out.println("Description: " + issue.getDescription());
+		System.out.println("Votes: " + issue.getVotes());
 
-					System.out.println(newComment.toString());
+		//Now see if anyone commented
 
-				}
-			}
 
+		System.out.println(issue.comments.list().size() + " total comments");
+
+		//Okay, we can comment on it, too:
+		System.out.println("Commenting...");
+		IssueComment newComment = issue.comments.add(IssueComment.createComment("Hey people, I am commenting via API!"));
+
+		//And see if we did OK. This is our comment:
+		System.out.println(newComment.toString());
+
+		//And new comment count as well:
+		System.out.println(issue.comments.list().size() + " total comments");
+
+		//Let's do same thing for tags. Notice that we're caching the list for output.
+
+//			List<IssueTag> issueTags = issue.tags.list();
+//
+//			System.out.println("Total tags: " + issueTags.size());
+//			for (IssueTag tag : issueTags) {
+//				System.out.println(tag.toString());
+//			}
+//
+		//Suppose we don't like one of the tags and want to remove them.
+
+//			IssueTag issueTag = issueTags.get(0);
+
+//			System.out.println("Removing tag " + issueTag.toString());
+
+//			issue.tags.remove(issueTag);
+
+		//Now re-read issue state and show the number of tags.
+//			System.out.println("Total tags: " + issue.tags.list().size());
+
+		//And finally, let's see attachments.
+
+		List<IssueAttachment> issueAttachments = issue.attachments.list();
+		for (IssueAttachment issueAttachment : issueAttachments) {
+			System.out.println(issueAttachment.toString());
 		}
+
+		//And save one locally
+		issueAttachments.get(0).saveTo("C:");
+
 	}
+
 
 }

@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class IssueField {
 	@XmlAttribute(name = "name")
-	protected String name;
+	private String name;
 
 	public IssueField() {
 	}

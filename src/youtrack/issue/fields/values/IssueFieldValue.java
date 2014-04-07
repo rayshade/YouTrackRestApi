@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "value")
 public class IssueFieldValue extends BaseIssueFieldValue {
 
-	public IssueFieldValue() {
+	private IssueFieldValue() {
 
 	}
 

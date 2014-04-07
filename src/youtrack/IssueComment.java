@@ -32,7 +32,7 @@ public class IssueComment {
 	@XmlElement(name = "comment")
 	private List<IssueComment> replies;
 
-	public IssueComment() {
+	private IssueComment() {
 	}
 
 	public static IssueComment createComment(String commentText) {

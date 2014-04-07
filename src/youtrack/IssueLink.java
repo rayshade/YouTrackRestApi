@@ -48,7 +48,6 @@ public class IssueLink {
 			case SUBTASK_OF:
 				issueLink.typeName = "subtask of";
 
-
 		}
 		return issueLink;
 	}

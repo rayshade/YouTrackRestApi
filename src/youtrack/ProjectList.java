@@ -13,6 +13,7 @@ import java.util.Map;
 @XmlRootElement(name = "projects")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProjectList {
+	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	@XmlElement(name = "project")
 	private List<Project> projectList;
 	/*

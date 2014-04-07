@@ -25,7 +25,7 @@ import java.io.StringReader;
  */
 public abstract class Command {
 
-	protected HttpMethodBase method;
+	HttpMethodBase method;
 
 	public abstract boolean usesAuthorization();
 
@@ -41,7 +41,7 @@ public abstract class Command {
 	 * @throws org.xml.sax.SAXException
 	 * @throws IOException
 	 */
-	protected Object objectFromXml(String xmlString) throws ParserConfigurationException, JAXBException, SAXException, IOException, XMLStreamException {
+	Object objectFromXml(String xmlString) throws ParserConfigurationException, JAXBException, SAXException, IOException, XMLStreamException {
 
 		XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
 		XMLStreamReader streamReader = xmlInputFactory.createXMLStreamReader(new StringReader(xmlString));

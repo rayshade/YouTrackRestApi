@@ -9,7 +9,7 @@ import java.util.List;
  * Created by egor.malyshev on 01.04.2014.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class IssueList {
+abstract class IssueList {
 	@XmlElement(name = "issue")
 	private List<Issue> issues;
 

@@ -31,6 +31,13 @@ public class IssueAttachment {
 	IssueAttachment() {
 	}
 
+	/**
+	 * Creates IssueAttachment when you need to add a new attachment to an issue.
+	 *
+	 * @param fileName local file to map attachment to.
+	 * @return a new IssueAttachment instance mapped to a local file.
+	 */
+
 	public static IssueAttachment createAttachment(@NotNull String fileName) {
 		IssueAttachment issueAttachment = new IssueAttachment();
 		issueAttachment.url = fileName;
@@ -63,7 +70,13 @@ public class IssueAttachment {
 
 	}
 
-	public void saveAs(@NotNull String path) throws IOException {
+	/**
+	 * Saves attachment to a local folder under its original file name.
+	 *
+	 * @param path local path to save attachment to.
+	 */
+
+	public void saveTo(@NotNull String path) throws IOException {
 
 		HttpClient client = new HttpClient();
 

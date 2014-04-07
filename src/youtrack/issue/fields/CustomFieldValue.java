@@ -27,7 +27,7 @@ public class CustomFieldValue extends IssueField {
 
 	@Override
 	public void setValue(BaseIssueFieldValue value) {
-		this.value= (IssueFieldValue) value;
+		this.value = (IssueFieldValue) value;
 	}
 
 }
