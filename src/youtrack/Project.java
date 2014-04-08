@@ -1,8 +1,6 @@
 package youtrack;
 
-import youtrack.commands.AddIssue;
-import youtrack.commands.GetIssues;
-import youtrack.commands.RemoveIssue;
+import youtrack.commands.*;
 
 import javax.xml.bind.annotation.*;
 
@@ -20,7 +18,7 @@ public class Project extends Item {
 	private String id;
 
 	Project() {
-		issues = new CommandBasedList<Issue>(this, AddIssue.class, RemoveIssue.class, GetIssues.class);
+		issues = new CommandBasedList<Issue>(this, AddIssue.class, RemoveIssue.class, GetIssues.class, QueryIssues.class, GetIssue.class);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import youtrack.commands.Command;
 import youtrack.commands.GetProjects;
 import youtrack.commands.Login;
-import youtrack.commands.results.Result;
+import youtrack.commands.CommandResult;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
@@ -46,10 +46,10 @@ public class YouTrack {
 	/**
 	 * Executes a YouTrack command described by an object that extends @link Command class.
 	 *
-	 * @return instance of @link Result containing command execution results.
+	 * @return instance of @link CommandResult containing command execution results.
 	 */
 
-	Result execute(Command command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+	CommandResult execute(Command command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 
 		HttpClient httpClient = new HttpClient();
 
@@ -61,7 +61,7 @@ public class YouTrack {
 
 		httpClient.executeMethod(method);
 
-		Result result = new Result(command.getResult(), method.getStatusCode());
+		CommandResult result = new CommandResult(command.getResult(), method.getStatusCode());
 
 		method.releaseConnection();
 		return result;
@@ -79,7 +79,7 @@ public class YouTrack {
 
 	public List<Project> projects() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 
-		Result result = execute(new GetProjects());
+		CommandResult result = execute(new GetProjects());
 
 		List<Project> projectList = (List<Project>) result.getData();
 
@@ -103,7 +103,7 @@ public class YouTrack {
 
 	public void login(String userName, String password) throws AuthenticationErrorException, IOException, NoSuchIssueFieldException, CommandExecutionException {
 
-		Result result = execute(new Login(userName, password));
+		CommandResult result = execute(new Login(userName, password));
 
 		if (result.success()) {
 

@@ -2,7 +2,8 @@ package youtrack;
 
 import com.sun.istack.internal.NotNull;
 import youtrack.commands.Command;
-import youtrack.commands.results.Result;
+import youtrack.commands.CommandResult;
+import youtrack.commands.QueryParameters;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.CommandNotAvailableException;
 import youtrack.exceptions.NoSuchIssueFieldException;
@@ -23,12 +24,16 @@ public class CommandBasedList<T extends Item> {
 	private final Class addCommand;
 	private final Class removeCommand;
 	private final Class listCommand;
+	private final Class queryCommand;
+	private final Class getSingleItemCommand;
 
-	CommandBasedList(Item owner, Class addCommand, Class removeCommand, Class listCommand) {
+	CommandBasedList(Item owner, Class addCommand, Class removeCommand, Class listCommand, Class queryCommand, Class getSingleItemCommand) {
 		this.owner = owner;
 		this.addCommand = addCommand;
 		this.removeCommand = removeCommand;
 		this.listCommand = listCommand;
+		this.queryCommand = queryCommand;
+		this.getSingleItemCommand = getSingleItemCommand;
 	}
 
 	public T add(T item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
@@ -40,7 +45,7 @@ public class CommandBasedList<T extends Item> {
 			throw new CommandNotAvailableException(addCommand);
 		}
 
-		Result result = owner.getYouTrack().execute(command);
+		CommandResult result = owner.getYouTrack().execute(command);
 
 		if (result.success()) {
 
@@ -51,14 +56,15 @@ public class CommandBasedList<T extends Item> {
 		} else return null;
 	}
 
-	public void remove(T item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException {
+	public void remove(T item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
+		Command command;
 		try {
-			Command command = (Command) removeCommand.getDeclaredConstructors()[0].newInstance(owner, item);
-			owner.getYouTrack().execute(command);
+			command = (Command) removeCommand.getDeclaredConstructors()[0].newInstance(owner, item);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new CommandNotAvailableException(removeCommand);
 		}
+		owner.getYouTrack().execute(command);
 	}
 
 	public T item(int index) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
@@ -66,14 +72,29 @@ public class CommandBasedList<T extends Item> {
 	}
 
 	public T item(@NotNull String id) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
-		for (T t : this.list()) {
-			if (t.getId().equals(id)) return t;
+		CommandResult result;
+		Command command;
+		try {
+
+			command = (Command) getSingleItemCommand.getDeclaredConstructors()[0].newInstance(id);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CommandNotAvailableException(getSingleItemCommand);
 		}
-		return null;
+
+		result = owner.getYouTrack().execute(command);
+
+		if (result.success()) {
+
+			return (T) result.getData();
+
+		} else return null;
+
 	}
 
 	public List<T> list() throws CommandNotAvailableException, IOException, NoSuchIssueFieldException, CommandExecutionException {
-		Result result;
+		CommandResult result;
 		Command command;
 		try {
 
@@ -88,14 +109,37 @@ public class CommandBasedList<T extends Item> {
 
 		if (result.success()) {
 
-			List<T> data = (List<T>) result.getData();
-			for (T t : data) {
-				t.setYouTrack(owner.youTrack);
-			}
-			return data;
+			return getInitializedList(result);
 
 		} else return null;
 
 	}
 
+	protected List<T> getInitializedList(CommandResult result) {
+		List<T> data = (List<T>) result.getData();
+
+		for (T t : data) {
+			t.setYouTrack(owner.youTrack);
+		}
+
+		return data;
+	}
+
+	public List<T> query(String query) throws CommandNotAvailableException, NoSuchIssueFieldException, IOException, CommandExecutionException {
+		CommandResult result;
+		Command command;
+
+		try {
+			command = (Command) queryCommand.getDeclaredConstructors()[0].newInstance(owner, new QueryParameters(query, 100, 0));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CommandNotAvailableException(queryCommand);
+		}
+
+		result = owner.getYouTrack().execute(command);
+
+		if (result.success()) {
+			return getInitializedList(result);
+		} else return null;
+	}
 }

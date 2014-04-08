@@ -1,14 +1,14 @@
-package youtrack.commands.results;
+package youtrack.commands;
 
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
-public class Result {
+public class CommandResult {
 
 	private final Object data;
 	private final int responseCode;
 
-	public Result(Object data, int responseCode) {
+	public CommandResult(Object data, int responseCode) {
 		this.data = data;
 		this.responseCode = responseCode;
 	}

@@ -51,7 +51,7 @@ public abstract class Command<R> {
 
 		JAXBContext jaxbContext = JAXBContext.newInstance(Issue.class, IssueField.class, CustomFieldValue.class, AttachmentField.class,
 				LinkField.class, MultiUserField.class, SingleField.class, MultiUserFieldValue.class, AttachmentFieldValue.class,
-				LinkFieldValue.class, IssueCompactList.class, youtrack.commands.results.Error.class, IssueProjectList.class,
+				LinkFieldValue.class, IssueCompactList.class, IssueProjectList.class,
 				Project.class, ProjectList.class, CommentList.class, LinkList.class, IssueLink.class, IssueAttachment.class, AttachmentList.class,
 				IssueTag.class, TagList.class);
 

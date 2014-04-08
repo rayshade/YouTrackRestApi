@@ -1,7 +1,6 @@
 package youtrack;
 
 import youtrack.commands.*;
-import youtrack.commands.results.Result;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 import youtrack.exceptions.SetIssueFieldException;
@@ -53,10 +52,10 @@ public class Issue extends Item {
 	private HashMap<String, IssueField> fields;
 
 	Issue() {
-		comments = new CommandBasedList<IssueComment>(this, AddComment.class, RemoveComment.class, GetIssueComments.class);
-		attachments = new CommandBasedList<IssueAttachment>(this, AddAttachment.class, RemoveAttachment.class, GetIssueAttachments.class);
-		links = new CommandBasedList<IssueLink>(this, AddIssueLink.class, RemoveIssueLink.class, GetIssueLinks.class);
-		tags = new CommandBasedList<IssueTag>(this, AddIssueTag.class, RemoveIssueTag.class, GetIssueTags.class);
+		comments = new CommandBasedList<IssueComment>(this, AddComment.class, RemoveComment.class, GetIssueComments.class, null, null);
+		attachments = new CommandBasedList<IssueAttachment>(this, AddAttachment.class, RemoveAttachment.class, GetIssueAttachments.class, null, null);
+		links = new CommandBasedList<IssueLink>(this, AddIssueLink.class, RemoveIssueLink.class, GetIssueLinks.class, null, null);
+		tags = new CommandBasedList<IssueTag>(this, AddIssueTag.class, RemoveIssueTag.class, GetIssueTags.class, null, null);
 	}
 
 	private Issue(String summary, String description) {
@@ -79,7 +78,7 @@ public class Issue extends Item {
 
 		if (fields.containsKey(fieldName)) {
 
-			Result result = youTrack.execute(new ModifyIssueField(this, fields.get(fieldName), value));
+			CommandResult result = youTrack.execute(new ModifyIssueField(this, fields.get(fieldName), value));
 
 			if (result.success()) {
 
@@ -139,7 +138,7 @@ public class Issue extends Item {
 
 	public void setDescription(String description) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
 
-		Result result = youTrack.execute(new ModifyIssue(this, null, description));
+		CommandResult result = youTrack.execute(new ModifyIssue(this, null, description));
 
 		if (result.success()) {
 
@@ -156,7 +155,7 @@ public class Issue extends Item {
 
 	public void setSummary(String summary) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
 
-		Result result = youTrack.execute(new ModifyIssue(this, summary, null));
+		CommandResult result = youTrack.execute(new ModifyIssue(this, summary, null));
 
 		if (result.success()) {
 
