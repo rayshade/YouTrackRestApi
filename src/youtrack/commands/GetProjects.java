@@ -3,11 +3,16 @@ package youtrack.commands;
 
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
+import youtrack.Project;
+import youtrack.ProjectList;
+import youtrack.exceptions.CommandExecutionException;
+
+import java.util.List;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
-public class GetProjects extends Command {
+public class GetProjects extends Command<List<Project>> {
 
 	@Override
 	public boolean usesAuthorization() {
@@ -15,17 +20,17 @@ public class GetProjects extends Command {
 	}
 
 	@Override
-	public Object getResult() {
+	public List<Project> getResult() throws CommandExecutionException {
 
 		try {
 
-			return objectFromXml(method.getResponseBodyAsString());
+			ProjectList projectList = (ProjectList) objectFromXml(method.getResponseBodyAsString());
+
+			return projectList.getItems();
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			throw new CommandExecutionException(this, e);
 		}
-
 	}
 
 	@Override

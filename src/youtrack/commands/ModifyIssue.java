@@ -5,6 +5,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
+import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class ModifyIssue extends Command {
 	}
 
 	@Override
-	public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException {
+	public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId());
 
 		postMethod.setRequestBody(new NameValuePair[]{

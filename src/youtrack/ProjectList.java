@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @XmlRootElement(name = "projects")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProjectList {
+public class ProjectList extends ItemList<Project> {
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	@XmlElement(name = "project")
 	private List<Project> projectList;
@@ -21,6 +21,11 @@ public class ProjectList {
 	 */
 	@XmlTransient
 	private Map<String, Project> projects;
+
+	@Override
+	public List<Project> getItems() {
+		return projectList;
+	}
 
 	ProjectList() {
 

@@ -4,11 +4,15 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.CommentList;
 import youtrack.Issue;
+import youtrack.IssueComment;
+import youtrack.exceptions.CommandExecutionException;
+
+import java.util.List;
 
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
-public class GetIssueComments extends Command {
+public class GetIssueComments extends Command<List<IssueComment>> {
 	private final Issue issue;
 
 	public GetIssueComments(Issue issue) {
@@ -22,7 +26,7 @@ public class GetIssueComments extends Command {
 
 	@Override
 
-	public Object getResult() {
+	public List<IssueComment> getResult() throws CommandExecutionException {
 		try {
 
 			CommentList commentList = (CommentList) objectFromXml(method.getResponseBodyAsString());
@@ -30,8 +34,7 @@ public class GetIssueComments extends Command {
 			return commentList.getComments();
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			throw new CommandExecutionException(this, e);
 		}
 	}
 

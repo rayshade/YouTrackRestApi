@@ -3,34 +3,37 @@ package youtrack;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 
 /**
  * Created by egor.malyshev on 07.04.2014.
  */
 @XmlRootElement(name = "tag")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueTag {
-	@XmlValue
-	private String tag;
+public class IssueTag extends Item {
 
 	IssueTag() {
 	}
 
+	@Override
+	String getId() {
+		return null;
+	}
+
 	public static IssueTag createTag(String tag) {
 		IssueTag issueTag = new IssueTag();
-		issueTag.tag = tag;
+		issueTag.body = tag;
+		issueTag.wrapper = true;
 		return issueTag;
 	}
 
 	@Override
 	public String toString() {
 		return "IssueTag{" +
-				"tag='" + tag + '\'' +
+				"tag='" + body + '\'' +
 				'}';
 	}
 
 	public String getTag() {
-		return tag;
+		return body;
 	}
 }

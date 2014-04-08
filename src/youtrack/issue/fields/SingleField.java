@@ -18,6 +18,13 @@ public class SingleField extends IssueField {
 		super();
 	}
 
+	public static SingleField createField(String name, IssueFieldValue value) {
+		SingleField field = new SingleField();
+		field.name = name;
+		field.value = value;
+		return field;
+	}
+
 	@Override
 	public BaseIssueFieldValue getValue() {
 		return value;

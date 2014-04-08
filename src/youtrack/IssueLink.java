@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "issueLink")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueLink {
+public class IssueLink extends Item {
 	@XmlAttribute(name = "typeInward")
 	private String typeInward;
 	@XmlAttribute(name = "typeOutward")
@@ -28,7 +28,7 @@ public class IssueLink {
 	public static IssueLink createLink(String target, LinkTypes relation) {
 		IssueLink issueLink = new IssueLink();
 		issueLink.target = target;
-
+issueLink.wrapper=true;
 		switch (relation) {
 			case DEPENDS_ON:
 				issueLink.typeName = "depends on ";
@@ -81,6 +81,10 @@ public class IssueLink {
 
 	public String getSource() {
 		return source;
+	}
+
+	String getId() {
+		return null;
 	}
 
 	public enum LinkTypes {

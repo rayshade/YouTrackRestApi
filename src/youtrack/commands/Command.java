@@ -3,6 +3,7 @@ package youtrack.commands;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.xml.sax.SAXException;
 import youtrack.*;
+import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 import youtrack.issue.fields.*;
 import youtrack.issue.fields.values.AttachmentFieldValue;
@@ -23,13 +24,13 @@ import java.io.StringReader;
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
-public abstract class Command {
+public abstract class Command<R> {
 
 	HttpMethodBase method;
 
 	public abstract boolean usesAuthorization();
 
-	public abstract Object getResult();
+	public abstract R getResult() throws CommandExecutionException;
 
 	/**
 	 * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.
@@ -59,7 +60,7 @@ public abstract class Command {
 		return jaxbUnmarshaller.unmarshal(streamReader);
 	}
 
-	public abstract HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException;
+	public abstract HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException;
 
 	/**
 	 * Class to work around the JAXB name handling.

@@ -4,11 +4,15 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.AttachmentList;
 import youtrack.Issue;
+import youtrack.IssueAttachment;
+import youtrack.exceptions.CommandExecutionException;
+
+import java.util.List;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
  */
-public class GetIssueAttachments extends Command {
+public class GetIssueAttachments extends Command<List<IssueAttachment>> {
 	private final Issue issue;
 
 	public GetIssueAttachments(Issue issue) {
@@ -21,7 +25,7 @@ public class GetIssueAttachments extends Command {
 	}
 
 	@Override
-	public Object getResult() {
+	public List<IssueAttachment> getResult() throws CommandExecutionException {
 
 		try {
 
@@ -30,8 +34,7 @@ public class GetIssueAttachments extends Command {
 			return attachmentList.getAttachments();
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			throw new CommandExecutionException(this, e);
 		}
 	}
 

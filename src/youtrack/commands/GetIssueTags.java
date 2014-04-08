@@ -3,12 +3,16 @@ package youtrack.commands;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Issue;
+import youtrack.IssueTag;
 import youtrack.TagList;
+import youtrack.exceptions.CommandExecutionException;
+
+import java.util.List;
 
 /**
  * Created by egor.malyshev on 07.04.2014.
  */
-public class GetIssueTags extends Command {
+public class GetIssueTags extends Command<List<IssueTag>> {
 	private final Issue issue;
 
 	public GetIssueTags(Issue issue) {
@@ -21,19 +25,17 @@ public class GetIssueTags extends Command {
 	}
 
 	@Override
-	public Object getResult() {
+	public List<IssueTag> getResult() throws CommandExecutionException {
 
 		try {
 
 			TagList tagList = (TagList) objectFromXml(method.getResponseBodyAsString());
 
-			return tagList.getTags();
+			return tagList.getItems();
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			throw new CommandExecutionException(this, e);
 		}
-
 	}
 
 	@Override

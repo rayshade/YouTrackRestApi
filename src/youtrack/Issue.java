@@ -2,9 +2,11 @@ package youtrack;
 
 import youtrack.commands.*;
 import youtrack.commands.results.Result;
+import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 import youtrack.exceptions.SetIssueFieldException;
 import youtrack.issue.fields.IssueField;
+import youtrack.issue.fields.SingleField;
 import youtrack.issue.fields.values.BaseIssueFieldValue;
 import youtrack.issue.fields.values.IssueFieldValue;
 import youtrack.issue.fields.values.MultiUserFieldValue;
@@ -12,6 +14,7 @@ import youtrack.issue.fields.values.MultiUserFieldValue;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,7 +24,7 @@ import java.util.List;
  */
 @XmlRootElement(name = "issue")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Issue {
+public class Issue extends Item {
 
 	/*
 	* These lists provide live access to issue comments and so on.
@@ -48,8 +51,6 @@ public class Issue {
 	 */
 	@XmlTransient
 	private HashMap<String, IssueField> fields;
-	@XmlTransient
-	private YouTrack youTrack;
 
 	Issue() {
 		comments = new CommandBasedList<IssueComment>(this, AddComment.class, RemoveComment.class, GetIssueComments.class);
@@ -58,7 +59,23 @@ public class Issue {
 		tags = new CommandBasedList<IssueTag>(this, AddIssueTag.class, RemoveIssueTag.class, GetIssueTags.class);
 	}
 
-	public void setFieldByName(String fieldName, BaseIssueFieldValue value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException {
+	private Issue(String summary, String description) {
+		wrapper = true;
+		fieldArray = new ArrayList<IssueField>();
+		fieldArray.add(SingleField.createField("summary", IssueFieldValue.createValue(summary)));
+		fieldArray.add(SingleField.createField("description", IssueFieldValue.createValue(description)));
+		this.afterUnmarshal(null, null);
+		tags = null;
+		links = null;
+		comments = null;
+		attachments = null;
+	}
+
+	public static Issue createIssue(String summary, String description) {
+		return new Issue(summary, description);
+	}
+
+	public void setFieldByName(String fieldName, BaseIssueFieldValue value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
 
 		if (fields.containsKey(fieldName)) {
 
@@ -73,11 +90,11 @@ public class Issue {
 		} else throw new NoSuchIssueFieldException(this, fieldName);
 	}
 
-	public BaseIssueFieldValue getFieldByName(String fieldName) throws NoSuchIssueFieldException, IOException {
+	public BaseIssueFieldValue getFieldByName(String fieldName) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
 
 		if (fields.containsKey(fieldName)) {
 
-			updateSelf();
+			if (!wrapper) updateSelf();
 
 			return fields.get(fieldName).getValue();
 
@@ -108,19 +125,19 @@ public class Issue {
 		return fields.containsKey("resolved");
 	}
 
-	public String getState() throws NoSuchIssueFieldException, IOException {
+	public String getState() throws NoSuchIssueFieldException, IOException, CommandExecutionException {
 		return getFieldByName("State").getValue();
 	}
 
-	public void setState(String state) throws IOException, SetIssueFieldException, NoSuchIssueFieldException {
+	public void setState(String state) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
 		setFieldByName("State", new IssueFieldValue(state));
 	}
 
-	public String getDescription() throws NoSuchIssueFieldException, IOException {
+	public String getDescription() throws NoSuchIssueFieldException, IOException, CommandExecutionException {
 		return getFieldByName("description").getValue();
 	}
 
-	public void setDescription(String description) throws IOException, SetIssueFieldException, NoSuchIssueFieldException {
+	public void setDescription(String description) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
 
 		Result result = youTrack.execute(new ModifyIssue(this, null, description));
 
@@ -133,11 +150,11 @@ public class Issue {
 
 	}
 
-	public String getSummary() throws IOException, NoSuchIssueFieldException {
+	public String getSummary() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 		return getFieldByName("summary").getValue();
 	}
 
-	public void setSummary(String summary) throws IOException, SetIssueFieldException, NoSuchIssueFieldException {
+	public void setSummary(String summary) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
 
 		Result result = youTrack.execute(new ModifyIssue(this, summary, null));
 
@@ -156,56 +173,48 @@ public class Issue {
 		}
 	}
 
-	public String getType() throws NoSuchIssueFieldException, IOException {
+	public String getType() throws NoSuchIssueFieldException, IOException, CommandExecutionException {
 		return getFieldByName("Type").getValue();
 	}
 
-	public void setType(String type) throws IOException, SetIssueFieldException, NoSuchIssueFieldException {
+	public void setType(String type) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
 		setFieldByName("Type", new IssueFieldValue(type));
 	}
 
-	public String getPriority() throws IOException, NoSuchIssueFieldException {
+	public String getPriority() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 		return getFieldByName("Priority").getValue();
 	}
 
-	public void setPriority(String priority) throws IOException, SetIssueFieldException, NoSuchIssueFieldException {
+	public void setPriority(String priority) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
 		setFieldByName("Priority", new IssueFieldValue(priority));
 	}
 
-	public MultiUserFieldValue getAssignee() throws NoSuchIssueFieldException, IOException {
+	public MultiUserFieldValue getAssignee() throws NoSuchIssueFieldException, IOException, CommandExecutionException {
 		return (MultiUserFieldValue) getFieldByName("Assignee");
 	}
 
-	public String getReporter() throws NoSuchIssueFieldException, IOException {
+	public String getReporter() throws NoSuchIssueFieldException, IOException, CommandExecutionException {
 		return getFieldByName("reporterName").getValue();
 
 	}
 
-	public void setAssignee(String assignee, String fullName) throws IOException, SetIssueFieldException, NoSuchIssueFieldException {
+	public void setAssignee(String assignee, String fullName) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
 		MultiUserFieldValue value = new MultiUserFieldValue(assignee);
 		value.setFullName(fullName);
 		setFieldByName("Assignee", value);
 	}
 
-	YouTrack getYouTrack() {
-		return youTrack;
-	}
-
-	void setYouTrack(YouTrack youTrack) {
-		this.youTrack = youTrack;
-	}
-
-	public void vote() throws IOException, NoSuchIssueFieldException {
+	public void vote() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 
 		youTrack.execute(new ChangeIssueVotes(this, true)).success();
 	}
 
-	public void unVote() throws IOException, NoSuchIssueFieldException {
+	public void unVote() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 
 		youTrack.execute(new ChangeIssueVotes(this, false)).success();
 	}
 
-	private void updateSelf() throws IOException, NoSuchIssueFieldException {
+	private void updateSelf() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 		Issue issue = (Issue) youTrack.execute(new GetIssue(this.id)).getData();
 		if (issue != null) {
 			this.fields.clear();

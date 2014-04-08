@@ -2,6 +2,8 @@ package impl;
 
 import youtrack.*;
 import youtrack.exceptions.AuthenticationErrorException;
+import youtrack.exceptions.CommandExecutionException;
+import youtrack.exceptions.CommandNotAvailableException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 
 import java.io.IOException;
@@ -12,8 +14,8 @@ import java.util.List;
  */
 public class Sample {
 
-	public static void main(String[] args) throws IOException, AuthenticationErrorException, NoSuchIssueFieldException {
-
+	public static void main(String[] args) throws IOException, AuthenticationErrorException, NoSuchIssueFieldException,
+			CommandNotAvailableException, CommandExecutionException {
 
 		//Access a YouTrack instance by its REST URL.
 
@@ -22,7 +24,7 @@ public class Sample {
 
 		//Try to log in using some credentials.
 
-		youTrack.login("", "");
+		youTrack.login("megor", "H8gpr09,");
 
 		//Get a list of all projects.
 		List<Project> projectList = youTrack.projects();
@@ -37,16 +39,21 @@ public class Sample {
 		System.out.println("Project " + project.getName());
 
 		//Now get some issue by its id:
-		Issue issue = project.issue("DOC-3261");
+		Issue issue = project.issues.item(0);
 
 		//Let's out some info:
 
 		System.out.println("Assignee: " + issue.getAssignee().getFullName());
 		System.out.println("Summary: " + issue.getSummary());
-		System.out.println("Description: " + issue.getDescription());
+//		System.out.println("Description: " + issue.getDescription());
 		System.out.println("Votes: " + issue.getVotes());
 
+		for (IssueLink issueLink: issue.links.list()) {
+			System.out.println(issueLink.toString());
+		}
+
 		//Now see if anyone commented
+/*
 
 
 		System.out.println(issue.comments.list().size() + " total comments");
@@ -62,7 +69,7 @@ public class Sample {
 		System.out.println(issue.comments.list().size() + " total comments");
 
 		//Let's do same thing for tags. Notice that we're caching the list for output.
-
+		issue.tags.add(IssueTag.createTag("new tag"));
 		List<IssueTag> issueTags = issue.tags.list();
 
 		System.out.println("Total tags: " + issueTags.size());
@@ -91,6 +98,7 @@ public class Sample {
 
 		//And save one locally
 		issueAttachments.get(0).saveTo("C:");
+*/
 
 	}
 

@@ -8,7 +8,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
-public class Login extends Command {
+public class Login extends Command<String> {
 	private final String userName;
 	private final String password;
 
@@ -23,7 +23,7 @@ public class Login extends Command {
 	}
 
 	@Override
-	public Object getResult() {
+	public String getResult() {
 		return method.getResponseHeader("Set-Cookie").getValue();
 	}
 

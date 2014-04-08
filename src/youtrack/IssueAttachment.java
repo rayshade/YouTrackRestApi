@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  */
 @XmlRootElement(name = "fileUrl")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueAttachment {
+public class IssueAttachment extends Item {
 
 	@XmlAttribute(name = "url")
 	private String url;
@@ -41,6 +41,7 @@ public class IssueAttachment {
 	public static IssueAttachment createAttachment(@NotNull String fileName) {
 		IssueAttachment issueAttachment = new IssueAttachment();
 		issueAttachment.url = fileName;
+		issueAttachment.wrapper = true;
 		return issueAttachment;
 	}
 

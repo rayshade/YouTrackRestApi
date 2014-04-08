@@ -8,7 +8,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "comment")
-public class IssueComment {
+public class IssueComment extends Item {
 
 	@XmlAttribute(name = "id")
 	private String id;
@@ -40,7 +40,7 @@ public class IssueComment {
 		IssueComment issueComment = new IssueComment();
 
 		issueComment.text = commentText;
-
+		issueComment.wrapper = true;
 		return issueComment;
 
 	}

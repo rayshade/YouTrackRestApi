@@ -2,17 +2,24 @@ package youtrack.commands;
 
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
+import youtrack.Issue;
+import youtrack.IssueProjectList;
+import youtrack.Project;
+import youtrack.exceptions.CommandExecutionException;
+
+import java.util.List;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
-public class GetIssues extends Command {
-	private final String query;
+public class GetIssues extends Command<List<Issue>> {
 
-	public GetIssues(String query) {
 
-		this.query = query;
+	private final Project project;
+
+	public GetIssues(Project project) {
+
+		this.project = project;
 	}
 
 	@Override
@@ -21,25 +28,27 @@ public class GetIssues extends Command {
 	}
 
 	@Override
-	public Object getResult() {
+	public List<Issue> getResult() throws CommandExecutionException {
 
 		try {
+			IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
 
-			return objectFromXml(method.getResponseBodyAsString());
+			return itemList.getItems();
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
+			throw new CommandExecutionException(this, ex);
 		}
 
 	}
 
 	@Override
 	public HttpMethodBase commandMethod(String baseHost) {
-		method = new GetMethod(baseHost + "issue");
+		method = new GetMethod(baseHost + "issue/byproject/" + project.getId());
+/*
 		HttpMethodParams params = new HttpMethodParams();
 		params.setParameter("filter", query);
 		method.setParams(params);
+*/
 		return method;
 	}
 }

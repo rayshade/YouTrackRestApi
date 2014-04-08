@@ -5,13 +5,14 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
+import youtrack.exceptions.CommandExecutionException;
 import youtrack.issue.fields.IssueField;
 import youtrack.issue.fields.values.BaseIssueFieldValue;
 
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
-public class ModifyIssueField extends Command {
+public class ModifyIssueField extends Command<String> {
 	private final Issue issue;
 	private final IssueField target;
 	private final BaseIssueFieldValue newVaule;
@@ -29,7 +30,7 @@ public class ModifyIssueField extends Command {
 	}
 
 	@Override
-	public Object getResult() {
+	public String getResult() throws CommandExecutionException {
 
 		try {
 
@@ -39,12 +40,12 @@ public class ModifyIssueField extends Command {
 
 			} else {
 
-				return objectFromXml(method.getResponseBodyAsString());
+				return method.getResponseBodyAsString();
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new CommandExecutionException(this, e);
 		}
 	}
 

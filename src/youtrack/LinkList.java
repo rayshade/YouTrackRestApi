@@ -11,7 +11,7 @@ import java.util.List;
  */
 @XmlRootElement(name = "issueLinks")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LinkList {
+public class LinkList extends ItemList<IssueLink> {
 
 	@XmlElement(name = "issueLink")
 	private List<IssueLink> links;
@@ -20,8 +20,8 @@ public class LinkList {
 
 	}
 
-	public List<IssueLink> getLinks() {
+	@Override
+	public List<IssueLink> getItems() {
 		return links;
 	}
-
 }

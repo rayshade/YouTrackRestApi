@@ -4,20 +4,22 @@ package youtrack.commands;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import youtrack.Issue;
+import youtrack.Project;
+import youtrack.exceptions.CommandExecutionException;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
-public class AddIssue extends Command {
-	private final String projectId;
-	private final String summary;
-	private final String description;
+public class AddIssue extends Command<String> {
+	private final Project project;
+	private final Issue issue;
 
-	public AddIssue(String projectId, String summary, String description) {
+	public AddIssue(Project project, Issue issue) {
 
-		this.projectId = projectId;
-		this.summary = summary;
-		this.description = description;
+		this.project = project;
+		this.issue = issue;
+
 	}
 
 	@Override
@@ -26,13 +28,12 @@ public class AddIssue extends Command {
 	}
 
 	@Override
-	public Object getResult() {
+	public String getResult() throws CommandExecutionException {
 		try {
 			String[] locations = method.getResponseHeader("Location").getValue().split("/");
 			return locations[locations.length - 1];
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			throw new CommandExecutionException(this, e);
 		}
 	}
 
@@ -41,9 +42,16 @@ public class AddIssue extends Command {
 		method = new PutMethod(baseHost + "issue");
 
 		HttpMethodParams params = new HttpMethodParams();
-		params.setParameter("project", projectId);
-		params.setParameter("summary", summary);
-		params.setParameter("description", description);
+		params.setParameter("project", project.getId());
+
+		try {
+
+			params.setParameter("summary", issue.getSummary());
+			params.setParameter("description", issue.getDescription());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		method.setParams(params);
 

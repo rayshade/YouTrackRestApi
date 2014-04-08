@@ -2,11 +2,13 @@ package youtrack.commands;
 
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
+import youtrack.Issue;
+import youtrack.exceptions.CommandExecutionException;
 
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
-public class GetIssue extends Command {
+public class GetIssue extends Command<Issue> {
 	private final String id;
 
 	public GetIssue(String id) {
@@ -19,15 +21,14 @@ public class GetIssue extends Command {
 	}
 
 	@Override
-	public Object getResult() {
+	public Issue getResult() throws CommandExecutionException {
 
 		try {
 
-			return objectFromXml(method.getResponseBodyAsString());
+			return (Issue) objectFromXml(method.getResponseBodyAsString());
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
+			throw new CommandExecutionException(this, ex);
 		}
 	}
 
