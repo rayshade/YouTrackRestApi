@@ -78,7 +78,6 @@ public class YouTrack {
      * @return list of @link Project instances or null if there was an error.
      */
 
-    @SuppressWarnings("unchecked")
     public List<Project> projects() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 
         CommandResult<List<Project>> result = execute(new GetProjects());
