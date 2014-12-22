@@ -13,24 +13,24 @@ import java.util.List;
 @XmlRootElement
 public class AttachmentField extends IssueField {
 
-	@XmlElement(name = "value")
-	private List<AttachmentFieldValue> attachments;
+    @XmlElement(name = "value")
+    private List<AttachmentFieldValue> attachments;
 
-	public AttachmentField() {
-	}
+    public AttachmentField() {
+    }
 
-	public List<AttachmentFieldValue> getAttachments() {
-		return attachments;
-	}
+    public List<AttachmentFieldValue> getAttachments() {
+        return attachments;
+    }
 
-	@Override
-	public AttachmentFieldValue getValue() {
+    @Override
+    public AttachmentFieldValue getValue() {
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public void setValue(BaseIssueFieldValue value) {
+    @Override
+    public void setValue(BaseIssueFieldValue value) {
 
-	}
+    }
 }

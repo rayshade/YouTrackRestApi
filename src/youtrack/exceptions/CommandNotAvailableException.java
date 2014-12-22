@@ -5,14 +5,14 @@ package youtrack.exceptions;
  */
 public class CommandNotAvailableException extends Exception {
 
-	private final Class command;
+    private final Class command;
 
-	public CommandNotAvailableException(Class command) {
-		super("Command not available: " + command.toString());
-		this.command = command;
-	}
+    public CommandNotAvailableException(Class command, Exception e) {
+        super("Command not available: " + command.toString() + ": " + e.getMessage());
+        this.command = command;
+    }
 
-	public Class getCommand() {
-		return command;
-	}
+    public Class getCommand() {
+        return command;
+    }
 }

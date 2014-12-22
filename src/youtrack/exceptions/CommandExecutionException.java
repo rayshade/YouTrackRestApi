@@ -7,17 +7,15 @@ import youtrack.commands.Command;
  */
 public class CommandExecutionException extends Exception {
 
-	private final Command command;
-	private final Exception e;
+    private final Command command;
 
-	public CommandExecutionException(Command command, Exception e) {
-		super("Command not available: " + command.toString(), e);
-		this.command = command;
-		this.e = e;
-	}
+    public CommandExecutionException(Command command, Exception e) {
+        super("Command failed: " + command.toString() + " " + e.getMessage(), e);
+        this.command = command;
+    }
 
-	public Command getCommand() {
-		return command;
-	}
+    public Command getCommand() {
+        return command;
+    }
 
 }

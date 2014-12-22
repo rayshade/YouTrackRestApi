@@ -14,20 +14,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
 public class CustomFieldValue extends IssueField {
-	@XmlElement(name = "value")
-	private IssueFieldValue value;
+    @XmlElement(name = "value")
+    private IssueFieldValue value;
 
-	public CustomFieldValue() {
-	}
+    public CustomFieldValue() {
+    }
 
-	@Override
-	public IssueFieldValue getValue() {
-		return value;
-	}
+    @Override
+    public IssueFieldValue getValue() {
+        return value;
+    }
 
-	@Override
-	public void setValue(BaseIssueFieldValue value) {
-		this.value = (IssueFieldValue) value;
-	}
+    @Override
+    public void setValue(BaseIssueFieldValue value) {
+        this.value = (IssueFieldValue) value;
+    }
 
 }

@@ -11,27 +11,27 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class SingleField extends IssueField {
-	@XmlElement(name = "value")
-	private IssueFieldValue value;
+    @XmlElement(name = "value")
+    private IssueFieldValue value;
 
-	public SingleField() {
-		super();
-	}
+    public SingleField() {
+        super();
+    }
 
-	public static SingleField createField(String name, IssueFieldValue value) {
-		SingleField field = new SingleField();
-		field.name = name;
-		field.value = value;
-		return field;
-	}
+    public static SingleField createField(String name, IssueFieldValue value) {
+        SingleField field = new SingleField();
+        field.name = name;
+        field.value = value;
+        return field;
+    }
 
-	@Override
-	public BaseIssueFieldValue getValue() {
-		return value;
-	}
+    @Override
+    public BaseIssueFieldValue getValue() {
+        return value;
+    }
 
-	@Override
-	public void setValue(BaseIssueFieldValue value) {
-		this.value = (IssueFieldValue) value;
-	}
+    @Override
+    public void setValue(BaseIssueFieldValue value) {
+        this.value = (IssueFieldValue) value;
+    }
 }

@@ -26,60 +26,59 @@ import java.io.StringReader;
  */
 public abstract class Command<R> {
 
-	HttpMethodBase method;
+    HttpMethodBase method;
 
-	public abstract boolean usesAuthorization();
+    public abstract boolean usesAuthorization();
 
-	public abstract R getResult() throws CommandExecutionException;
+    public abstract R getResult() throws CommandExecutionException;
 
-	/**
-	 * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.
-	 *
-	 * @param xmlString Raw XML code.
-	 * @return Instance of an object.
-	 * @throws javax.xml.parsers.ParserConfigurationException
-	 * @throws javax.xml.bind.JAXBException
-	 * @throws org.xml.sax.SAXException
-	 * @throws IOException
-	 */
-	Object objectFromXml(String xmlString) throws ParserConfigurationException, JAXBException, SAXException, IOException, XMLStreamException {
+    /**
+     * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.
+     *
+     * @param xmlString Raw XML code.
+     * @return Instance of an object.
+     * @throws javax.xml.parsers.ParserConfigurationException
+     * @throws javax.xml.bind.JAXBException
+     * @throws org.xml.sax.SAXException
+     * @throws IOException
+     */
+    Object objectFromXml(String xmlString) throws ParserConfigurationException, JAXBException, SAXException, IOException, XMLStreamException {
 
-		XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-		XMLStreamReader streamReader = xmlInputFactory.createXMLStreamReader(new StringReader(xmlString));
+        XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+        XMLStreamReader streamReader = xmlInputFactory.createXMLStreamReader(new StringReader(xmlString));
 
-		streamReader = new HackedReader(streamReader);
+        streamReader = new HackedReader(streamReader);
 
-		JAXBContext jaxbContext = JAXBContext.newInstance(Issue.class, IssueField.class, CustomFieldValue.class, AttachmentField.class,
-				LinkField.class, MultiUserField.class, SingleField.class, MultiUserFieldValue.class, AttachmentFieldValue.class,
-				LinkFieldValue.class, IssueCompactList.class, IssueProjectList.class,
-				Project.class, ProjectList.class, CommentList.class, LinkList.class, IssueLink.class, IssueAttachment.class, AttachmentList.class,
-				IssueTag.class, TagList.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(Issue.class, IssueField.class, CustomFieldValue.class, AttachmentField.class,
+                LinkField.class, MultiUserField.class, SingleField.class, MultiUserFieldValue.class, AttachmentFieldValue.class,
+                LinkFieldValue.class, IssueCompactList.class, IssueProjectList.class,
+                Project.class, ProjectList.class, CommentList.class, LinkList.class, IssueLink.class, IssueAttachment.class, AttachmentList.class,
+                IssueTag.class, TagList.class);
 
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
-		return jaxbUnmarshaller.unmarshal(streamReader);
-	}
+        return jaxbUnmarshaller.unmarshal(streamReader);
+    }
 
-	public abstract HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException;
+    public abstract HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException;
 
-	/**
-	 * Class to work around the JAXB name handling.
-	 * Forces upper case on the first letter of xsi:type attribute.
-	 */
-	private class HackedReader extends StreamReaderDelegate {
+    /**
+     * Class to work around the JAXB name handling.
+     * Forces upper case on the first letter of xsi:type attribute.
+     */
+    private class HackedReader extends StreamReaderDelegate {
 
-		public HackedReader(XMLStreamReader xmlStreamReader) {
-			super(xmlStreamReader);
-		}
+        public HackedReader(XMLStreamReader xmlStreamReader) {
+            super(xmlStreamReader);
+        }
 
-		@Override
-		public String getAttributeValue(int index) {
-			String attributeValue = super.getAttributeValue(index);
-			if (getAttributeLocalName(index).equals("type"))
-				return attributeValue.substring(0, 1).toLowerCase() + attributeValue.substring(1);
-			else return super.getAttributeValue(index);
-		}
+        @Override
+        public String getAttributeValue(int index) {
+            String attributeValue = super.getAttributeValue(index);
+            if (getAttributeLocalName(index).equals("type"))
+                return attributeValue.substring(0, 1).toLowerCase() + attributeValue.substring(1);
+            else return super.getAttributeValue(index);
+        }
 
-	}
-
+    }
 }

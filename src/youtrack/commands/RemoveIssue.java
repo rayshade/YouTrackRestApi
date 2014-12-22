@@ -12,26 +12,26 @@ import java.io.IOException;
  * Created by egor.malyshev on 08.04.2014.
  */
 public class RemoveIssue extends Command {
-	private final Issue issue;
+    private final Issue issue;
 
-	public RemoveIssue(Issue issue) {
+    public RemoveIssue(Issue issue) {
 
-		this.issue = issue;
-	}
+        this.issue = issue;
+    }
 
-	@Override
-	public boolean usesAuthorization() {
-		return true;
-	}
+    @Override
+    public boolean usesAuthorization() {
+        return true;
+    }
 
-	@Override
+    @Override
 
-	public Object getResult() throws CommandExecutionException {
-		return null;
-	}
+    public Object getResult() throws CommandExecutionException {
+        return null;
+    }
 
-	@Override
-	public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException {
-		return new DeleteMethod(baseHost + "/issue/" + issue.getId());
-	}
+    @Override
+    public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException {
+        return new DeleteMethod(baseHost + "/issue/" + issue.getId());
+    }
 }

@@ -10,9 +10,9 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class ItemList<T extends Item> {
 
-	ItemList() {
-	}
+    ItemList() {
+    }
 
-	public abstract List<T> getItems();
+    public abstract List<T> getItems();
 
 }

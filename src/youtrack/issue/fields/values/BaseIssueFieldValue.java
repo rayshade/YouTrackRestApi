@@ -12,29 +12,29 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlRootElement(name = "value")
 public abstract class BaseIssueFieldValue {
 
-	@XmlValue
-	private String value;
+    @XmlValue
+    private String value;
 
-	BaseIssueFieldValue() {
+    BaseIssueFieldValue() {
 
-	}
+    }
 
-	BaseIssueFieldValue(String value) {
-		this.value = value;
-	}
+    BaseIssueFieldValue(String value) {
+        this.value = value;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	void setValue(String value) {
-		this.value = value;
-	}
+    void setValue(String value) {
+        this.value = value;
+    }
 
-	@Override
-	public String toString() {
-		return "BaseIssueFieldValue{" +
-				"value='" + value + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "BaseIssueFieldValue{" +
+                "value='" + value + '\'' +
+                '}';
+    }
 }

@@ -9,14 +9,14 @@ import java.util.List;
  */
 @XmlRootElement(name = "issues")
 public class IssueProjectList extends ItemList<Issue> {
-	@XmlElement(name = "issue")
-	protected List<Issue> items;
+    @XmlElement(name = "issue")
+    protected List<Issue> items;
 
-	IssueProjectList() {
-	}
+    IssueProjectList() {
+    }
 
-	@Override
-	public List<Issue> getItems() {
-		return items;
-	}
+    @Override
+    public List<Issue> getItems() {
+        return items;
+    }
 }

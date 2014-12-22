@@ -7,14 +7,14 @@ import youtrack.YouTrack;
  */
 public class AuthenticationErrorException extends Exception {
 
-	private final YouTrack youTrack;
+    private final YouTrack youTrack;
 
-	public AuthenticationErrorException(YouTrack youTrack, String userName, String password) {
-		super("Cannot login to " + youTrack.getHostAddress() + " as " + userName + " with password " + password);
-		this.youTrack = youTrack;
-	}
+    public AuthenticationErrorException(YouTrack youTrack, String userName, String password) {
+        super("Cannot login to " + youTrack.getHostAddress() + " as " + userName + " with password " + password);
+        this.youTrack = youTrack;
+    }
 
-	public YouTrack getYouTrack() {
-		return youTrack;
-	}
+    public YouTrack getYouTrack() {
+        return youTrack;
+    }
 }

@@ -1,11 +1,12 @@
 package youtrack;
 
+import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
 import youtrack.commands.Command;
+import youtrack.commands.CommandResult;
 import youtrack.commands.GetProjects;
 import youtrack.commands.Login;
-import youtrack.commands.CommandResult;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
@@ -20,119 +21,128 @@ import java.util.Map;
  */
 public class YouTrack {
 
-	private final static Map<String, YouTrack> INSTANCES = new HashMap<String, YouTrack>();
-	private final String hostAddress;
+    private final static Map<String, YouTrack> INSTANCES = new HashMap<String, YouTrack>();
+    private final String hostAddress;
 
-	private String authorization;
+    private String authorization;
 
-	private YouTrack(String hostAddress) {
+    private YouTrack(String hostAddress) {
 
-		this.hostAddress = hostAddress;
-	}
+        this.hostAddress = hostAddress;
+    }
 
-	/**
-	 * Gets a @link YouTrack instance associated with given URL.
-	 * <p/>
-	 * URL must correspond to the base REST API URL of YouTrack server you're connecting to.
-	 */
+    /**
+     * Gets a @link YouTrack instance associated with given URL.
+     * <p/>
+     * URL must correspond to the base REST API URL of YouTrack server you're connecting to.
+     */
 
-	public static YouTrack getInstance(String hostAddress) {
+    public static YouTrack getInstance(String hostAddress) {
 
-		if (!INSTANCES.containsKey(hostAddress)) INSTANCES.put(hostAddress, new YouTrack(hostAddress));
+        if (!INSTANCES.containsKey(hostAddress)) INSTANCES.put(hostAddress, new YouTrack(hostAddress));
 
-		return INSTANCES.get(hostAddress);
-	}
+        return INSTANCES.get(hostAddress);
+    }
 
-	/**
-	 * Executes a YouTrack command described by an object that extends @link Command class.
-	 *
-	 * @return instance of @link CommandResult containing command execution results.
-	 */
+    /**
+     * Executes a YouTrack command described by an object that extends @link Command class.
+     *
+     * @return instance of @link CommandResult containing command execution results.
+     */
 
-	CommandResult execute(Command command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    <R> CommandResult<R> execute(Command<R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 
-		HttpClient httpClient = new HttpClient();
+        HttpClient httpClient = new HttpClient();
 
-		HttpMethodBase method = command.commandMethod(hostAddress);
+        HttpMethodBase method = command.commandMethod(hostAddress);
 
-		if (command.usesAuthorization()) {
-			method.addRequestHeader("Cookie", authorization);
-		}
+        if (command.usesAuthorization()) {
+            method.addRequestHeader("Cookie", authorization);
+        }
 
-		httpClient.executeMethod(method);
+        httpClient.executeMethod(method);
 
-		CommandResult result = new CommandResult(command.getResult(), method.getStatusCode());
+        CommandResult<R> result = new CommandResult<R>(command.getResult(), method.getStatusCode());
 
-		method.releaseConnection();
-		return result;
-	}
+        method.releaseConnection();
+        return result;
+    }
 
-	public String getHostAddress() {
-		return hostAddress;
-	}
+    public String getHostAddress() {
+        return hostAddress;
+    }
 
-	/**
-	 * Retrieve a list of projects from current connection.
-	 *
-	 * @return list of @link Project instances or null if there was an error.
-	 */
+    /**
+     * Retrieve a list of projects from current connection.
+     *
+     * @return list of @link Project instances or null if there was an error.
+     */
 
-	public List<Project> projects() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    @SuppressWarnings("unchecked")
+    public List<Project> projects() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 
-		CommandResult result = execute(new GetProjects());
+        CommandResult<List<Project>> result = execute(new GetProjects());
 
-		List<Project> projectList = (List<Project>) result.getData();
+        List<Project> projectList = result.getData();
 
-		if (projectList != null) {
+        if (projectList != null) {
 
-			for (Project project : projectList) {
-				project.setYouTrack(this);
-			}
+            for (Project project : projectList) {
+                project.setYouTrack(this);
+            }
 
-			return projectList;
+            return projectList;
 
-		} else return null;
+        } else return null;
 
-	}
+    }
 
-	/**
-	 * Tries to authorize current connection and returns true if successful, false otherwise.
-	 * <p/>
-	 * Retrieved token is stored for later use with all commands that need authentication.
-	 */
+    /**
+     * Tries to authorize current connection and returns true if successful, false otherwise.
+     * <p/>
+     * Retrieved token is stored for later use with all commands that need authentication.
+     */
 
-	public void login(String userName, String password) throws AuthenticationErrorException, IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void login(String userName, String password) throws AuthenticationErrorException, IOException, NoSuchIssueFieldException, CommandExecutionException {
 
-		CommandResult result = execute(new Login(userName, password));
+        CommandResult result = execute(new Login(userName, password));
 
-		if (result.success()) {
+        if (result.success()) {
 
-			authorization = (String) result.getData();
+            authorization = (String) result.getData();
 
-		} else throw new AuthenticationErrorException(this, userName, password.replaceAll(".", "*"));
+        } else throw new AuthenticationErrorException(this, userName, password.replaceAll(".", "*"));
 
-	}
+    }
 
-	/**
-	 * Retrieves a single project by id.
-	 *
-	 * @return @link Project instance or null if there was an error.
-	 */
+    public String getAuthorization() {
+        return authorization;
+    }
 
-	public Project project(String id) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void setAuthorization(String authorization) {
+        this.authorization = authorization;
+    }
 
-		List<Project> projects = this.projects();
+    /**
+     * Retrieves a single project by id.
+     *
+     * @return @link Project instance or null if there was an error.
+     */
 
-		if (projects != null) {
+    public Project project(final @Nullable String id) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+        if (id == null) return null;
+        List<Project> projects = this.projects();
 
-			for (Project project : projects) {
-				if (project.getId().equals(id)) return project;
-			}
+        if (projects != null) {
 
-		}
+            for (Project project : projects) {
+                if (id.equals(project.getId())) return project;
+            }
 
-		return null;
+        }
 
-	}
+        return null;
+
+    }
 
 }

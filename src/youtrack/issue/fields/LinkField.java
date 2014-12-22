@@ -12,24 +12,24 @@ import java.util.List;
  */
 @XmlRootElement
 public class LinkField extends IssueField {
-	@XmlElement(name = "value")
-	private List<LinkFieldValue> links;
+    @XmlElement(name = "value")
+    private List<LinkFieldValue> links;
 
-	public LinkField() {
-	}
+    public LinkField() {
+    }
 
-	public List<LinkFieldValue> getLinks() {
-		return links;
-	}
+    public List<LinkFieldValue> getLinks() {
+        return links;
+    }
 
-	@Override
-	public LinkFieldValue getValue() {
-		return null;
-	}
+    @Override
+    public LinkFieldValue getValue() {
+        return null;
+    }
 
-	@Override
-	public void setValue(BaseIssueFieldValue value) {
+    @Override
+    public void setValue(BaseIssueFieldValue value) {
 
-	}
+    }
 
 }

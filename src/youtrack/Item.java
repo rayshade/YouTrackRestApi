@@ -10,23 +10,23 @@ import javax.xml.bind.annotation.XmlValue;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Item {
-	@XmlTransient
-	protected YouTrack youTrack;
-	@XmlValue
-	protected String body;
-	@XmlTransient
-	protected boolean wrapper = false;
+    @XmlTransient
+    protected YouTrack youTrack;
+    @XmlValue
+    protected String body;
+    @XmlTransient
+    protected boolean wrapper = false;
 
-	Item() {
-	}
+    Item() {
+    }
 
-	YouTrack getYouTrack() {
-		return youTrack;
-	}
+    YouTrack getYouTrack() {
+        return youTrack;
+    }
 
-	void setYouTrack(YouTrack youTrack) {
-		this.youTrack = youTrack;
-	}
+    void setYouTrack(YouTrack youTrack) {
+        this.youTrack = youTrack;
+    }
 
-	abstract String getId();
+    abstract String getId();
 }

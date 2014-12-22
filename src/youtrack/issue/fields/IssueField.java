@@ -13,24 +13,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "field")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class IssueField {
-	@XmlAttribute(name = "name")
-	protected String name;
+    @XmlAttribute(name = "name")
+    protected String name;
 
-	public IssueField() {
-	}
+    public IssueField() {
+    }
 
-	@Override
-	public String toString() {
-		return "IssueField{" +
-				"name='" + name + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "IssueField{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public abstract BaseIssueFieldValue getValue();
+    public abstract BaseIssueFieldValue getValue();
 
-	public abstract void setValue(BaseIssueFieldValue value);
+    public abstract void setValue(BaseIssueFieldValue value);
 }

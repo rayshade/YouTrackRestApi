@@ -1,12 +1,11 @@
 package impl;
 
-import youtrack.*;
-import youtrack.exceptions.AuthenticationErrorException;
-import youtrack.exceptions.CommandExecutionException;
-import youtrack.exceptions.CommandNotAvailableException;
-import youtrack.exceptions.NoSuchIssueFieldException;
+import youtrack.Issue;
+import youtrack.IssueLink;
+import youtrack.Project;
+import youtrack.YouTrack;
+import youtrack.util.IssueId;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -14,45 +13,52 @@ import java.util.List;
  */
 public class Sample {
 
-	public static void main(String[] args) throws IOException, AuthenticationErrorException, NoSuchIssueFieldException,
-			CommandNotAvailableException, CommandExecutionException {
+    public static void main(String[] args) throws Exception {
 
-		//Access a YouTrack instance by its REST URL.
+        //Access a YouTrack instance by its REST URL.
 
-		YouTrack youTrack = YouTrack.getInstance("http://youtrack.jetbrains.com/rest/");
+        YouTrack youTrack = YouTrack.getInstance("http://youtrack.jetbrains.com/rest/");
 
 
-		//Try to log in using some credentials.
+        //Try to log in using some credentials.
 
-		youTrack.login("", "");
+        youTrack.login("", "");
 
-		//Get a list of all projects.
-		List<Project> projectList = youTrack.projects();
+        //Get a list of all projects.
+        List<Project> projectList = youTrack.projects();
 
-		System.out.println("Total projects: " + projectList.size());
+        System.out.println("Total projects: " + projectList.size());
 
-		//Getting a specific project. I'm, using DOC so as not to introduce too many disturbance :)
+        //Getting a specific project. I'm, using DOC so as not to introduce too many disturbance :)
 
-		Project project = youTrack.project("DOC");
+        IssueId issueId = new IssueId("DOC-3202");
 
-		//Output full name.
-		System.out.println("Project " + project.getName());
+        Project project = youTrack.project(issueId.projectId);
 
-		//Now get some issue by its id:
-		Issue issue = project.issues.item(0);
+        //Output full name.
+        System.out.println("Project " + project.getName());
 
-		//Let's out some info:
+        //Now get some issue by its id:
 
-		System.out.println("Assignee: " + issue.getAssignee().getFullName());
-		System.out.println("Summary: " + issue.getSummary());
+        Issue issue = project.issues.item(issueId.fqId);
+
+        //Let's out some info:
+
+//		Issue snapShot = Issue.createSnapshot(issue);
+
+
+//		System.out.println(snapShot.getAssignee().getFullName());
+
+        System.out.println("Assignee: " + issue.getAssignee());
+        System.out.println("Summary: " + issue.getSummary());
 //		System.out.println("Description: " + issue.getDescription());
-		System.out.println("Votes: " + issue.getVotes());
+        System.out.println("Votes: " + issue.getVotes());
 
-		for (IssueLink issueLink: issue.links.list()) {
-			System.out.println(issueLink.toString());
-		}
+        for (IssueLink issueLink : issue.links.list()) {
+            System.out.println(issueLink.toString());
+        }
 
-		//Now see if anyone commented
+        //Now see if anyone commented
 /*
 
 
@@ -100,7 +106,7 @@ public class Sample {
 		issueAttachments.get(0).saveTo("C:");
 */
 
-	}
+    }
 
 
 }

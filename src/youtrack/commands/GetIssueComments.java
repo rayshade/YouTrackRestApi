@@ -13,34 +13,34 @@ import java.util.List;
  * Created by egor.malyshev on 02.04.2014.
  */
 public class GetIssueComments extends Command<List<IssueComment>> {
-	private final Issue issue;
+    private final Issue issue;
 
-	public GetIssueComments(Issue issue) {
-		this.issue = issue;
-	}
+    public GetIssueComments(Issue issue) {
+        this.issue = issue;
+    }
 
-	@Override
-	public boolean usesAuthorization() {
-		return true;
-	}
+    @Override
+    public boolean usesAuthorization() {
+        return true;
+    }
 
-	@Override
+    @Override
 
-	public List<IssueComment> getResult() throws CommandExecutionException {
-		try {
+    public List<IssueComment> getResult() throws CommandExecutionException {
+        try {
 
-			CommentList commentList = (CommentList) objectFromXml(method.getResponseBodyAsString());
+            CommentList commentList = (CommentList) objectFromXml(method.getResponseBodyAsString());
 
-			return commentList.getComments();
+            return commentList.getComments();
 
-		} catch (Exception e) {
-			throw new CommandExecutionException(this, e);
-		}
-	}
+        } catch (Exception e) {
+            throw new CommandExecutionException(this, e);
+        }
+    }
 
-	@Override
-	public HttpMethodBase commandMethod(String baseHost) {
-		method = new GetMethod(baseHost + "issue/" + issue.getId() + "/comment");
-		return method;
-	}
+    @Override
+    public HttpMethodBase commandMethod(String baseHost) {
+        method = new GetMethod(baseHost + "issue/" + issue.getId() + "/comment");
+        return method;
+    }
 }

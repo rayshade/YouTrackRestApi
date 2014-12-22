@@ -9,25 +9,25 @@ import javax.xml.bind.annotation.XmlAttribute;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MultiUserFieldValue extends BaseIssueFieldValue {
-	@XmlAttribute(name = "fullName")
-	private String fullName;
+    @XmlAttribute(name = "fullName")
+    private String fullName;
 
-	public MultiUserFieldValue() {
-		super();
-	}
+    public MultiUserFieldValue() {
+        super();
+    }
 
-	public MultiUserFieldValue(String value) {
-		super(value);
+    public MultiUserFieldValue(String value) {
+        super(value);
 
-	}
+    }
 
-	public String getFullName() {
+    public String getFullName() {
 
-		return fullName;
-	}
+        return fullName;
+    }
 
-	public void setFullName(String fullName) {
+    public void setFullName(String fullName) {
 
-		this.fullName = fullName;
-	}
+        this.fullName = fullName;
+    }
 }

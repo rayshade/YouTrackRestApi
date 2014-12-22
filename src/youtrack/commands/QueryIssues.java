@@ -16,45 +16,45 @@ import java.util.List;
  * Created by egor.malyshev on 08.04.2014.
  */
 public class QueryIssues extends Command<List<Issue>> {
-	private final Project project;
-	private final QueryParameters queryParameters;
+    private final Project project;
+    private final QueryParameters queryParameters;
 
-	public QueryIssues(Project project, QueryParameters params) {
-		this.project = project;
-		this.queryParameters = params;
-	}
+    public QueryIssues(Project project, QueryParameters params) {
+        this.project = project;
+        this.queryParameters = params;
+    }
 
-	@Override
-	public boolean usesAuthorization() {
-		return true;
-	}
+    @Override
+    public boolean usesAuthorization() {
+        return true;
+    }
 
-	@Override
-	public List<Issue> getResult() throws CommandExecutionException {
+    @Override
+    public List<Issue> getResult() throws CommandExecutionException {
 
-		try {
-			IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
+        try {
+            IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
 
-			return itemList.getItems();
+            return itemList.getItems();
 
-		} catch (Exception ex) {
-			throw new CommandExecutionException(this, ex);
-		}
+        } catch (Exception ex) {
+            throw new CommandExecutionException(this, ex);
+        }
 
-	}
+    }
 
-	@Override
-	public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-		method = new GetMethod(baseHost + "issue/byproject/" + project.getId());
+    @Override
+    public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+        method = new GetMethod(baseHost + "issue/byproject/" + project.getId());
 
-		HttpMethodParams params = new HttpMethodParams();
+        HttpMethodParams params = new HttpMethodParams();
 
-		if (queryParameters.getFilter() != null) params.setParameter("filter", queryParameters.getFilter());
-		if (queryParameters.getMax() != 0) params.setIntParameter("max", queryParameters.getMax());
-		if (queryParameters.getStart() != 0) params.setIntParameter("after", queryParameters.getStart());
+        if (queryParameters.getFilter() != null) params.setParameter("filter", queryParameters.getFilter());
+        if (queryParameters.getMax() != 0) params.setIntParameter("max", queryParameters.getMax());
+        if (queryParameters.getStart() != 0) params.setIntParameter("after", queryParameters.getStart());
 
-		method.setParams(params);
+        method.setParams(params);
 
-		return method;
-	}
+        return method;
+    }
 }

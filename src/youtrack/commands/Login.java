@@ -9,35 +9,35 @@ import org.apache.commons.httpclient.methods.PostMethod;
  * Created by egor.malyshev on 31.03.2014.
  */
 public class Login extends Command<String> {
-	private final String userName;
-	private final String password;
+    private final String userName;
+    private final String password;
 
-	public Login(String userName, String password) {
-		this.userName = userName;
-		this.password = password;
-	}
+    public Login(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 
-	@Override
-	public boolean usesAuthorization() {
-		return false;
-	}
+    @Override
+    public boolean usesAuthorization() {
+        return false;
+    }
 
-	@Override
-	public String getResult() {
-		return method.getResponseHeader("Set-Cookie").getValue();
-	}
+    @Override
+    public String getResult() {
+        return method.getResponseHeader("Set-Cookie").getValue();
+    }
 
-	@Override
-	public HttpMethodBase commandMethod(String baseHost) {
+    @Override
+    public HttpMethodBase commandMethod(String baseHost) {
 
-		PostMethod postMethod = new PostMethod(baseHost + "user/login");
+        PostMethod postMethod = new PostMethod(baseHost + "user/login");
 
-		postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("login", userName),
-						new NameValuePair("password", password)}
-		);
+        postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("login", userName),
+                        new NameValuePair("password", password)}
+        );
 
-		method = postMethod;
+        method = postMethod;
 
-		return method;
-	}
+        return method;
+    }
 }

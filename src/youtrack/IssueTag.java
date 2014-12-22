@@ -11,29 +11,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class IssueTag extends Item {
 
-	IssueTag() {
-	}
+    IssueTag() {
+    }
 
-	@Override
-	String getId() {
-		return null;
-	}
+    public static IssueTag createTag(String tag) {
+        IssueTag issueTag = new IssueTag();
+        issueTag.body = tag;
+        issueTag.wrapper = true;
+        return issueTag;
+    }
 
-	public static IssueTag createTag(String tag) {
-		IssueTag issueTag = new IssueTag();
-		issueTag.body = tag;
-		issueTag.wrapper = true;
-		return issueTag;
-	}
+    @Override
+    String getId() {
+        return null;
+    }
 
-	@Override
-	public String toString() {
-		return "IssueTag{" +
-				"tag='" + body + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "IssueTag{" +
+                "tag='" + body + '\'' +
+                '}';
+    }
 
-	public String getTag() {
-		return body;
-	}
+    public String getTag() {
+        return body;
+    }
 }

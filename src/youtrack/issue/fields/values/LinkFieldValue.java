@@ -10,33 +10,33 @@ import javax.xml.bind.annotation.XmlAttribute;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LinkFieldValue extends BaseIssueFieldValue {
 
-	@XmlAttribute(name = "type")
-	private String type;
-	@XmlAttribute(name = "role")
-	private String role;
+    @XmlAttribute(name = "type")
+    private String type;
+    @XmlAttribute(name = "role")
+    private String role;
 
-	public LinkFieldValue() {
+    public LinkFieldValue() {
 
-	}
+    }
 
-	public LinkFieldValue(String value) {
-		super(value);
-	}
+    public LinkFieldValue(String value) {
+        super(value);
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getRole() {
-		return role;
-	}
+    public String getRole() {
+        return role;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
 }

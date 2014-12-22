@@ -12,14 +12,14 @@ import java.util.List;
 @XmlRootElement(name = "issueTags")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TagList extends ItemList<IssueTag> {
-	@XmlElement(name = "tag")
-	private List<IssueTag> tags;
+    @XmlElement(name = "tag")
+    private List<IssueTag> tags;
 
-	TagList() {
-	}
+    TagList() {
+    }
 
-	@Override
-	public List<IssueTag> getItems() {
-		return tags;
-	}
+    @Override
+    public List<IssueTag> getItems() {
+        return tags;
+    }
 }

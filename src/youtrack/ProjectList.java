@@ -13,50 +13,50 @@ import java.util.Map;
 @XmlRootElement(name = "projects")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProjectList extends ItemList<Project> {
-	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-	@XmlElement(name = "project")
-	private List<Project> projectList;
-	/*
-	This is used to work around the issue with JAXB not being able to unmarshal a Map.
-	 */
-	@XmlTransient
-	private Map<String, Project> projects;
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    @XmlElement(name = "project")
+    private List<Project> projectList;
+    /*
+    This is used to work around the issue with JAXB not being able to unmarshal a Map.
+     */
+    @XmlTransient
+    private Map<String, Project> projects;
 
-	@Override
-	public List<Project> getItems() {
-		return projectList;
-	}
+    ProjectList() {
 
-	ProjectList() {
+    }
 
-	}
+    @Override
+    public List<Project> getItems() {
+        return projectList;
+    }
 
-	@Override
-	public String toString() {
-		return "ProjectList{" +
-				"projectList=" + projectList +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "ProjectList{" +
+                "projectList=" + projectList +
+                '}';
+    }
 
-	@SuppressWarnings("UnusedDeclaration")
-	private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-		projects = new HashMap<String, Project>();
-		for (Project project : projectList) {
-			projects.put(project.getId(), project);
-		}
-	}
+    @SuppressWarnings("UnusedDeclaration")
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+        projects = new HashMap<String, Project>();
+        for (Project project : projectList) {
+            projects.put(project.getId(), project);
+        }
+    }
 
-	List<Project> getProjectList() {
-		return new ArrayList<Project>(projects.values());
-	}
+    List<Project> getProjectList() {
+        return new ArrayList<Project>(projects.values());
+    }
 
-	Project getProject(String id) {
-		return (projects.containsKey(id)) ? projects.get(id) : null;
-	}
+    Project getProject(String id) {
+        return (projects.containsKey(id)) ? projects.get(id) : null;
+    }
 
-	void setYouTrack(YouTrack youTrack) {
-		for (Project project : projects.values()) {
-			project.setYouTrack(youTrack);
-		}
-	}
+    void setYouTrack(YouTrack youTrack) {
+        for (Project project : projects.values()) {
+            project.setYouTrack(youTrack);
+        }
+    }
 }

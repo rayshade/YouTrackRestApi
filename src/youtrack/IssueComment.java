@@ -10,89 +10,89 @@ import java.util.List;
 @XmlRootElement(name = "comment")
 public class IssueComment extends Item {
 
-	@XmlAttribute(name = "id")
-	private String id;
-	@XmlAttribute(name = "issueId")
-	private String issueId;
-	@XmlAttribute(name = "author")
-	private String author;
-	@XmlAttribute(name = "deleted")
-	private Boolean deleted;
-	@XmlAttribute(name = "shownForIssueAuthor")
-	private Boolean shownForIssueAuthor;
-	@XmlAttribute(name = "created")
-	private Long created;
-	@XmlAttribute(name = "text")
-	private String text;
-	@XmlAttribute(name = "authorFullName")
-	private String authorFullName;
-	@XmlAttribute(name = "updated")
-	private Long updated;
-	@XmlElementWrapper(name = "replies")
-	@XmlElement(name = "comment")
-	private List<IssueComment> replies;
+    @XmlAttribute(name = "id")
+    private String id;
+    @XmlAttribute(name = "issueId")
+    private String issueId;
+    @XmlAttribute(name = "author")
+    private String author;
+    @XmlAttribute(name = "deleted")
+    private Boolean deleted;
+    @XmlAttribute(name = "shownForIssueAuthor")
+    private Boolean shownForIssueAuthor;
+    @XmlAttribute(name = "created")
+    private Long created;
+    @XmlAttribute(name = "text")
+    private String text;
+    @XmlAttribute(name = "authorFullName")
+    private String authorFullName;
+    @XmlAttribute(name = "updated")
+    private Long updated;
+    @XmlElementWrapper(name = "replies")
+    @XmlElement(name = "comment")
+    private List<IssueComment> replies;
 
-	private IssueComment() {
-	}
+    private IssueComment() {
+    }
 
-	public static IssueComment createComment(String commentText) {
+    public static IssueComment createComment(String commentText) {
 
-		IssueComment issueComment = new IssueComment();
+        IssueComment issueComment = new IssueComment();
 
-		issueComment.text = commentText;
-		issueComment.wrapper = true;
-		return issueComment;
+        issueComment.text = commentText;
+        issueComment.wrapper = true;
+        return issueComment;
 
-	}
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getIssueId() {
-		return issueId;
-	}
+    public String getIssueId() {
+        return issueId;
+    }
 
-	public String getAuthor() {
-		return author;
-	}
+    public String getAuthor() {
+        return author;
+    }
 
-	public Boolean getDeleted() {
-		return deleted;
-	}
+    public Boolean getDeleted() {
+        return deleted;
+    }
 
-	public Boolean getShownForIssueAuthor() {
-		return shownForIssueAuthor;
-	}
+    public Boolean getShownForIssueAuthor() {
+        return shownForIssueAuthor;
+    }
 
-	public Long getCreated() {
-		return created;
-	}
+    public Long getCreated() {
+        return created;
+    }
 
-	public List<IssueComment> getReplies() {
-		return replies;
-	}
+    public List<IssueComment> getReplies() {
+        return replies;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public String getAuthorFullName() {
-		return authorFullName;
-	}
+    public String getAuthorFullName() {
+        return authorFullName;
+    }
 
-	@Override
-	public String toString() {
-		return "IssueComment{" +
-				"id='" + id + '\'' +
-				", issueId='" + issueId + '\'' +
-				", author='" + author + '\'' +
-				", deleted=" + deleted +
-				", shownForIssueAuthor=" + shownForIssueAuthor +
-				", created=" + created +
-				", text='" + text + '\'' +
-				", authorFullName='" + authorFullName + '\'' +
-				", updated=" + updated +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "IssueComment{" +
+                "id='" + id + '\'' +
+                ", issueId='" + issueId + '\'' +
+                ", author='" + author + '\'' +
+                ", deleted=" + deleted +
+                ", shownForIssueAuthor=" + shownForIssueAuthor +
+                ", created=" + created +
+                ", text='" + text + '\'' +
+                ", authorFullName='" + authorFullName + '\'' +
+                ", updated=" + updated +
+                '}';
+    }
 }

@@ -13,15 +13,15 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AttachmentList {
 
-	@XmlElement(name = "fileUrl")
-	private List<IssueAttachment> attachments;
+    @XmlElement(name = "fileUrl")
+    private List<IssueAttachment> attachments;
 
-	AttachmentList() {
+    AttachmentList() {
 
-	}
+    }
 
-	public List<IssueAttachment> getAttachments() {
-		return attachments;
-	}
+    public List<IssueAttachment> getAttachments() {
+        return attachments;
+    }
 
 }

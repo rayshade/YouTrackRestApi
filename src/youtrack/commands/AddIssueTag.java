@@ -10,31 +10,31 @@ import youtrack.IssueTag;
  * Created by egor.malyshev on 07.04.2014.
  */
 public class AddIssueTag extends Command {
-	private final Issue issue;
-	private final IssueTag issueTag;
+    private final Issue issue;
+    private final IssueTag issueTag;
 
-	public AddIssueTag(Issue issue, IssueTag issueTag) {
+    public AddIssueTag(Issue issue, IssueTag issueTag) {
 
-		this.issue = issue;
-		this.issueTag = issueTag;
-	}
+        this.issue = issue;
+        this.issueTag = issueTag;
+    }
 
-	@Override
-	public boolean usesAuthorization() {
-		return true;
-	}
+    @Override
+    public boolean usesAuthorization() {
+        return true;
+    }
 
-	@Override
-	public Object getResult() {
-		return null;
-	}
+    @Override
+    public Object getResult() {
+        return null;
+    }
 
-	@Override
-	public HttpMethodBase commandMethod(String baseHost) {
-		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
+    @Override
+    public HttpMethodBase commandMethod(String baseHost) {
+        PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
 
-		postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("command", "tag " + issueTag.getTag())});
+        postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("command", "tag " + issueTag.getTag())});
 
-		return postMethod;
-	}
+        return postMethod;
+    }
 }

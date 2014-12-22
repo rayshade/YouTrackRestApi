@@ -11,20 +11,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class MultiUserField extends IssueField {
-	@XmlElement(name = "value")
-	private MultiUserFieldValue value;
+    @XmlElement(name = "value")
+    private MultiUserFieldValue value;
 
-	public MultiUserField() {
-	}
+    public MultiUserField() {
+    }
 
-	@Override
-	public MultiUserFieldValue getValue() {
-		return this.value;
-	}
+    @Override
+    public MultiUserFieldValue getValue() {
+        return this.value;
+    }
 
-	@Override
-	public void setValue(BaseIssueFieldValue value) {
-		this.value = (MultiUserFieldValue) value;
-	}
+    @Override
+    public void setValue(BaseIssueFieldValue value) {
+        this.value = (MultiUserFieldValue) value;
+    }
 
 }

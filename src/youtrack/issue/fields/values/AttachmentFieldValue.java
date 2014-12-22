@@ -10,32 +10,32 @@ import javax.xml.bind.annotation.XmlAttribute;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AttachmentFieldValue extends BaseIssueFieldValue {
 
-	@XmlAttribute(name = "id")
-	private String id;
-	@XmlAttribute(name = "url")
-	private String url;
+    @XmlAttribute(name = "id")
+    private String id;
+    @XmlAttribute(name = "url")
+    private String url;
 
-	public AttachmentFieldValue() {
-	}
+    public AttachmentFieldValue() {
+    }
 
-	public AttachmentFieldValue(String value) {
-		super(value);
-	}
+    public AttachmentFieldValue(String value) {
+        super(value);
+    }
 
-	public String getId() {
+    public String getId() {
 
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

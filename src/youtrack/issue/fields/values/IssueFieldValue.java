@@ -11,18 +11,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "value")
 public class IssueFieldValue extends BaseIssueFieldValue {
 
-	private IssueFieldValue() {
+    private IssueFieldValue() {
 
-	}
+    }
 
-	public IssueFieldValue(String value) {
-		super(value);
-	}
+    public IssueFieldValue(String value) {
+        super(value);
+    }
 
-	public static IssueFieldValue createValue(String value) {
-		IssueFieldValue issueFieldValue = new IssueFieldValue();
-		issueFieldValue.setValue(value);
-		return issueFieldValue;
-	}
+    public static IssueFieldValue createValue(String value) {
+        IssueFieldValue issueFieldValue = new IssueFieldValue();
+        issueFieldValue.setValue(value);
+        return issueFieldValue;
+    }
 
 }

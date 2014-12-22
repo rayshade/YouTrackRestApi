@@ -13,53 +13,53 @@ import youtrack.issue.fields.values.BaseIssueFieldValue;
  * Created by egor.malyshev on 02.04.2014.
  */
 public class ModifyIssueField extends Command<String> {
-	private final Issue issue;
-	private final IssueField target;
-	private final BaseIssueFieldValue newVaule;
+    private final Issue issue;
+    private final IssueField target;
+    private final BaseIssueFieldValue newVaule;
 
-	public ModifyIssueField(Issue issue, IssueField target, BaseIssueFieldValue newVaule) {
+    public ModifyIssueField(Issue issue, IssueField target, BaseIssueFieldValue newVaule) {
 
-		this.issue = issue;
-		this.target = target;
-		this.newVaule = newVaule;
-	}
+        this.issue = issue;
+        this.target = target;
+        this.newVaule = newVaule;
+    }
 
-	@Override
-	public boolean usesAuthorization() {
-		return true;
-	}
+    @Override
+    public boolean usesAuthorization() {
+        return true;
+    }
 
-	@Override
-	public String getResult() throws CommandExecutionException {
+    @Override
+    public String getResult() throws CommandExecutionException {
 
-		try {
+        try {
 
-			if (method.getStatusCode() == 200) {
+            if (method.getStatusCode() == 200) {
 
-				return null;
+                return null;
 
-			} else {
+            } else {
 
-				return method.getResponseBodyAsString();
-			}
+                return method.getResponseBodyAsString();
+            }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new CommandExecutionException(this, e);
-		}
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CommandExecutionException(this, e);
+        }
+    }
 
-	@Override
-	public HttpMethodBase commandMethod(String baseHost) {
-		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
+    @Override
+    public HttpMethodBase commandMethod(String baseHost) {
+        PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
 
-		postMethod.setRequestBody(new NameValuePair[]{
-				new NameValuePair("command", target.getName() + " " + newVaule.getValue())
+        postMethod.setRequestBody(new NameValuePair[]{
+                new NameValuePair("command", target.getName() + " " + newVaule.getValue())
 
-		});
+        });
 
-		method = postMethod;
+        method = postMethod;
 
-		return method;
-	}
+        return method;
+    }
 }

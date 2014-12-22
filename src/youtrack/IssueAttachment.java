@@ -22,85 +22,85 @@ import java.util.regex.Pattern;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class IssueAttachment extends Item {
 
-	@XmlAttribute(name = "url")
-	private String url;
+    @XmlAttribute(name = "url")
+    private String url;
 
-	@XmlAttribute(name = "name")
-	private String name;
+    @XmlAttribute(name = "name")
+    private String name;
 
-	IssueAttachment() {
-	}
+    IssueAttachment() {
+    }
 
-	/**
-	 * Creates IssueAttachment when you need to add a new attachment to an issue.
-	 *
-	 * @param fileName local file to map attachment to.
-	 * @return a new IssueAttachment instance mapped to a local file.
-	 */
+    /**
+     * Creates IssueAttachment when you need to add a new attachment to an issue.
+     *
+     * @param fileName local file to map attachment to.
+     * @return a new IssueAttachment instance mapped to a local file.
+     */
 
-	public static IssueAttachment createAttachment(@NotNull String fileName) {
-		IssueAttachment issueAttachment = new IssueAttachment();
-		issueAttachment.url = fileName;
-		issueAttachment.wrapper = true;
-		return issueAttachment;
-	}
+    public static IssueAttachment createAttachment(@NotNull String fileName) {
+        IssueAttachment issueAttachment = new IssueAttachment();
+        issueAttachment.url = fileName;
+        issueAttachment.wrapper = true;
+        return issueAttachment;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public String toString() {
-		return "IssueAttachment{" +
-				"url='" + url + '\'' +
-				", name='" + name + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "IssueAttachment{" +
+                "url='" + url + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
-	public String getId() {
+    public String getId() {
 
-		Pattern extractor = Pattern.compile("\\?file=([0-9\\-]+)", Pattern.UNICODE_CASE);
-		Matcher matcher = extractor.matcher(url);
-		if (matcher.find()) {
-			return matcher.group(1);
-		} else return null;
+        Pattern extractor = Pattern.compile("\\?file=([0-9\\-]+)", Pattern.UNICODE_CASE);
+        Matcher matcher = extractor.matcher(url);
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else return null;
 
-	}
+    }
 
-	/**
-	 * Saves attachment to a local folder under its original file name.
-	 *
-	 * @param path local path to save attachment to.
-	 */
+    /**
+     * Saves attachment to a local folder under its original file name.
+     *
+     * @param path local path to save attachment to.
+     */
 
-	public void saveTo(@NotNull String path) throws IOException {
+    public void saveTo(@NotNull String path) throws IOException {
 
-		HttpClient client = new HttpClient();
+        HttpClient client = new HttpClient();
 
-		GetMethod get = new GetMethod(this.url);
+        GetMethod get = new GetMethod(this.url);
 
-		client.executeMethod(get);
+        client.executeMethod(get);
 
-		InputStream in = get.getResponseBodyAsStream();
+        InputStream in = get.getResponseBodyAsStream();
 
-		if (!path.endsWith("/")) path += "/";
+        if (!path.endsWith("/")) path += "/";
 
-		FileOutputStream out = new FileOutputStream(new File(path + this.name));
+        FileOutputStream out = new FileOutputStream(new File(path + this.name));
 
-		byte[] b = new byte[1024];
+        byte[] b = new byte[1024];
 
-		int len;
+        int len;
 
-		while ((len = in.read(b)) != -1) {
-			out.write(b, 0, len);
-		}
+        while ((len = in.read(b)) != -1) {
+            out.write(b, 0, len);
+        }
 
-		in.close();
-		out.close();
-		get.releaseConnection();
-	}
+        in.close();
+        out.close();
+        get.releaseConnection();
+    }
 }

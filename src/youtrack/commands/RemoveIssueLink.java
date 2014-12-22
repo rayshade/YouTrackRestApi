@@ -11,33 +11,33 @@ import youtrack.IssueLink;
  * Created by egor.malyshev on 03.04.2014.
  */
 public class RemoveIssueLink extends Command {
-	private final Issue issue;
-	private final IssueLink link;
+    private final Issue issue;
+    private final IssueLink link;
 
-	public RemoveIssueLink(Issue issue, IssueLink link) {
-		this.issue = issue;
-		this.link = link;
-	}
+    public RemoveIssueLink(Issue issue, IssueLink link) {
+        this.issue = issue;
+        this.link = link;
+    }
 
-	@Override
-	public boolean usesAuthorization() {
-		return true;
-	}
+    @Override
+    public boolean usesAuthorization() {
+        return true;
+    }
 
-	@Override
-	public Object getResult() {
-		return null;
-	}
+    @Override
+    public Object getResult() {
+        return null;
+    }
 
-	@Override
-	public HttpMethodBase commandMethod(String baseHost) {
-		PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
+    @Override
+    public HttpMethodBase commandMethod(String baseHost) {
+        PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
 
-		postMethod.setRequestBody(new NameValuePair[]{
-				new NameValuePair("command", "remove " + link.getTypeOutward() + " " + link.getTarget())
+        postMethod.setRequestBody(new NameValuePair[]{
+                new NameValuePair("command", "remove " + link.getTypeOutward() + " " + link.getTarget())
 
-		});
+        });
 
-		return postMethod;
-	}
+        return postMethod;
+    }
 }

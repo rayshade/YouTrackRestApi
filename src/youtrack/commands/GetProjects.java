@@ -14,28 +14,28 @@ import java.util.List;
  */
 public class GetProjects extends Command<List<Project>> {
 
-	@Override
-	public boolean usesAuthorization() {
-		return true;
-	}
+    @Override
+    public boolean usesAuthorization() {
+        return true;
+    }
 
-	@Override
-	public List<Project> getResult() throws CommandExecutionException {
+    @Override
+    public List<Project> getResult() throws CommandExecutionException {
 
-		try {
+        try {
 
-			ProjectList projectList = (ProjectList) objectFromXml(method.getResponseBodyAsString());
+            ProjectList projectList = (ProjectList) objectFromXml(method.getResponseBodyAsString());
 
-			return projectList.getItems();
+            return projectList.getItems();
 
-		} catch (Exception e) {
-			throw new CommandExecutionException(this, e);
-		}
-	}
+        } catch (Exception e) {
+            throw new CommandExecutionException(this, e);
+        }
+    }
 
-	@Override
-	public HttpMethodBase commandMethod(String baseHost) {
-		method = new GetMethod(baseHost + "project/all");
-		return method;
-	}
+    @Override
+    public HttpMethodBase commandMethod(String baseHost) {
+        method = new GetMethod(baseHost + "project/all");
+        return method;
+    }
 }

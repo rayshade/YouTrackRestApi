@@ -7,21 +7,21 @@ import youtrack.Issue;
  */
 public class NoSuchIssueFieldException extends Exception {
 
-	private final Issue issue;
-	private final String fieldName;
+    private final Issue issue;
+    private final String fieldName;
 
-	public NoSuchIssueFieldException(Issue issue, String fieldName) {
-		super("Issue " + issue.getId() + " has no field: " + fieldName);
+    public NoSuchIssueFieldException(Issue issue, String fieldName) {
+        super("Issue " + issue.getId() + " has no field: " + fieldName);
 
-		this.issue = issue;
-		this.fieldName = fieldName;
-	}
+        this.issue = issue;
+        this.fieldName = fieldName;
+    }
 
-	public Issue getIssue() {
-		return issue;
-	}
+    public Issue getIssue() {
+        return issue;
+    }
 
-	public String getFieldName() {
-		return fieldName;
-	}
+    public String getFieldName() {
+        return fieldName;
+    }
 }

@@ -20,126 +20,128 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class CommandBasedList<T extends Item> {
 
-	private final Item owner;
-	private final Class addCommand;
-	private final Class removeCommand;
-	private final Class listCommand;
-	private final Class queryCommand;
-	private final Class getSingleItemCommand;
+    private final Item owner;
+    private final Class addCommand;
+    private final Class removeCommand;
+    private final Class listCommand;
+    private final Class queryCommand;
+    private final Class getSingleItemCommand;
 
-	CommandBasedList(Item owner, Class addCommand, Class removeCommand, Class listCommand, Class queryCommand, Class getSingleItemCommand) {
-		this.owner = owner;
-		this.addCommand = addCommand;
-		this.removeCommand = removeCommand;
-		this.listCommand = listCommand;
-		this.queryCommand = queryCommand;
-		this.getSingleItemCommand = getSingleItemCommand;
-	}
+    CommandBasedList(Item owner, Class addCommand, Class removeCommand, Class listCommand, Class queryCommand, Class getSingleItemCommand) {
+        this.owner = owner;
+        this.addCommand = addCommand;
+        this.removeCommand = removeCommand;
+        this.listCommand = listCommand;
+        this.queryCommand = queryCommand;
+        this.getSingleItemCommand = getSingleItemCommand;
+    }
 
-	public T add(T item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
-		Command command;
-		try {
-			command = (Command) addCommand.getDeclaredConstructors()[0].newInstance(owner, item);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new CommandNotAvailableException(addCommand);
-		}
+    public T add(T item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
+        Command command;
+        try {
+            command = (Command) addCommand.getDeclaredConstructors()[0].newInstance(owner, item);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CommandNotAvailableException(addCommand, e);
+        }
 
-		CommandResult result = owner.getYouTrack().execute(command);
+        CommandResult result = owner.getYouTrack().execute(command);
 
-		if (result.success()) {
+        if (result.success()) {
 
-			List<T> itemList = this.list();
+            List<T> itemList = this.list();
 
-			return itemList.get(itemList.size() - 1);
+            return itemList.get(itemList.size() - 1);
 
-		} else return null;
-	}
+        } else return null;
+    }
 
-	public void remove(T item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
-		Command command;
-		try {
-			command = (Command) removeCommand.getDeclaredConstructors()[0].newInstance(owner, item);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new CommandNotAvailableException(removeCommand);
-		}
-		owner.getYouTrack().execute(command);
-	}
+    public void remove(T item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
+        Command command;
+        try {
+            command = (Command) removeCommand.getDeclaredConstructors()[0].newInstance(owner, item);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CommandNotAvailableException(removeCommand, e);
+        }
+        owner.getYouTrack().execute(command);
+    }
 
-	public T item(int index) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
-		return this.list().get(index);
-	}
+    public T item(int index) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
+        return this.list().get(index);
+    }
 
-	public T item(@NotNull String id) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
-		CommandResult result;
-		Command command;
-		try {
+    public T item(@NotNull String id) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
+        CommandResult result;
+        Command command;
+        try {
 
-			command = (Command) getSingleItemCommand.getDeclaredConstructors()[0].newInstance(id);
+            command = (Command) getSingleItemCommand.getDeclaredConstructors()[0].newInstance(id);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new CommandNotAvailableException(getSingleItemCommand);
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CommandNotAvailableException(getSingleItemCommand, e);
+        }
 
-		result = owner.getYouTrack().execute(command);
+        result = owner.getYouTrack().execute(command);
 
-		if (result.success()) {
+        if (result.success()) {
 
-			return (T) result.getData();
+            T data = (T) result.getData();
+            data.setYouTrack(owner.getYouTrack());
+            return data;
 
-		} else return null;
+        } else return null;
 
-	}
+    }
 
-	public List<T> list() throws CommandNotAvailableException, IOException, NoSuchIssueFieldException, CommandExecutionException {
-		CommandResult result;
-		Command command;
-		try {
+    public List<T> list() throws CommandNotAvailableException, IOException, NoSuchIssueFieldException, CommandExecutionException {
+        CommandResult result;
+        Command command;
+        try {
 
-			command = (Command) listCommand.getDeclaredConstructors()[0].newInstance(owner);
+            command = (Command) listCommand.getDeclaredConstructors()[0].newInstance(owner);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new CommandNotAvailableException(listCommand);
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CommandNotAvailableException(listCommand, e);
+        }
 
-		result = owner.getYouTrack().execute(command);
+        result = owner.getYouTrack().execute(command);
 
-		if (result.success()) {
+        if (result.success()) {
 
-			return getInitializedList(result);
+            return getInitializedList(result);
 
-		} else return null;
+        } else return null;
 
-	}
+    }
 
-	protected List<T> getInitializedList(CommandResult result) {
-		List<T> data = (List<T>) result.getData();
+    List<T> getInitializedList(CommandResult result) {
+        List<T> data = (List<T>) result.getData();
 
-		for (T t : data) {
-			t.setYouTrack(owner.youTrack);
-		}
+        for (T t : data) {
+            t.setYouTrack(owner.youTrack);
+        }
 
-		return data;
-	}
+        return data;
+    }
 
-	public List<T> query(String query) throws CommandNotAvailableException, NoSuchIssueFieldException, IOException, CommandExecutionException {
-		CommandResult result;
-		Command command;
+    public List<T> query(String query) throws CommandNotAvailableException, NoSuchIssueFieldException, IOException, CommandExecutionException {
+        CommandResult result;
+        Command command;
 
-		try {
-			command = (Command) queryCommand.getDeclaredConstructors()[0].newInstance(owner, new QueryParameters(query, 100, 0));
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new CommandNotAvailableException(queryCommand);
-		}
+        try {
+            command = (Command) queryCommand.getDeclaredConstructors()[0].newInstance(owner, new QueryParameters(query, 100, 0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CommandNotAvailableException(queryCommand, e);
+        }
 
-		result = owner.getYouTrack().execute(command);
+        result = owner.getYouTrack().execute(command);
 
-		if (result.success()) {
-			return getInitializedList(result);
-		} else return null;
-	}
+        if (result.success()) {
+            return getInitializedList(result);
+        } else return null;
+    }
 }

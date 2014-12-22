@@ -12,22 +12,22 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "comments")
 public class CommentList {
-	@XmlElement(name = "comment")
-	private List<IssueComment> comments;
+    @XmlElement(name = "comment")
+    private List<IssueComment> comments;
 
-	CommentList() {
-	}
+    CommentList() {
+    }
 
-	@Override
-	public String toString() {
-		return "CommentList{" +
-				"comments=" + comments +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "CommentList{" +
+                "comments=" + comments +
+                '}';
+    }
 
-	public List<IssueComment> getComments() {
+    public List<IssueComment> getComments() {
 
-		return comments;
-	}
+        return comments;
+    }
 
 }

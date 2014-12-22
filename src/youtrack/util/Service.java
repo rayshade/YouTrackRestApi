@@ -7,14 +7,13 @@ import java.net.URLEncoder;
  */
 class Service {
 
+    public final static String ENC = "UTF-8";
 
-	private final static String ENC = "UTF-8";
-
-	public static String encode(String str) {
-		try {
-			return URLEncoder.encode(str, ENC);
-		} catch (Exception ex) {
-			return str;
-		}
-	}
+    public static String encode(String str) {
+        try {
+            return URLEncoder.encode(str, ENC);
+        } catch (Exception ex) {
+            return str;
+        }
+    }
 }

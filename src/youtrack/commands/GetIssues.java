@@ -15,35 +15,35 @@ import java.util.List;
 public class GetIssues extends Command<List<Issue>> {
 
 
-	private final Project project;
+    private final Project project;
 
-	public GetIssues(Project project) {
+    public GetIssues(Project project) {
 
-		this.project = project;
-	}
+        this.project = project;
+    }
 
-	@Override
-	public boolean usesAuthorization() {
-		return true;
-	}
+    @Override
+    public boolean usesAuthorization() {
+        return true;
+    }
 
-	@Override
-	public List<Issue> getResult() throws CommandExecutionException {
+    @Override
+    public List<Issue> getResult() throws CommandExecutionException {
 
-		try {
-			IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
+        try {
+            IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
 
-			return itemList.getItems();
+            return itemList.getItems();
 
-		} catch (Exception ex) {
-			throw new CommandExecutionException(this, ex);
-		}
+        } catch (Exception ex) {
+            throw new CommandExecutionException(this, ex);
+        }
 
-	}
+    }
 
-	@Override
-	public HttpMethodBase commandMethod(String baseHost) {
-		method = new GetMethod(baseHost + "issue/byproject/" + project.getId());
-		return method;
-	}
+    @Override
+    public HttpMethodBase commandMethod(String baseHost) {
+        method = new GetMethod(baseHost + "issue/byproject/" + project.getId());
+        return method;
+    }
 }

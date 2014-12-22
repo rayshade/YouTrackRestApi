@@ -9,14 +9,14 @@ import java.util.List;
  */
 @XmlRootElement(name = "issueCompacts")
 public class IssueCompactList extends ItemList<Issue> {
-	@XmlElement(name = "issue")
-	protected List<Issue> items;
+    @XmlElement(name = "issue")
+    protected List<Issue> items;
 
-	public IssueCompactList() {
-	}
+    public IssueCompactList() {
+    }
 
-	@Override
-	public List<Issue> getItems() {
-		return items;
-	}
+    @Override
+    public List<Issue> getItems() {
+        return items;
+    }
 }

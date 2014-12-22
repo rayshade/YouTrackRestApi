@@ -13,15 +13,15 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LinkList extends ItemList<IssueLink> {
 
-	@XmlElement(name = "issueLink")
-	private List<IssueLink> links;
+    @XmlElement(name = "issueLink")
+    private List<IssueLink> links;
 
-	LinkList() {
+    LinkList() {
 
-	}
+    }
 
-	@Override
-	public List<IssueLink> getItems() {
-		return links;
-	}
+    @Override
+    public List<IssueLink> getItems() {
+        return links;
+    }
 }
