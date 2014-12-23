@@ -23,8 +23,4 @@ public abstract class IssueListField<V extends BaseIssueFieldValue> extends Base
                 "name='" + name + '\'' +
                 '}';
     }
-
-    public abstract List<V> getValue();
-
-    public abstract void setValue(List<V> value);
 }

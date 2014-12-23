@@ -13,7 +13,4 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class IssueField<V extends BaseIssueFieldValue> extends BaseIssueField<V> {
 
-    public abstract V getValue();
-
-    public abstract void setValue(V value);
 }

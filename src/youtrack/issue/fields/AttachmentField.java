@@ -27,5 +27,4 @@ public class AttachmentField extends IssueListField<AttachmentFieldValue> {
     public void setValue(List<AttachmentFieldValue> value) {
         attachments = value;
     }
-
 }
