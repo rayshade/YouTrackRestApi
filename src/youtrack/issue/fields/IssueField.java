@@ -4,7 +4,6 @@ import youtrack.issue.fields.values.BaseIssueFieldValue;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -12,25 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "field")
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class IssueField {
-    @XmlAttribute(name = "name")
-    protected String name;
+public abstract class IssueField<V extends BaseIssueFieldValue> extends BaseIssueField<V> {
 
-    public IssueField() {
-    }
+    public abstract V getValue();
 
-    @Override
-    public String toString() {
-        return "IssueField{" +
-                "name='" + name + '\'' +
-                '}';
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public abstract BaseIssueFieldValue getValue();
-
-    public abstract void setValue(BaseIssueFieldValue value);
+    public abstract void setValue(V value);
 }

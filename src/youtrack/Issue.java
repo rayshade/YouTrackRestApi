@@ -4,7 +4,7 @@ import youtrack.commands.*;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 import youtrack.exceptions.SetIssueFieldException;
-import youtrack.issue.fields.IssueField;
+import youtrack.issue.fields.BaseIssueField;
 import youtrack.issue.fields.SingleField;
 import youtrack.issue.fields.values.BaseIssueFieldValue;
 import youtrack.issue.fields.values.IssueFieldValue;
@@ -43,12 +43,12 @@ public class Issue extends Item {
     private String id;
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     @XmlElement(name = "field")
-    private List<IssueField> fieldArray;
+    private List<BaseIssueField> fieldArray;
     /*
     This is used to work around the issue with JAXB not being able to unmarshal a Map.
      */
     @XmlTransient
-    private HashMap<String, IssueField> fields;
+    private HashMap<String, BaseIssueField> fields;
 
     Issue() {
         comments = new CommandBasedList<IssueComment>(this, AddComment.class, RemoveComment.class, GetIssueComments.class, null, null);
@@ -59,7 +59,7 @@ public class Issue extends Item {
 
     private Issue(String summary, String description) {
         wrapper = true;
-        fieldArray = new ArrayList<IssueField>();
+        fieldArray = new ArrayList<BaseIssueField>();
         fieldArray.add(SingleField.createField("summary", IssueFieldValue.createValue(summary)));
         fieldArray.add(SingleField.createField("description", IssueFieldValue.createValue(description)));
         this.afterUnmarshal(null, null);
@@ -69,13 +69,13 @@ public class Issue extends Item {
         attachments = null;
     }
 
-    private Issue(Map<String, IssueField> fields) {
+    private Issue(Map<String, BaseIssueField> fields) {
         wrapper = true;
         tags = null;
         links = null;
         comments = null;
         attachments = null;
-        this.fields = new HashMap<String, IssueField>();
+        this.fields = new HashMap<String, BaseIssueField>();
         this.fields.putAll(fields);
     }
 
@@ -87,7 +87,7 @@ public class Issue extends Item {
         return new Issue(fields);
     }
 
-    void setFieldByName(String fieldName, BaseIssueFieldValue value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
+    <V extends BaseIssueFieldValue> void setFieldByName(String fieldName, V value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
 
         if (fields.containsKey(fieldName)) {
 
@@ -102,21 +102,21 @@ public class Issue extends Item {
         } else throw new NoSuchIssueFieldException(this, fieldName);
     }
 
-    BaseIssueFieldValue getFieldByName(String fieldName) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
+    <V extends BaseIssueFieldValue> V getFieldByName(String fieldName) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
 
         if (fields.containsKey(fieldName)) {
 
             if (!wrapper) updateSelf();
 
-            return fields.get(fieldName).getValue();
+            return (V) fields.get(fieldName).getValue();
 
         } else throw new NoSuchIssueFieldException(this, fieldName);
     }
 
     @SuppressWarnings("UnusedDeclaration")
     void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-        fields = new HashMap<String, IssueField>();
-        for (IssueField issueField : fieldArray) {
+        fields = new HashMap<String, BaseIssueField>();
+        for (BaseIssueField issueField : fieldArray) {
             fields.put(issueField.getName(), issueField);
         }
     }

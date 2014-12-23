@@ -1,6 +1,7 @@
 package youtrack.exceptions;
 
 import youtrack.Issue;
+import youtrack.issue.fields.BaseIssueField;
 import youtrack.issue.fields.IssueField;
 import youtrack.issue.fields.values.BaseIssueFieldValue;
 
@@ -10,10 +11,10 @@ import youtrack.issue.fields.values.BaseIssueFieldValue;
 public class SetIssueFieldException extends Exception {
 
     private final Issue issue;
-    private final IssueField issueField;
+    private final BaseIssueField issueField;
     private final BaseIssueFieldValue value;
 
-    public SetIssueFieldException(Issue issue, IssueField issueField, BaseIssueFieldValue value) {
+    public SetIssueFieldException(Issue issue, BaseIssueField issueField, BaseIssueFieldValue value) {
         super("Cannot set value of " + issueField.getName() + " in " + issue.getId() + " to " + value);
         this.issue = issue;
         this.issueField = issueField;
@@ -28,7 +29,7 @@ public class SetIssueFieldException extends Exception {
         return value;
     }
 
-    public IssueField getIssueField() {
+    public BaseIssueField getIssueField() {
         return issueField;
     }
 

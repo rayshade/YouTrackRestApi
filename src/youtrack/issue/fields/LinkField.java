@@ -1,6 +1,5 @@
 package youtrack.issue.fields;
 
-import youtrack.issue.fields.values.BaseIssueFieldValue;
 import youtrack.issue.fields.values.LinkFieldValue;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -11,25 +10,21 @@ import java.util.List;
  * Created by egor.malyshev on 28.03.2014.
  */
 @XmlRootElement
-public class LinkField extends IssueField {
+public class LinkField extends IssueListField<LinkFieldValue> {
     @XmlElement(name = "value")
     private List<LinkFieldValue> links;
 
     public LinkField() {
     }
 
-    public List<LinkFieldValue> getLinks() {
+    @Override
+    public List<LinkFieldValue> getValue() {
         return links;
     }
 
     @Override
-    public LinkFieldValue getValue() {
-        return null;
-    }
-
-    @Override
-    public void setValue(BaseIssueFieldValue value) {
-
+    public void setValue(List<LinkFieldValue> value) {
+        links = value;
     }
 
 }

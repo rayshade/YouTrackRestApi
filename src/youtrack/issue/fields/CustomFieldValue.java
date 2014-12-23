@@ -1,6 +1,5 @@
 package youtrack.issue.fields;
 
-import youtrack.issue.fields.values.BaseIssueFieldValue;
 import youtrack.issue.fields.values.IssueFieldValue;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class CustomFieldValue extends IssueField {
+public class CustomFieldValue extends IssueField<IssueFieldValue> {
     @XmlElement(name = "value")
     private IssueFieldValue value;
 
@@ -26,8 +25,8 @@ public class CustomFieldValue extends IssueField {
     }
 
     @Override
-    public void setValue(BaseIssueFieldValue value) {
-        this.value = (IssueFieldValue) value;
+    public void setValue(IssueFieldValue value) {
+        this.value = value;
     }
 
 }

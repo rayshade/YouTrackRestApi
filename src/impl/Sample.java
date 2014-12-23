@@ -21,7 +21,7 @@ public class Sample {
 
         //Try to log in using some credentials.
 
-        youTrack.login("", "");
+        youTrack.login("megor", "H8gpr09,");
 
         //Get a list of all projects.
         List<Project> projectList = youTrack.projects();

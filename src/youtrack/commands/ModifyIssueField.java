@@ -6,6 +6,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
 import youtrack.exceptions.CommandExecutionException;
+import youtrack.issue.fields.BaseIssueField;
 import youtrack.issue.fields.IssueField;
 import youtrack.issue.fields.values.BaseIssueFieldValue;
 
@@ -14,10 +15,10 @@ import youtrack.issue.fields.values.BaseIssueFieldValue;
  */
 public class ModifyIssueField extends Command<String> {
     private final Issue issue;
-    private final IssueField target;
+    private final BaseIssueField target;
     private final BaseIssueFieldValue newVaule;
 
-    public ModifyIssueField(Issue issue, IssueField target, BaseIssueFieldValue newVaule) {
+    public ModifyIssueField(Issue issue, BaseIssueField target, BaseIssueFieldValue newVaule) {
 
         this.issue = issue;
         this.target = target;

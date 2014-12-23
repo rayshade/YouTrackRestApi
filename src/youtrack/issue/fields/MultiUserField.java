@@ -1,6 +1,5 @@
 package youtrack.issue.fields;
 
-import youtrack.issue.fields.values.BaseIssueFieldValue;
 import youtrack.issue.fields.values.MultiUserFieldValue;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -10,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Created by egor.malyshev on 28.03.2014.
  */
 @XmlRootElement
-public class MultiUserField extends IssueField {
+public class MultiUserField extends IssueField<MultiUserFieldValue> {
     @XmlElement(name = "value")
     private MultiUserFieldValue value;
 
@@ -23,8 +22,7 @@ public class MultiUserField extends IssueField {
     }
 
     @Override
-    public void setValue(BaseIssueFieldValue value) {
-        this.value = (MultiUserFieldValue) value;
+    public void setValue(MultiUserFieldValue value) {
+        this.value = value;
     }
-
 }
