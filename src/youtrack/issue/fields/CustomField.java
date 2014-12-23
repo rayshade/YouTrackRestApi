@@ -9,15 +9,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by Egor.Malyshev on 23.12.2014.
+ * Created by egor.malyshev on 28.03.2014.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class CustomFieldValue extends IssueField {
+public class CustomField extends IssueField {
     @XmlElement(name = "value")
     private IssueFieldValue value;
 
-    public CustomFieldValue() {
+    public CustomField() {
     }
 
     @Override

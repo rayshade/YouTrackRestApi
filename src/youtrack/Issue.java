@@ -174,7 +174,7 @@ public class Issue extends Item {
 
             fields.get("summary").setValue(new IssueFieldValue(summary));
 
-        } else throw new SetIssueFieldException(this, fields.get("description"), IssueFieldValue.createValue(summary));
+        } else throw new SetIssueFieldException(this, fields.get("summary"), IssueFieldValue.createValue(summary));
     }
 
     public int getVotes() {

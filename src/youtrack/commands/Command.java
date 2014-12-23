@@ -45,11 +45,12 @@ public abstract class Command<R> {
     Object objectFromXml(String xmlString) throws ParserConfigurationException, JAXBException, SAXException, IOException, XMLStreamException {
 
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+
         XMLStreamReader streamReader = xmlInputFactory.createXMLStreamReader(new StringReader(xmlString));
 
         streamReader = new HackedReader(streamReader);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(Issue.class, IssueField.class, CustomFieldValue.class, AttachmentField.class,
+        JAXBContext jaxbContext = JAXBContext.newInstance(Issue.class, CustomField.class, IssueField.class, CustomField.class, CustomFieldValue.class, AttachmentField.class,
                 LinkField.class, MultiUserField.class, SingleField.class, MultiUserFieldValue.class, AttachmentFieldValue.class,
                 LinkFieldValue.class, IssueCompactList.class, IssueProjectList.class,
                 Project.class, ProjectList.class, CommentList.class, LinkList.class, IssueLink.class, IssueAttachment.class, AttachmentList.class,

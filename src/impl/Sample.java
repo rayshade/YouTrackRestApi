@@ -19,7 +19,6 @@ public class Sample {
 
         YouTrack youTrack = YouTrack.getInstance("http://youtrack.jetbrains.com/rest/");
 
-
         //Try to log in using some credentials.
 
         youTrack.login("", "");

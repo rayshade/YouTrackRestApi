@@ -1,5 +1,6 @@
 package youtrack;
 
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -26,7 +27,7 @@ public class YouTrack {
 
     private String authorization;
 
-    private YouTrack(String hostAddress) {
+    private YouTrack(@NotNull String hostAddress) {
 
         this.hostAddress = hostAddress;
     }
@@ -37,7 +38,7 @@ public class YouTrack {
      * URL must correspond to the base REST API URL of YouTrack server you're connecting to.
      */
 
-    public static YouTrack getInstance(String hostAddress) {
+    public static YouTrack getInstance(final @NotNull String hostAddress) {
 
         if (!INSTANCES.containsKey(hostAddress)) INSTANCES.put(hostAddress, new YouTrack(hostAddress));
 
@@ -52,9 +53,9 @@ public class YouTrack {
 
     <R> CommandResult<R> execute(Command<R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 
-        HttpClient httpClient = new HttpClient();
+        final HttpClient httpClient = new HttpClient();
 
-        HttpMethodBase method = command.commandMethod(hostAddress);
+        final HttpMethodBase method = command.commandMethod(hostAddress);
 
         if (command.usesAuthorization()) {
             method.addRequestHeader("Cookie", authorization);
@@ -62,7 +63,7 @@ public class YouTrack {
 
         httpClient.executeMethod(method);
 
-        CommandResult<R> result = new CommandResult<R>(command.getResult(), method.getStatusCode());
+        final CommandResult<R> result = new CommandResult<R>(command.getResult(), method.getStatusCode());
 
         method.releaseConnection();
         return result;
@@ -80,13 +81,13 @@ public class YouTrack {
 
     public List<Project> projects() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
 
-        CommandResult<List<Project>> result = execute(new GetProjects());
+        final CommandResult<List<Project>> result = execute(new GetProjects());
 
-        List<Project> projectList = result.getData();
+        final List<Project> projectList = result.getData();
 
         if (projectList != null) {
 
-            for (Project project : projectList) {
+            for (final Project project : projectList) {
                 project.setYouTrack(this);
             }
 
@@ -104,11 +105,11 @@ public class YouTrack {
 
     public void login(String userName, String password) throws AuthenticationErrorException, IOException, NoSuchIssueFieldException, CommandExecutionException {
 
-        CommandResult result = execute(new Login(userName, password));
+        final CommandResult<String> result = execute(new Login(userName, password));
 
         if (result.success()) {
 
-            authorization = (String) result.getData();
+            authorization = result.getData();
 
         } else throw new AuthenticationErrorException(this, userName, password.replaceAll(".", "*"));
 
@@ -130,11 +131,11 @@ public class YouTrack {
 
     public Project project(final @Nullable String id) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         if (id == null) return null;
-        List<Project> projects = this.projects();
+        final List<Project> projects = this.projects();
 
         if (projects != null) {
 
-            for (Project project : projects) {
+            for (final Project project : projects) {
                 if (id.equals(project.getId())) return project;
             }
 

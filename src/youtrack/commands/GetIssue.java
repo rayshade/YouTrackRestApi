@@ -40,5 +40,4 @@ public class GetIssue extends Command<Issue> {
         return method;
 
     }
-
 }
