@@ -211,7 +211,9 @@ public class Issue extends BaseItem {
     }
 
     private void updateSelf() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final Issue issue = youTrack.execute(new GetIssue(youTrack.project(getProjectId()))).getResult();
+        final GetIssue command = new GetIssue(youTrack.project(getProjectId()));
+        command.setItemId(getId());
+        final Issue issue = youTrack.execute(command).getResult();
         if (issue != null) {
             this.fields.clear();
             this.fields.putAll(issue.fields);

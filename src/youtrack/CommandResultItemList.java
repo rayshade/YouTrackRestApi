@@ -10,7 +10,7 @@ public class CommandResultItemList<R extends BaseItem> extends CommandResultBase
         super(youTrack, responseCode);
         for (R item : result) {
             item.setYouTrack(youTrack);
-            result.add(item);
         }
+        this.result = result;
     }
 }

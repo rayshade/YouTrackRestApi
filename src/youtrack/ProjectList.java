@@ -53,10 +53,4 @@ public class ProjectList extends ItemList<Project> {
     Project getProject(String id) {
         return (projects.containsKey(id)) ? projects.get(id) : null;
     }
-
-    void setYouTrack(YouTrack youTrack) {
-        for (Project project : projects.values()) {
-            project.setYouTrack(youTrack);
-        }
-    }
 }

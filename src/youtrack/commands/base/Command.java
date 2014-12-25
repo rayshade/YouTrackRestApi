@@ -56,7 +56,7 @@ public abstract class Command<O extends BaseItem, R> {
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
         XMLStreamReader streamReader = xmlInputFactory.createXMLStreamReader(new StringReader(xmlString));
         streamReader = new HackedReader(streamReader);
-        JAXBContext jaxbContext = JAXBContext.newInstance("youtrack.issue.*");
+        JAXBContext jaxbContext = JAXBContext.newInstance("youtrack.issue.fields:youtrack.issue.fields.values:youtrack");
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         return jaxbUnmarshaller.unmarshal(streamReader);
     }

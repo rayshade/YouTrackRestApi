@@ -65,7 +65,7 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
     public R item(final @NotNull String id) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
         assert singleItemCommand != null;
         singleItemCommand.setItemId(id);
-        return owner.getYouTrack().execute(addCommand).getResult();
+        return owner.getYouTrack().execute(singleItemCommand).getResult();
     }
 
     @NotNull
