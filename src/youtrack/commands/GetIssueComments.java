@@ -1,5 +1,6 @@
 package youtrack.commands;
 
+import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.CommentList;
@@ -12,27 +13,17 @@ import java.util.List;
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
-public class GetIssueComments extends Command<List<IssueComment>> {
-    private final Issue issue;
+public class GetIssueComments extends ListCommand<Issue,IssueComment> {
 
-    public GetIssueComments(Issue issue) {
-        this.issue = issue;
+    public GetIssueComments(@NotNull Issue owner) {
+        super(owner);
     }
 
     @Override
-    public boolean usesAuthorization() {
-        return true;
-    }
-
-    @Override
-
     public List<IssueComment> getResult() throws CommandExecutionException {
         try {
-
-            CommentList commentList = (CommentList) objectFromXml(method.getResponseBodyAsString());
-
+            final CommentList commentList = (CommentList) objectFromXml(method.getResponseBodyAsString());
             return commentList.getComments();
-
         } catch (Exception e) {
             throw new CommandExecutionException(this, e);
         }
@@ -40,7 +31,7 @@ public class GetIssueComments extends Command<List<IssueComment>> {
 
     @Override
     public HttpMethodBase commandMethod(String baseHost) {
-        method = new GetMethod(baseHost + "issue/" + issue.getId() + "/comment");
+        method = new GetMethod(baseHost + "issue/" + owner.getId() + "/comment");
         return method;
     }
 }

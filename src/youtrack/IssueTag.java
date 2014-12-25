@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "tag")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueTag extends Item {
+public class IssueTag extends BaseItem {
 
     IssueTag() {
     }
@@ -19,11 +19,6 @@ public class IssueTag extends Item {
         issueTag.body = tag;
         issueTag.wrapper = true;
         return issueTag;
-    }
-
-    @Override
-    String getId() {
-        return null;
     }
 
     @Override

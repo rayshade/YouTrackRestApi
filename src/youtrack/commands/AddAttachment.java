@@ -1,5 +1,6 @@
 package youtrack.commands;
 
+import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
@@ -7,54 +8,34 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import youtrack.Issue;
 import youtrack.IssueAttachment;
+import youtrack.exceptions.CommandExecutionException;
 
 import java.io.File;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
  */
-public class AddAttachment extends Command {
-    private final Issue issue;
-    private final IssueAttachment attachment;
+public class AddAttachment extends AddCommand<Issue, IssueAttachment> {
 
-    public AddAttachment(Issue issue, IssueAttachment attachment) {
-        this.issue = issue;
-        this.attachment = attachment;
+    public AddAttachment(@NotNull Issue owner) {
+        super(owner);
     }
 
     @Override
-    public boolean usesAuthorization() {
-        return true;
-    }
-
-    @Override
-    public Object getResult() {
+    public IssueAttachment getResult() {
         return null;
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
-
-        PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/attachment");
-
-        File file = new File(attachment.getUrl());
-
+    public HttpMethodBase commandMethod(String baseHost) throws CommandExecutionException {
+        final PostMethod postMethod = new PostMethod(baseHost + "issue/" + getOwner().getId() + "/attachment");
+        File file = new File(getItem().getUrl());
         try {
-
-            Part[] parts = {
-                    new FilePart(file.getName(), file)
-            };
-
-            postMethod.setRequestEntity(
-                    new MultipartRequestEntity(parts, postMethod.getParams())
-            );
-
-            return postMethod;
-
+            final Part[] parts = {new FilePart(file.getName(), file)};
+            postMethod.setRequestEntity(new MultipartRequestEntity(parts, postMethod.getParams()));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
+            throw new CommandExecutionException(this, ex);
         }
-
+        return postMethod;
     }
 }

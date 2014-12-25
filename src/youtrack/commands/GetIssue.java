@@ -1,32 +1,25 @@
 package youtrack.commands;
 
+import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Issue;
+import youtrack.Project;
 import youtrack.exceptions.CommandExecutionException;
 
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
-public class GetIssue extends Command<Issue> {
-    private final String id;
+public class GetIssue extends SingleItemCommand<Project, Issue> {
 
-    public GetIssue(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public boolean usesAuthorization() {
-        return true;
+    public GetIssue(@NotNull Project owner) {
+        super(owner);
     }
 
     @Override
     public Issue getResult() throws CommandExecutionException {
-
         try {
-
             return (Issue) objectFromXml(method.getResponseBodyAsString());
-
         } catch (Exception ex) {
             throw new CommandExecutionException(this, ex);
         }
@@ -34,10 +27,7 @@ public class GetIssue extends Command<Issue> {
 
     @Override
     public HttpMethodBase commandMethod(String baseHost) {
-
-        method = new GetMethod(baseHost + "issue/" + id);
-
+        method = new GetMethod(baseHost + "issue/" + getItemId());
         return method;
-
     }
 }

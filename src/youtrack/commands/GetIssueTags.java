@@ -1,5 +1,6 @@
 package youtrack.commands;
 
+import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Issue;
@@ -12,27 +13,17 @@ import java.util.List;
 /**
  * Created by egor.malyshev on 07.04.2014.
  */
-public class GetIssueTags extends Command<List<IssueTag>> {
-    private final Issue issue;
+public class GetIssueTags extends ListCommand<Issue, IssueTag> {
 
-    public GetIssueTags(Issue issue) {
-        this.issue = issue;
-    }
-
-    @Override
-    public boolean usesAuthorization() {
-        return true;
+    public GetIssueTags(@NotNull Issue owner) {
+        super(owner);
     }
 
     @Override
     public List<IssueTag> getResult() throws CommandExecutionException {
-
         try {
-
             TagList tagList = (TagList) objectFromXml(method.getResponseBodyAsString());
-
             return tagList.getItems();
-
         } catch (Exception e) {
             throw new CommandExecutionException(this, e);
         }
@@ -40,7 +31,7 @@ public class GetIssueTags extends Command<List<IssueTag>> {
 
     @Override
     public HttpMethodBase commandMethod(String baseHost) {
-        method = new GetMethod(baseHost + "issue/" + issue.getId() + "/tags/");
+        method = new GetMethod(baseHost + "issue/" + owner.getId() + "/tags/");
         return method;
     }
 }

@@ -20,15 +20,13 @@ import java.util.Map;
 /**
  * Created by Egor.Malyshev on 18.12.13.
  */
-public class YouTrack {
+public class YouTrack extends BaseItem {
 
     private final static Map<String, YouTrack> INSTANCES = new HashMap<String, YouTrack>();
     private final String hostAddress;
-
     private String authorization;
 
     private YouTrack(@NotNull String hostAddress) {
-
         this.hostAddress = hostAddress;
     }
 
@@ -39,9 +37,7 @@ public class YouTrack {
      */
 
     public static YouTrack getInstance(final @NotNull String hostAddress) {
-
         if (!INSTANCES.containsKey(hostAddress)) INSTANCES.put(hostAddress, new YouTrack(hostAddress));
-
         return INSTANCES.get(hostAddress);
     }
 
@@ -51,20 +47,14 @@ public class YouTrack {
      * @return instance of @link CommandResult containing command execution results.
      */
 
-    <R> CommandResult<R> execute(Command<R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-
+    <O extends BaseItem, R> CommandResult<R> execute(Command<O, R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         final HttpClient httpClient = new HttpClient();
-
         final HttpMethodBase method = command.commandMethod(hostAddress);
-
         if (command.usesAuthorization()) {
             method.addRequestHeader("Cookie", authorization);
         }
-
         httpClient.executeMethod(method);
-
         final CommandResult<R> result = new CommandResult<R>(command.getResult(), method.getStatusCode());
-
         method.releaseConnection();
         return result;
     }
@@ -80,21 +70,14 @@ public class YouTrack {
      */
 
     public List<Project> projects() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-
         final CommandResult<List<Project>> result = execute(new GetProjects());
-
         final List<Project> projectList = result.getData();
-
         if (projectList != null) {
-
             for (final Project project : projectList) {
                 project.setYouTrack(this);
             }
-
             return projectList;
-
         } else return null;
-
     }
 
     /**
@@ -104,22 +87,17 @@ public class YouTrack {
      */
 
     public void login(String userName, String password) throws AuthenticationErrorException, IOException, NoSuchIssueFieldException, CommandExecutionException {
-
         final CommandResult<String> result = execute(new Login(userName, password));
-
         if (result.success()) {
-
             authorization = result.getData();
-
         } else throw new AuthenticationErrorException(this, userName, password.replaceAll(".", "*"));
-
     }
 
     public String getAuthorization() {
         return authorization;
     }
 
-    public void setAuthorization(String authorization) {
+    public void setAuthorization(@NotNull String authorization) {
         this.authorization = authorization;
     }
 
@@ -132,17 +110,16 @@ public class YouTrack {
     public Project project(final @Nullable String id) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         if (id == null) return null;
         final List<Project> projects = this.projects();
-
         if (projects != null) {
-
             for (final Project project : projects) {
                 if (id.equals(project.getId())) return project;
             }
-
         }
-
         return null;
-
     }
 
+    @Override
+    YouTrack getYouTrack() {
+        return this;
+    }
 }

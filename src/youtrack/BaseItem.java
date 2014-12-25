@@ -1,23 +1,23 @@
 package youtrack;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.*;
 
 /**
  * Created by egor.malyshev on 07.04.2014.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class Item {
+public abstract class BaseItem {
     @XmlTransient
     protected YouTrack youTrack;
     @XmlValue
     protected String body;
     @XmlTransient
     protected boolean wrapper = false;
+    @SuppressWarnings("UnusedDeclaration")
+    @XmlAttribute(name = "id")
+    private String id;
 
-    Item() {
+    BaseItem() {
     }
 
     YouTrack getYouTrack() {
@@ -28,5 +28,7 @@ public abstract class Item {
         this.youTrack = youTrack;
     }
 
-    abstract String getId();
+    public String getId() {
+        return id;
+    }
 }

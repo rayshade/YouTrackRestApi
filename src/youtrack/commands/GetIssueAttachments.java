@@ -1,5 +1,6 @@
 package youtrack.commands;
 
+import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.AttachmentList;
@@ -12,27 +13,17 @@ import java.util.List;
 /**
  * Created by egor.malyshev on 03.04.2014.
  */
-public class GetIssueAttachments extends Command<List<IssueAttachment>> {
-    private final Issue issue;
+public class GetIssueAttachments extends ListCommand<Issue, IssueAttachment> {
 
-    public GetIssueAttachments(Issue issue) {
-        this.issue = issue;
-    }
-
-    @Override
-    public boolean usesAuthorization() {
-        return true;
+    public GetIssueAttachments(@NotNull Issue owner) {
+        super(owner);
     }
 
     @Override
     public List<IssueAttachment> getResult() throws CommandExecutionException {
-
         try {
-
-            AttachmentList attachmentList = (AttachmentList) objectFromXml(method.getResponseBodyAsString());
-
+            final AttachmentList attachmentList = (AttachmentList) objectFromXml(method.getResponseBodyAsString());
             return attachmentList.getAttachments();
-
         } catch (Exception e) {
             throw new CommandExecutionException(this, e);
         }
@@ -40,8 +31,7 @@ public class GetIssueAttachments extends Command<List<IssueAttachment>> {
 
     @Override
     public HttpMethodBase commandMethod(String baseHost) {
-        method = new GetMethod(baseHost + "issue/" + issue.getId() + "/attachment");
-
+        method = new GetMethod(baseHost + "issue/" + owner.getId() + "/attachment");
         return method;
     }
 }

@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @XmlRootElement(name = "issue")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Issue extends Item {
+public class Issue extends BaseItem {
 
 	/*
     * These lists provide live access to issue comments and so on.
@@ -39,8 +39,6 @@ public class Issue extends Item {
     public final CommandBasedList<IssueLink> links;
     @XmlTransient
     public final CommandBasedList<IssueTag> tags;
-    @XmlAttribute(name = "id")
-    private String id;
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     @XmlElement(name = "field")
     private List<BaseIssueField> fieldArray;
@@ -124,13 +122,9 @@ public class Issue extends Item {
     @Override
     public String toString() {
         return "Issue{" +
-                "id='" + id + '\'' +
+                "id='" + getId() + '\'' +
                 ", fieldArray=" + fieldArray +
                 '}';
-    }
-
-    public String getId() {
-        return id;
     }
 
     public boolean isResolved() {
@@ -153,12 +147,14 @@ public class Issue extends Item {
 
         CommandResult result = youTrack.execute(new ModifyIssue(this, null, description));
 
+        BaseIssueField<IssueFieldValue> field = fields.get("description");
+
         if (result.success()) {
 
-            fields.get("description").setValue(new IssueFieldValue(description));
+            field.setValue(new IssueFieldValue(description));
 
         } else
-            throw new SetIssueFieldException(this, fields.get("description"), IssueFieldValue.createValue(description));
+            throw new SetIssueFieldException(this, field, IssueFieldValue.createValue(description));
 
     }
 
@@ -217,17 +213,19 @@ public class Issue extends Item {
     }
 
     public void vote() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-
-        youTrack.execute(new ChangeIssueVotes(this, true)).success();
+        final ChangeIssueVotes command = new ChangeIssueVotes(this);
+        command.setArgument(true);
+        youTrack.execute(command);
     }
 
     public void unVote() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-
-        youTrack.execute(new ChangeIssueVotes(this, false)).success();
+        final ChangeIssueVotes command = new ChangeIssueVotes(this);
+        command.setArgument(false);
+        youTrack.execute(command);
     }
 
     private void updateSelf() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        Issue issue = youTrack.execute(new GetIssue(this.id)).getData();
+        Issue issue = youTrack.execute(new GetIssue(this.getId())).getData();
         if (issue != null) {
             this.fields.clear();
             this.fields.putAll(issue.fields);

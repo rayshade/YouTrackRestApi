@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  */
 @XmlRootElement(name = "fileUrl")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueAttachment extends Item {
+public class IssueAttachment extends BaseItem {
 
     @XmlAttribute(name = "url")
     private String url;
@@ -62,13 +62,9 @@ public class IssueAttachment extends Item {
     }
 
     public String getId() {
-
         Pattern extractor = Pattern.compile("\\?file=([0-9\\-]+)", Pattern.UNICODE_CASE);
         Matcher matcher = extractor.matcher(url);
-        if (matcher.find()) {
-            return matcher.group(1);
-        } else return null;
-
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     /**

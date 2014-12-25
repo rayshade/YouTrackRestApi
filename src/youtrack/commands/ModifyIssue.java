@@ -25,11 +25,6 @@ public class ModifyIssue extends Command {
     }
 
     @Override
-    public boolean usesAuthorization() {
-        return true;
-    }
-
-    @Override
     public Object getResult() {
         return null;
     }

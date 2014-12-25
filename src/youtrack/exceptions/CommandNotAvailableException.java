@@ -1,18 +1,20 @@
 package youtrack.exceptions;
 
+import youtrack.commands.Command;
+
 /**
  * Created by egor.malyshev on 07.04.2014.
  */
 public class CommandNotAvailableException extends Exception {
 
-    private final Class command;
+    private final Command command;
 
-    public CommandNotAvailableException(Class command, Exception e) {
-        super("Command not available: " + command.toString() + ": " + e.getMessage());
+    public CommandNotAvailableException(Command command) {
+        super("Command not available: " + command.toString());
         this.command = command;
     }
 
-    public Class getCommand() {
+    public Command getCommand() {
         return command;
     }
 }

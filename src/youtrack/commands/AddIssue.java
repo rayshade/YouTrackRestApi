@@ -1,61 +1,48 @@
 package youtrack.commands;
 
-
+import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.Project;
 import youtrack.exceptions.CommandExecutionException;
+import youtrack.exceptions.NoSuchIssueFieldException;
+
+import java.io.IOException;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
-public class AddIssue extends Command<String> {
-    private final Project project;
-    private final Issue issue;
+public class AddIssue extends AddCommand<Project, Issue> {
 
-    public AddIssue(Project project, Issue issue) {
-
-        this.project = project;
-        this.issue = issue;
-
+    public AddIssue(@NotNull Project owner) {
+        super(owner);
     }
 
     @Override
-    public boolean usesAuthorization() {
-        return true;
-    }
-
-    @Override
-    public String getResult() throws CommandExecutionException {
+    public Issue getResult() throws CommandExecutionException {
         try {
-            String[] locations = method.getResponseHeader("Location").getValue().split("/");
-            return locations[locations.length - 1];
+            final String[] locations = method.getResponseHeader("Location").getValue().split("/");
+            final String issueId = locations[locations.length - 1];
+            return owner.issues.item(issueId);
         } catch (Exception e) {
             throw new CommandExecutionException(this, e);
         }
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
+    public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         method = new PutMethod(baseHost + "issue");
-
         HttpMethodParams params = new HttpMethodParams();
-        params.setParameter("project", project.getId());
-
+        params.setParameter("project", owner.getId());
         try {
-
-            params.setParameter("summary", issue.getSummary());
-            params.setParameter("description", issue.getDescription());
-
+            params.setParameter("summary", getItem().getSummary());
+            params.setParameter("description", getItem().getDescription());
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new CommandExecutionException(this, e);
         }
-
         method.setParams(params);
-
         return method;
-
     }
 }

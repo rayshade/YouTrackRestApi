@@ -8,10 +8,8 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "comment")
-public class IssueComment extends Item {
+public class IssueComment extends BaseItem {
 
-    @XmlAttribute(name = "id")
-    private String id;
     @XmlAttribute(name = "issueId")
     private String issueId;
     @XmlAttribute(name = "author")
@@ -43,10 +41,6 @@ public class IssueComment extends Item {
         issueComment.wrapper = true;
         return issueComment;
 
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getIssueId() {
@@ -84,7 +78,7 @@ public class IssueComment extends Item {
     @Override
     public String toString() {
         return "IssueComment{" +
-                "id='" + id + '\'' +
+                "id='" + getId() + '\'' +
                 ", issueId='" + issueId + '\'' +
                 ", author='" + author + '\'' +
                 ", deleted=" + deleted +

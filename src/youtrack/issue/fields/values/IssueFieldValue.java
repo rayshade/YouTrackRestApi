@@ -24,5 +24,4 @@ public class IssueFieldValue extends BaseIssueFieldValue {
         issueFieldValue.setValue(value);
         return issueFieldValue;
     }
-
 }

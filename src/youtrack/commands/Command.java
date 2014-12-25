@@ -1,14 +1,12 @@
 package youtrack.commands;
 
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.xml.sax.SAXException;
-import youtrack.*;
+import youtrack.BaseItem;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
-import youtrack.issue.fields.*;
-import youtrack.issue.fields.values.AttachmentFieldValue;
-import youtrack.issue.fields.values.LinkFieldValue;
-import youtrack.issue.fields.values.MultiUserFieldValue;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -24,12 +22,24 @@ import java.io.StringReader;
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
-public abstract class Command<R> {
-
+public abstract class Command<O extends BaseItem, R> {
+    protected final O owner;
     HttpMethodBase method;
 
-    public abstract boolean usesAuthorization();
+    public Command(final @NotNull O owner) {
+        this.owner = owner;
+    }
 
+    @NotNull
+    public O getOwner() {
+        return owner;
+    }
+
+    public boolean usesAuthorization() {
+        return true;
+    }
+
+    @Nullable
     public abstract R getResult() throws CommandExecutionException;
 
     /**
@@ -43,21 +53,11 @@ public abstract class Command<R> {
      * @throws IOException
      */
     Object objectFromXml(String xmlString) throws ParserConfigurationException, JAXBException, SAXException, IOException, XMLStreamException {
-
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-
         XMLStreamReader streamReader = xmlInputFactory.createXMLStreamReader(new StringReader(xmlString));
-
         streamReader = new HackedReader(streamReader);
-
-        JAXBContext jaxbContext = JAXBContext.newInstance(Issue.class, CustomField.class, IssueField.class, CustomField.class, CustomFieldValue.class, AttachmentField.class,
-                LinkField.class, MultiUserField.class, SingleField.class, MultiUserFieldValue.class, AttachmentFieldValue.class,
-                LinkFieldValue.class, IssueCompactList.class, IssueProjectList.class,
-                Project.class, ProjectList.class, CommentList.class, LinkList.class, IssueLink.class, IssueAttachment.class, AttachmentList.class,
-                IssueTag.class, TagList.class);
-
+        JAXBContext jaxbContext = JAXBContext.newInstance("youtrack.issue.*");
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
         return jaxbUnmarshaller.unmarshal(streamReader);
     }
 
@@ -68,18 +68,16 @@ public abstract class Command<R> {
      * Forces upper case on the first letter of xsi:type attribute.
      */
     private class HackedReader extends StreamReaderDelegate {
-
         public HackedReader(XMLStreamReader xmlStreamReader) {
             super(xmlStreamReader);
         }
 
         @Override
         public String getAttributeValue(int index) {
-            String attributeValue = super.getAttributeValue(index);
-            if (getAttributeLocalName(index).equals("type"))
-                return attributeValue.substring(0, 1).toLowerCase() + attributeValue.substring(1);
-            else return super.getAttributeValue(index);
+            final String attributeValue = super.getAttributeValue(index);
+            return (getAttributeLocalName(index).equals("type")) ?
+                    attributeValue.substring(0, 1).toLowerCase() + attributeValue.substring(1)
+                    : super.getAttributeValue(index);
         }
-
     }
 }

@@ -1,6 +1,6 @@
 package youtrack;
 
-import youtrack.commands.*;
+import youtrack.commands.AddIssue;
 
 import javax.xml.bind.annotation.*;
 
@@ -9,23 +9,24 @@ import javax.xml.bind.annotation.*;
  */
 @XmlRootElement(name = "project")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Project extends Item {
+public class Project extends BaseItem {
     @XmlTransient
-    public final CommandBasedList<Issue> issues;
+    public final CommandBasedList<Project, Issue> issues;
     @XmlAttribute(name = "name")
     private String name;
     @XmlAttribute(name = "shortName")
-    private String id;
+    private String shortName;
 
     Project() {
-        issues = new CommandBasedList<Issue>(this, AddIssue.class, RemoveIssue.class, GetIssues.class, QueryIssues.class, GetIssue.class);
+        issues = new CommandBasedList<Project, Issue>(this,
+                new AddIssue(this), null, null, null, null);
     }
 
     @Override
     public String toString() {
         return "Project{" +
                 "name='" + name + '\'' +
-                ", id='" + id + '\'' +
+                ", shortName='" + shortName + '\'' +
                 '}';
     }
 
@@ -34,6 +35,6 @@ public class Project extends Item {
     }
 
     public String getId() {
-        return id;
+        return shortName;
     }
 }

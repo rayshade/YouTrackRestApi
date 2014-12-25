@@ -10,7 +10,6 @@ public class QueryParameters {
 
     public QueryParameters(String filter, int max, int start) {
         this.filter = filter;
-
         this.max = max;
         this.start = start;
     }
@@ -24,7 +23,6 @@ public class QueryParameters {
     }
 
     public String getFilter() {
-
         return filter;
     }
 }
