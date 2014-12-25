@@ -70,7 +70,7 @@ public class YouTrack extends BaseItem {
      */
 
     public List<Project> projects() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final CommandResult<List<Project>> result = execute(new GetProjects());
+        final CommandResult<List<Project>> result = execute(new GetProjects(this));
         final List<Project> projectList = result.getData();
         if (projectList != null) {
             for (final Project project : projectList) {
@@ -86,8 +86,13 @@ public class YouTrack extends BaseItem {
      * Retrieved token is stored for later use with all commands that need authentication.
      */
 
-    public void login(String userName, String password) throws AuthenticationErrorException, IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final CommandResult<String> result = execute(new Login(userName, password));
+    public void login(@NotNull String userName, @NotNull String password) throws AuthenticationErrorException, IOException, NoSuchIssueFieldException, CommandExecutionException {
+        final Login login = new Login(this);
+        final HashMap<String, String> arguments = new HashMap<String, String>();
+        arguments.put("login", userName);
+        arguments.put("password", password);
+        login.setArguments(arguments);
+        final CommandResult<String> result = execute(login);
         if (result.success()) {
             authorization = result.getData();
         } else throw new AuthenticationErrorException(this, userName, password.replaceAll(".", "*"));
@@ -119,7 +124,7 @@ public class YouTrack extends BaseItem {
     }
 
     @Override
-    YouTrack getYouTrack() {
+    public YouTrack getYouTrack() {
         return this;
     }
 }

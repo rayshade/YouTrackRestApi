@@ -18,16 +18,13 @@ public class MultiUserFieldValue extends BaseIssueFieldValue {
 
     public MultiUserFieldValue(String value) {
         super(value);
-
     }
 
     public String getFullName() {
-
         return fullName;
     }
 
     public void setFullName(String fullName) {
-
         this.fullName = fullName;
     }
 }

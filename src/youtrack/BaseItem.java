@@ -13,14 +13,16 @@ public abstract class BaseItem {
     protected String body;
     @XmlTransient
     protected boolean wrapper = false;
+    @XmlTransient
+    protected BaseItem owner;
     @SuppressWarnings("UnusedDeclaration")
     @XmlAttribute(name = "id")
-    private String id;
+    protected String id;
 
     BaseItem() {
     }
 
-    YouTrack getYouTrack() {
+    public YouTrack getYouTrack() {
         return youTrack;
     }
 

@@ -12,9 +12,9 @@ public class SetIssueFieldException extends Exception {
 
     private final Issue issue;
     private final BaseIssueField issueField;
-    private final BaseIssueFieldValue value;
+    private final String value;
 
-    public SetIssueFieldException(Issue issue, BaseIssueField issueField, BaseIssueFieldValue value) {
+    public SetIssueFieldException(Issue issue, BaseIssueField issueField, String value) {
         super("Cannot set value of " + issueField.getName() + " in " + issue.getId() + " to " + value);
         this.issue = issue;
         this.issueField = issueField;
@@ -25,7 +25,7 @@ public class SetIssueFieldException extends Exception {
         return issue;
     }
 
-    public BaseIssueFieldValue getValue() {
+    public String getValue() {
         return value;
     }
 

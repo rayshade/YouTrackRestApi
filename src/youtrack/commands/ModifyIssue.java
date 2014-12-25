@@ -1,6 +1,7 @@
 package youtrack.commands;
 
 
+import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -13,32 +14,21 @@ import java.io.IOException;
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
-public class ModifyIssue extends Command {
-    private final Issue issue;
-    private final String summary;
-    private final String description;
+public class ModifyIssue extends RunningCommand<Issue, String> {
 
-    public ModifyIssue(Issue issue, String summary, String description) {
-        this.issue = issue;
-        this.summary = summary;
-        this.description = description;
-    }
-
-    @Override
-    public Object getResult() {
-        return null;
+    public ModifyIssue(@NotNull Issue owner) {
+        super(owner);
     }
 
     @Override
     public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId());
-
+        final PostMethod postMethod = new PostMethod(baseHost + "issue/" + owner.getId());
+        final String summary = getArguments().get("summary");
+        final String description = getArguments().get("description");
         postMethod.setRequestBody(new NameValuePair[]{
-                new NameValuePair("summary", ((summary == null) ? issue.getSummary() : summary)),
-                new NameValuePair("description", ((description == null) ? issue.getDescription() : description))
-
+                new NameValuePair("summary", ((summary == null) ? owner.getSummary() : summary)),
+                new NameValuePair("description", ((description == null) ? owner.getDescription() : description))
         });
-
         return postMethod;
     }
 }

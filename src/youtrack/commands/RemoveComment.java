@@ -18,11 +18,6 @@ public class RemoveComment extends RemoveCommand<Issue, IssueComment> {
     }
 
     @Override
-    public IssueComment getResult() {
-        return null;
-    }
-
-    @Override
     public HttpMethodBase commandMethod(String baseHost) {
         final DeleteMethod deleteMethod = new DeleteMethod(baseHost + "issue/" + owner.getId() + "/comment/" + item.getId());
         final HttpMethodParams params = new HttpMethodParams();

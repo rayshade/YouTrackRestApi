@@ -1,60 +1,38 @@
 package youtrack.commands;
 
 
+import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
 import youtrack.exceptions.CommandExecutionException;
-import youtrack.issue.fields.BaseIssueField;
-import youtrack.issue.fields.values.BaseIssueFieldValue;
 
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
-public class ModifyIssueField extends Command<String> {
-    private final Issue issue;
-    private final BaseIssueField target;
-    private final BaseIssueFieldValue newVaule;
+public class ModifyIssueField extends RunningCommand<Issue, String> {
 
-    public ModifyIssueField(Issue issue, BaseIssueField target, BaseIssueFieldValue newVaule) {
-
-        this.issue = issue;
-        this.target = target;
-        this.newVaule = newVaule;
+    public ModifyIssueField(@NotNull Issue owner) {
+        super(owner);
     }
 
     @Override
     public String getResult() throws CommandExecutionException {
-
         try {
-
-            if (method.getStatusCode() == 200) {
-
-                return null;
-
-            } else {
-
-                return method.getResponseBodyAsString();
-            }
-
+            return method.getStatusCode() == 200 ? null : method.getResponseBodyAsString();
         } catch (Exception e) {
-            e.printStackTrace();
             throw new CommandExecutionException(this, e);
         }
     }
 
     @Override
     public HttpMethodBase commandMethod(String baseHost) {
-        PostMethod postMethod = new PostMethod(baseHost + "issue/" + issue.getId() + "/execute");
-
+        PostMethod postMethod = new PostMethod(baseHost + "issue/" + owner.getId() + "/execute");
         postMethod.setRequestBody(new NameValuePair[]{
-                new NameValuePair("command", target.getName() + " " + newVaule.getValue())
-
+                new NameValuePair("command", getArguments().get("field") + " " + getArguments().get("value"))
         });
-
         method = postMethod;
-
         return method;
     }
 }

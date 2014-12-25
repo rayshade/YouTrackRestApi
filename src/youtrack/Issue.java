@@ -1,5 +1,7 @@
 package youtrack;
 
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import youtrack.commands.*;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
@@ -9,6 +11,7 @@ import youtrack.issue.fields.SingleField;
 import youtrack.issue.fields.values.BaseIssueFieldValue;
 import youtrack.issue.fields.values.IssueFieldValue;
 import youtrack.issue.fields.values.MultiUserFieldValue;
+import youtrack.util.IssueId;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -25,34 +28,27 @@ import java.util.Map;
 @XmlRootElement(name = "issue")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Issue extends BaseItem {
-
-	/*
-    * These lists provide live access to issue comments and so on.
-	*
-	*/
-
     @XmlTransient
-    public final CommandBasedList<IssueComment> comments;
+    public final CommandBasedList<Issue, IssueComment> comments;
     @XmlTransient
-    public final CommandBasedList<IssueAttachment> attachments;
+    public final CommandBasedList<Issue, IssueAttachment> attachments;
     @XmlTransient
-    public final CommandBasedList<IssueLink> links;
+    public final CommandBasedList<Issue, IssueLink> links;
     @XmlTransient
-    public final CommandBasedList<IssueTag> tags;
+    public final CommandBasedList<Issue, IssueTag> tags;
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     @XmlElement(name = "field")
     private List<BaseIssueField> fieldArray;
-    /*
-    This is used to work around the issue with JAXB not being able to unmarshal a Map.
-     */
     @XmlTransient
     private HashMap<String, BaseIssueField> fields;
 
     Issue() {
-        comments = new CommandBasedList<IssueComment>(this, AddComment.class, RemoveComment.class, GetIssueComments.class, null, null);
-        attachments = new CommandBasedList<IssueAttachment>(this, AddAttachment.class, RemoveAttachment.class, GetIssueAttachments.class, null, null);
-        links = new CommandBasedList<IssueLink>(this, AddIssueLink.class, RemoveIssueLink.class, GetIssueLinks.class, null, null);
-        tags = new CommandBasedList<IssueTag>(this, AddIssueTag.class, RemoveIssueTag.class, GetIssueTags.class, null, null);
+        comments = new CommandBasedList<Issue, IssueComment>(this,
+                new AddComment(this), new RemoveComment(this), new GetIssueComments(this), null, null);
+        attachments = new CommandBasedList<Issue, IssueAttachment>(this, new AddAttachment(this),
+                new RemoveAttachment(this), new GetIssueAttachments(this), null, null);
+        links = new CommandBasedList<Issue, IssueLink>(this, new AddIssueLink(this), new RemoveIssueLink(this), new GetIssueLinks(this), null, null);
+        tags = new CommandBasedList<Issue, IssueTag>(this, new AddIssueTag(this), new RemoveIssueTag(this), new GetIssueTags(this), null, null);
     }
 
     private Issue(String summary, String description) {
@@ -85,33 +81,28 @@ public class Issue extends BaseItem {
         return new Issue(fields);
     }
 
-    <V extends BaseIssueFieldValue> void setFieldByName(String fieldName, V value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
-
+    void setFieldByName(@NotNull String fieldName, @Nullable String value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
         if (fields.containsKey(fieldName)) {
-
-            CommandResult result = youTrack.execute(new ModifyIssueField(this, fields.get(fieldName), value));
-
+            final ModifyIssueField modifyCommand = new ModifyIssueField(this);
+            final Map<String, String> params = new HashMap<String, String>();
+            params.put("field", fieldName);
+            params.put("value", value);
+            modifyCommand.setArguments(params);
+            CommandResult result = youTrack.execute(modifyCommand);
             if (!result.success()) {
-
                 throw new SetIssueFieldException(this, fields.get(fieldName), value);
             }
-
-            fields.get(fieldName).setValue(value);
+            updateSelf();
         } else throw new NoSuchIssueFieldException(this, fieldName);
     }
 
-    <V extends BaseIssueFieldValue> V getFieldByName(String fieldName) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
-
+    <V extends BaseIssueFieldValue> V getFieldByName(@NotNull String fieldName) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
         if (fields.containsKey(fieldName)) {
-
             if (!wrapper) updateSelf();
-
             return (V) fields.get(fieldName).getValue();
-
         } else throw new NoSuchIssueFieldException(this, fieldName);
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
         fields = new HashMap<String, BaseIssueField>();
         for (BaseIssueField issueField : fieldArray) {
@@ -136,7 +127,7 @@ public class Issue extends BaseItem {
     }
 
     public void setState(String state) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
-        setFieldByName("State", new IssueFieldValue(state));
+        setFieldByName("State", state);
     }
 
     public String getDescription() throws NoSuchIssueFieldException, IOException, CommandExecutionException {
@@ -144,18 +135,14 @@ public class Issue extends BaseItem {
     }
 
     public void setDescription(String description) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
-
-        CommandResult result = youTrack.execute(new ModifyIssue(this, null, description));
-
-        BaseIssueField<IssueFieldValue> field = fields.get("description");
-
+        final ModifyIssue command = new ModifyIssue(this);
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put("description", description);
+        command.setArguments(params);
+        final CommandResult result = youTrack.execute(command);
         if (result.success()) {
-
-            field.setValue(new IssueFieldValue(description));
-
-        } else
-            throw new SetIssueFieldException(this, field, IssueFieldValue.createValue(description));
-
+            updateSelf();
+        } else throw new SetIssueFieldException(this, fields.get("summary"), description);
     }
 
     public String getSummary() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
@@ -163,14 +150,14 @@ public class Issue extends BaseItem {
     }
 
     public void setSummary(String summary) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
-
-        CommandResult result = youTrack.execute(new ModifyIssue(this, summary, null));
-
+        final ModifyIssue command = new ModifyIssue(this);
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put("summary", summary);
+        command.setArguments(params);
+        final CommandResult result = youTrack.execute(command);
         if (result.success()) {
-
-            fields.get("summary").setValue(new IssueFieldValue(summary));
-
-        } else throw new SetIssueFieldException(this, fields.get("summary"), IssueFieldValue.createValue(summary));
+            updateSelf();
+        } else throw new SetIssueFieldException(this, fields.get("summary"), summary);
     }
 
     public int getVotes() {
@@ -186,7 +173,7 @@ public class Issue extends BaseItem {
     }
 
     public void setType(String type) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
-        setFieldByName("Type", new IssueFieldValue(type));
+        setFieldByName("Type", type);
     }
 
     public String getPriority() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
@@ -194,38 +181,35 @@ public class Issue extends BaseItem {
     }
 
     public void setPriority(String priority) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
-        setFieldByName("Priority", new IssueFieldValue(priority));
+        setFieldByName("Priority", priority);
     }
 
     public MultiUserFieldValue getAssignee() throws NoSuchIssueFieldException, IOException, CommandExecutionException {
         return (MultiUserFieldValue) getFieldByName("Assignee");
     }
 
-    public String getReporter() throws NoSuchIssueFieldException, IOException, CommandExecutionException {
-        return getFieldByName("reporterName").getValue();
-
+    public void setAssignee(String assignee) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
+        setFieldByName("Assignee", assignee);
     }
 
-    public void setAssignee(String assignee, String fullName) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
-        MultiUserFieldValue value = new MultiUserFieldValue(assignee);
-        value.setFullName(fullName);
-        setFieldByName("Assignee", value);
+    public String getReporter() throws NoSuchIssueFieldException, IOException, CommandExecutionException {
+        return getFieldByName("reporterName").getValue();
     }
 
     public void vote() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final ChangeIssueVotes command = new ChangeIssueVotes(this);
-        command.setArgument(true);
-        youTrack.execute(command);
+        youTrack.execute(new ChangeIssueVotes(this, true));
     }
 
     public void unVote() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final ChangeIssueVotes command = new ChangeIssueVotes(this);
-        command.setArgument(false);
-        youTrack.execute(command);
+        youTrack.execute(new ChangeIssueVotes(this, false));
+    }
+
+    public String getProjectId() {
+        return new IssueId(getId()).projectId;
     }
 
     private void updateSelf() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        Issue issue = youTrack.execute(new GetIssue(this.getId())).getData();
+        Issue issue = youTrack.execute(new GetIssue(youTrack.project(getProjectId()))).getData();
         if (issue != null) {
             this.fields.clear();
             this.fields.putAll(issue.fields);

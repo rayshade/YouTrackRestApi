@@ -1,20 +1,20 @@
 package youtrack.commands;
 
 
+import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
+import youtrack.YouTrack;
+import youtrack.exceptions.CommandExecutionException;
 
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
-public class Login extends Command<String> {
-    private final String userName;
-    private final String password;
+public class Login extends RunningCommand<YouTrack, String> {
 
-    public Login(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
+    public Login(@NotNull YouTrack owner) {
+        super(owner);
     }
 
     @Override
@@ -28,16 +28,12 @@ public class Login extends Command<String> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
-
-        PostMethod postMethod = new PostMethod(baseHost + "user/login");
-
-        postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("login", userName),
-                        new NameValuePair("password", password)}
+    public HttpMethodBase commandMethod(String baseHost) throws CommandExecutionException {
+        final PostMethod postMethod = new PostMethod(baseHost + "user/login");
+        postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("login", getArguments().get("login")),
+                        new NameValuePair("password", getArguments().get("password"))}
         );
-
         method = postMethod;
-
         return method;
     }
 }
