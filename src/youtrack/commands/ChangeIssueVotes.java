@@ -6,6 +6,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
+import youtrack.commands.base.RunningCommand;
 import youtrack.exceptions.CommandExecutionException;
 
 import java.util.HashMap;

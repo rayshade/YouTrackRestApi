@@ -14,5 +14,4 @@ public abstract class ItemList<T extends BaseItem> {
     }
 
     public abstract List<T> getItems();
-
 }

@@ -6,6 +6,7 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.Project;
+import youtrack.commands.base.AddCommand;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 

@@ -2,7 +2,8 @@ package youtrack;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import youtrack.commands.*;
+import youtrack.commands.base.*;
+import youtrack.commands.util.QueryParameters;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.CommandNotAvailableException;
 import youtrack.exceptions.NoSuchIssueFieldException;
@@ -42,14 +43,14 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
     }
 
     @NotNull
-    public CommandResult<R> add(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
+    public CommandResultSingleItem<R> add(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
         assert addCommand != null;
         addCommand.setItem(item);
         return owner.getYouTrack().execute(addCommand);
     }
 
     @NotNull
-    public CommandResult<R> remove(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
+    public CommandResultSingleItem<R> remove(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
         assert removeCommand != null;
         removeCommand.setItem(item);
         return owner.getYouTrack().execute(removeCommand);
@@ -64,22 +65,22 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
     public R item(final @NotNull String id) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
         assert singleItemCommand != null;
         singleItemCommand.setItemId(id);
-        return owner.getYouTrack().execute(addCommand).getData();
+        return owner.getYouTrack().execute(addCommand).getResult();
     }
 
     @NotNull
     public List<R> list() throws CommandNotAvailableException, IOException, NoSuchIssueFieldException, CommandExecutionException {
         assert listCommand != null;
-        final CommandResult<List<R>> result = owner.getYouTrack().execute(listCommand);
-        return result.success() ? result.getData() : EMPTY_RESULT;
+        final CommandResultItemList<R> result = owner.getYouTrack().execute(listCommand);
+        return result.success() ? result.getResult() : EMPTY_RESULT;
     }
 
     @NotNull
     public List<R> query(final @NotNull String query, final int start, final int maxResults) throws CommandNotAvailableException, NoSuchIssueFieldException, IOException, CommandExecutionException {
         assert queryCommand != null;
         queryCommand.setParameters(new QueryParameters(query, start, maxResults));
-        final CommandResult<List<R>> result = owner.getYouTrack().execute(queryCommand);
-        return result.success() ? result.getData() : EMPTY_RESULT;
+        final CommandResultItemList<R> result = owner.getYouTrack().execute(queryCommand);
+        return result.success() ? result.getResult() : EMPTY_RESULT;
     }
 
     public List<R> query(final @NotNull String query) throws CommandNotAvailableException, NoSuchIssueFieldException, IOException, CommandExecutionException {

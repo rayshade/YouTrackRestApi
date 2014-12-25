@@ -6,6 +6,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
 import youtrack.IssueTag;
+import youtrack.commands.base.AddCommand;
 
 /**
  * Created by egor.malyshev on 07.04.2014.

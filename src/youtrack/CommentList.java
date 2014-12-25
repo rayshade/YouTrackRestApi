@@ -26,8 +26,6 @@ public class CommentList {
     }
 
     public List<IssueComment> getComments() {
-
         return comments;
     }
-
 }

@@ -7,6 +7,7 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.IssueProjectList;
 import youtrack.Project;
+import youtrack.commands.base.QueryCommand;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 

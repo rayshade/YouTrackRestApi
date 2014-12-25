@@ -5,6 +5,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Issue;
 import youtrack.Project;
+import youtrack.commands.base.SingleItemCommand;
 import youtrack.exceptions.CommandExecutionException;
 
 /**

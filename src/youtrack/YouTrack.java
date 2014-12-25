@@ -4,10 +4,10 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
-import youtrack.commands.Command;
-import youtrack.commands.CommandResult;
 import youtrack.commands.GetProjects;
 import youtrack.commands.Login;
+import youtrack.commands.base.Command;
+import youtrack.commands.base.RunningCommand;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
@@ -42,19 +42,56 @@ public class YouTrack extends BaseItem {
     }
 
     /**
-     * Executes a YouTrack command described by an object that extends @link Command class.
+     * Executes a YouTrack command that returns a result that isn't a project item.
+     * Typically this is a running command that performs some operation and returns strings or booleans.
      *
      * @return instance of @link CommandResult containing command execution results.
      */
 
-    <O extends BaseItem, R> CommandResult<R> execute(Command<O, R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    <O extends BaseItem, R> CommandResultData<R> execute(RunningCommand<O, R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         final HttpClient httpClient = new HttpClient();
         final HttpMethodBase method = command.commandMethod(hostAddress);
         if (command.usesAuthorization()) {
             method.addRequestHeader("Cookie", authorization);
         }
         httpClient.executeMethod(method);
-        final CommandResult<R> result = new CommandResult<R>(command.getResult(), method.getStatusCode());
+        final CommandResultData<R> result = new CommandResultData<R>(this, method.getStatusCode(), command.getResult());
+        method.releaseConnection();
+        return result;
+    }
+
+    /**
+     * Executes a YouTrack command that returns a single item result.
+     *
+     * @return instance of @link CommandResult containing command execution results.
+     */
+
+    <O extends BaseItem, R extends BaseItem> CommandResultSingleItem<R> execute(Command<O, R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+        final HttpClient httpClient = new HttpClient();
+        final HttpMethodBase method = command.commandMethod(hostAddress);
+        if (command.usesAuthorization()) {
+            method.addRequestHeader("Cookie", authorization);
+        }
+        httpClient.executeMethod(method);
+        final CommandResultSingleItem<R> result = new CommandResultSingleItem<R>(this, method.getStatusCode(), command.getResult());
+        method.releaseConnection();
+        return result;
+    }
+
+    /**
+     * Executes a YouTrack command that returns multiple results.
+     *
+     * @return instance of @link CommandResult containing command execution results.
+     */
+
+    <O extends BaseItem, R extends BaseItem> CommandResultItemList<R> execute(Command<O, List<R>> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+        final HttpClient httpClient = new HttpClient();
+        final HttpMethodBase method = command.commandMethod(hostAddress);
+        if (command.usesAuthorization()) {
+            method.addRequestHeader("Cookie", authorization);
+        }
+        httpClient.executeMethod(method);
+        final CommandResultItemList<R> result = new CommandResultItemList<R>(this, method.getStatusCode(), command.getResult());
         method.releaseConnection();
         return result;
     }
@@ -70,14 +107,8 @@ public class YouTrack extends BaseItem {
      */
 
     public List<Project> projects() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final CommandResult<List<Project>> result = execute(new GetProjects(this));
-        final List<Project> projectList = result.getData();
-        if (projectList != null) {
-            for (final Project project : projectList) {
-                project.setYouTrack(this);
-            }
-            return projectList;
-        } else return null;
+        final CommandResultItemList<Project> result = execute(new GetProjects(this));
+        return result.success() ? result.getResult() : null;
     }
 
     /**
@@ -92,9 +123,9 @@ public class YouTrack extends BaseItem {
         arguments.put("login", userName);
         arguments.put("password", password);
         login.setArguments(arguments);
-        final CommandResult<String> result = execute(login);
+        final CommandResultData<String> result = execute(login);
         if (result.success()) {
-            authorization = result.getData();
+            authorization = result.getResult();
         } else throw new AuthenticationErrorException(this, userName, password.replaceAll(".", "*"));
     }
 

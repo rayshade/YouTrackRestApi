@@ -34,13 +34,10 @@ public class IssueComment extends BaseItem {
     }
 
     public static IssueComment createComment(String commentText) {
-
         IssueComment issueComment = new IssueComment();
-
         issueComment.text = commentText;
         issueComment.wrapper = true;
         return issueComment;
-
     }
 
     public String getIssueId() {

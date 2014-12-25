@@ -6,6 +6,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.CommentList;
 import youtrack.Issue;
 import youtrack.IssueComment;
+import youtrack.commands.base.ListCommand;
 import youtrack.exceptions.CommandExecutionException;
 
 import java.util.List;

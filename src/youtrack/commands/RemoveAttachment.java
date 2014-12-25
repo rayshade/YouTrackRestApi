@@ -6,6 +6,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import youtrack.Issue;
 import youtrack.IssueAttachment;
+import youtrack.commands.base.RemoveCommand;
 
 /**
  * Created by egor.malyshev on 03.04.2014.

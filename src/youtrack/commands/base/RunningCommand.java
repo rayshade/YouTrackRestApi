@@ -1,4 +1,4 @@
-package youtrack.commands;
+package youtrack.commands.base;
 
 import com.sun.istack.internal.NotNull;
 import youtrack.BaseItem;
@@ -28,5 +28,4 @@ public abstract class RunningCommand<O extends BaseItem, R> extends Command<O, R
     public void setArguments(Map<String, R> arguments) {
         this.arguments = arguments;
     }
-
 }

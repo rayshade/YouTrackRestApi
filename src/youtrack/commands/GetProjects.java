@@ -7,6 +7,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Project;
 import youtrack.ProjectList;
 import youtrack.YouTrack;
+import youtrack.commands.base.ListCommand;
 import youtrack.exceptions.CommandExecutionException;
 
 import java.util.List;

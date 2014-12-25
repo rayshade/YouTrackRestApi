@@ -1,4 +1,4 @@
-package youtrack.commands;
+package youtrack.commands.base;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
@@ -24,7 +24,7 @@ import java.io.StringReader;
  */
 public abstract class Command<O extends BaseItem, R> {
     protected final O owner;
-    HttpMethodBase method;
+    protected HttpMethodBase method;
 
     public Command(final @NotNull O owner) {
         this.owner = owner;
@@ -52,7 +52,7 @@ public abstract class Command<O extends BaseItem, R> {
      * @throws org.xml.sax.SAXException
      * @throws IOException
      */
-    Object objectFromXml(String xmlString) throws ParserConfigurationException, JAXBException, SAXException, IOException, XMLStreamException {
+    protected Object objectFromXml(String xmlString) throws ParserConfigurationException, JAXBException, SAXException, IOException, XMLStreamException {
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
         XMLStreamReader streamReader = xmlInputFactory.createXMLStreamReader(new StringReader(xmlString));
         streamReader = new HackedReader(streamReader);

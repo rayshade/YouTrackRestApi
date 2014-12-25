@@ -1,4 +1,4 @@
-package youtrack.commands;
+package youtrack.commands.base;
 
 import com.sun.istack.internal.NotNull;
 import youtrack.BaseItem;

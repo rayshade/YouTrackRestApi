@@ -7,6 +7,7 @@ import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.IssueComment;
+import youtrack.commands.base.RemoveCommand;
 
 /**
  * Created by egor.malyshev on 01.04.2014.

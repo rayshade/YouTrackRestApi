@@ -74,27 +74,17 @@ public class IssueAttachment extends BaseItem {
      */
 
     public void saveTo(@NotNull String path) throws IOException {
-
         HttpClient client = new HttpClient();
-
         GetMethod get = new GetMethod(this.url);
-
         client.executeMethod(get);
-
         InputStream in = get.getResponseBodyAsStream();
-
         if (!path.endsWith("/")) path += "/";
-
         FileOutputStream out = new FileOutputStream(new File(path + this.name));
-
         byte[] b = new byte[1024];
-
         int len;
-
         while ((len = in.read(b)) != -1) {
             out.write(b, 0, len);
         }
-
         in.close();
         out.close();
         get.releaseConnection();

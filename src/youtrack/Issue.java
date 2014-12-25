@@ -88,7 +88,7 @@ public class Issue extends BaseItem {
             params.put("field", fieldName);
             params.put("value", value);
             modifyCommand.setArguments(params);
-            CommandResult result = youTrack.execute(modifyCommand);
+            CommandResultData<String> result = youTrack.execute(modifyCommand);
             if (!result.success()) {
                 throw new SetIssueFieldException(this, fields.get(fieldName), value);
             }
@@ -96,6 +96,7 @@ public class Issue extends BaseItem {
         } else throw new NoSuchIssueFieldException(this, fieldName);
     }
 
+    @SuppressWarnings("unchecked")
     <V extends BaseIssueFieldValue> V getFieldByName(@NotNull String fieldName) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
         if (fields.containsKey(fieldName)) {
             if (!wrapper) updateSelf();
@@ -103,6 +104,7 @@ public class Issue extends BaseItem {
         } else throw new NoSuchIssueFieldException(this, fieldName);
     }
 
+    @SuppressWarnings("UnusedParameters")
     void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
         fields = new HashMap<String, BaseIssueField>();
         for (BaseIssueField issueField : fieldArray) {
@@ -139,7 +141,7 @@ public class Issue extends BaseItem {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("description", description);
         command.setArguments(params);
-        final CommandResult result = youTrack.execute(command);
+        final CommandResultData<String> result = youTrack.execute(command);
         if (result.success()) {
             updateSelf();
         } else throw new SetIssueFieldException(this, fields.get("summary"), description);
@@ -154,7 +156,7 @@ public class Issue extends BaseItem {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("summary", summary);
         command.setArguments(params);
-        final CommandResult result = youTrack.execute(command);
+        final CommandResultData<String> result = youTrack.execute(command);
         if (result.success()) {
             updateSelf();
         } else throw new SetIssueFieldException(this, fields.get("summary"), summary);
@@ -209,7 +211,7 @@ public class Issue extends BaseItem {
     }
 
     private void updateSelf() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        Issue issue = youTrack.execute(new GetIssue(youTrack.project(getProjectId()))).getData();
+        final Issue issue = youTrack.execute(new GetIssue(youTrack.project(getProjectId()))).getResult();
         if (issue != null) {
             this.fields.clear();
             this.fields.putAll(issue.fields);

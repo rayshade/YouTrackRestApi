@@ -1,4 +1,4 @@
-package youtrack.commands;
+package youtrack.commands.util;
 
 /**
  * Created by egor.malyshev on 08.04.2014.

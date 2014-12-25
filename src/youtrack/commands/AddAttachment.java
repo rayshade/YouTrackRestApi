@@ -8,6 +8,7 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import youtrack.Issue;
 import youtrack.IssueAttachment;
+import youtrack.commands.base.AddCommand;
 import youtrack.exceptions.CommandExecutionException;
 
 import java.io.File;

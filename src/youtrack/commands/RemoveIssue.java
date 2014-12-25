@@ -5,6 +5,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import youtrack.Issue;
 import youtrack.Project;
+import youtrack.commands.base.RemoveCommand;
 import youtrack.exceptions.NoSuchIssueFieldException;
 
 import java.io.IOException;
