@@ -1,9 +1,9 @@
 package youtrack;
 
 import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
+import youtrack.commands.GetProject;
 import youtrack.commands.GetProjects;
 import youtrack.commands.Login;
 import youtrack.commands.base.Command;
@@ -23,6 +23,7 @@ import java.util.Map;
 public class YouTrack extends BaseItem {
 
     private final static Map<String, YouTrack> INSTANCES = new HashMap<String, YouTrack>();
+    public final CommandBasedList<YouTrack, Project> projects = new CommandBasedList<YouTrack, Project>(this, null, null, new GetProjects(this), null, new GetProject(this));
     private final String hostAddress;
     private String authorization;
 
@@ -39,6 +40,13 @@ public class YouTrack extends BaseItem {
     public static YouTrack getInstance(final @NotNull String hostAddress) {
         if (!INSTANCES.containsKey(hostAddress)) INSTANCES.put(hostAddress, new YouTrack(hostAddress));
         return INSTANCES.get(hostAddress);
+    }
+
+    @Override
+    public String toString() {
+        return "YouTrack{" +
+                "hostAddress='" + hostAddress + '\'' +
+                '}';
     }
 
     /**
@@ -101,17 +109,6 @@ public class YouTrack extends BaseItem {
     }
 
     /**
-     * Retrieve a list of projects from current connection.
-     *
-     * @return list of @link Project instances or null if there was an error.
-     */
-
-    public List<Project> projects() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final CommandResultItemList<Project> result = execute(new GetProjects(this));
-        return result.success() ? result.getResult() : null;
-    }
-
-    /**
      * Tries to authorize current connection and returns true if successful, false otherwise.
      * <p/>
      * Retrieved token is stored for later use with all commands that need authentication.
@@ -135,23 +132,6 @@ public class YouTrack extends BaseItem {
 
     public void setAuthorization(@NotNull String authorization) {
         this.authorization = authorization;
-    }
-
-    /**
-     * Retrieves a single project by id.
-     *
-     * @return @link Project instance or null if there was an error.
-     */
-
-    public Project project(final @Nullable String id) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        if (id == null) return null;
-        final List<Project> projects = this.projects();
-        if (projects != null) {
-            for (final Project project : projects) {
-                if (id.equals(project.getId())) return project;
-            }
-        }
-        return null;
     }
 
     @Override

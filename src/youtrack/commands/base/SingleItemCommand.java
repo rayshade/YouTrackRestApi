@@ -6,12 +6,9 @@ import youtrack.BaseItem;
 /**
  * Created by Egor.Malyshev on 25.12.2014.
  */
-public abstract class SingleItemCommand<O extends BaseItem,R> extends Command<O,R> {
-    public String getItemId() {
-        return itemId;
-    }
+public abstract class SingleItemCommand<O extends BaseItem, R> extends Command<O, R> {
 
-    private String itemId;
+    protected String itemId;
 
     public SingleItemCommand(@NotNull O owner) {
         super(owner);

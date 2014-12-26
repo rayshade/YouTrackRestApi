@@ -28,7 +28,7 @@ public class GetIssue extends SingleItemCommand<Project, Issue> {
 
     @Override
     public HttpMethodBase commandMethod(String baseHost) {
-        method = new GetMethod(baseHost + "issue/" + getItemId());
+        method = new GetMethod(baseHost + "issue/" + itemId);
         return method;
     }
 }

@@ -211,7 +211,7 @@ public class Issue extends BaseItem {
     }
 
     private void updateSelf() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final GetIssue command = new GetIssue(youTrack.project(getProjectId()));
+        final GetIssue command = new GetIssue(youTrack.projects.item(getProjectId()));
         command.setItemId(getId());
         final Issue issue = youTrack.execute(command).getResult();
         if (issue != null) {

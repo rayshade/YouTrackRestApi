@@ -3,7 +3,6 @@ package youtrack.commands.base;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpMethodBase;
-import org.xml.sax.SAXException;
 import youtrack.BaseItem;
 import youtrack.Error;
 import youtrack.exceptions.CommandExecutionException;
@@ -12,7 +11,6 @@ import youtrack.exceptions.NoSuchIssueFieldException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -31,6 +29,13 @@ public abstract class Command<O extends BaseItem, R> {
         this.owner = owner;
     }
 
+    @Override
+    public String toString() {
+        return "Command " + this.getClass().getSimpleName() + "{" +
+                "owner=" + owner +
+                '}';
+    }
+
     @NotNull
     public O getOwner() {
         return owner;
@@ -43,19 +48,12 @@ public abstract class Command<O extends BaseItem, R> {
     @Nullable
     public abstract R getResult() throws CommandExecutionException;
 
-    @Override
-    public String toString() {
-        return "Command " + this.getClass().getSimpleName() + " owner " + owner.toString();
-    }
-
     /**
      * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.
      *
      * @param xmlString Raw XML code.
      * @return Instance of an object.
-     * @throws javax.xml.parsers.ParserConfigurationException
      * @throws javax.xml.bind.JAXBException
-     * @throws org.xml.sax.SAXException
      * @throws IOException
      */
     protected Object objectFromXml(final @NotNull String xmlString) throws JAXBException, IOException, XMLStreamException {
