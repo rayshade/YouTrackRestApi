@@ -2,8 +2,8 @@ package youtrack.commands;
 
 import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.IssueProjectList;
 import youtrack.Project;
@@ -12,6 +12,8 @@ import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,15 +26,11 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
     }
 
     @Override
-    public boolean usesAuthorization() {
-        return true;
-    }
-
-    @Override
     public List<Issue> getResult() throws CommandExecutionException {
         try {
             final IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
-            return itemList.getItems();
+            final List<Issue> items = itemList.getItems();
+            return items != null ? items : Collections.<Issue>emptyList();
         } catch (Exception ex) {
             throw new CommandExecutionException(this, ex);
         }
@@ -41,11 +39,17 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
     @Override
     public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         method = new GetMethod(baseHost + "issue/byproject/" + owner.getId());
-        final HttpMethodParams params = new HttpMethodParams();
-        if (parameters.getQuery() != null) params.setParameter("filter", parameters.getQuery());
-        if (parameters.getMax() != 0) params.setIntParameter("max", parameters.getMax());
-        if (parameters.getStart() != 0) params.setIntParameter("after", parameters.getStart());
-        method.setParams(params);
+        final List<NameValuePair> params = new ArrayList<NameValuePair>();
+        if (parameters.getQuery() != null) {
+            params.add(new NameValuePair("filter", parameters.getQuery()));
+        }
+        if (parameters.getMax() != 0) {
+            params.add(new NameValuePair("max", String.valueOf(parameters.getMax())));
+        }
+        if (parameters.getStart() != 0) {
+            params.add(new NameValuePair("after", String.valueOf(parameters.getStart())));
+        }
+        method.setQueryString(params.toArray(new NameValuePair[params.size()]));
         return method;
     }
 }
