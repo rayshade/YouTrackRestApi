@@ -8,10 +8,16 @@ import youtrack.commands.base.Command;
 public class CommandExecutionException extends Exception {
 
     private final Command command;
+    private final Exception e;
+
+    public Exception getUnderlyingException() {
+        return e;
+    }
 
     public CommandExecutionException(Command command, Exception e) {
         super("Command failed: " + command.toString() + " " + e.getMessage(), e);
         this.command = command;
+        this.e = e;
     }
 
     public Command getCommand() {

@@ -5,6 +5,7 @@ import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.xml.sax.SAXException;
 import youtrack.BaseItem;
+import youtrack.Error;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 
@@ -42,6 +43,11 @@ public abstract class Command<O extends BaseItem, R> {
     @Nullable
     public abstract R getResult() throws CommandExecutionException;
 
+    @Override
+    public String toString() {
+        return "Command " + this.getClass().getSimpleName() + " owner " + owner.toString();
+    }
+
     /**
      * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.
      *
@@ -52,16 +58,20 @@ public abstract class Command<O extends BaseItem, R> {
      * @throws org.xml.sax.SAXException
      * @throws IOException
      */
-    protected Object objectFromXml(String xmlString) throws ParserConfigurationException, JAXBException, SAXException, IOException, XMLStreamException {
-        XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-        XMLStreamReader streamReader = xmlInputFactory.createXMLStreamReader(new StringReader(xmlString));
-        streamReader = new HackedReader(streamReader);
-        JAXBContext jaxbContext = JAXBContext.newInstance("youtrack.issue.fields:youtrack.issue.fields.values:youtrack");
-        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-        return jaxbUnmarshaller.unmarshal(streamReader);
+    protected Object objectFromXml(final @NotNull String xmlString) throws JAXBException, IOException, XMLStreamException {
+        final XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+        final XMLStreamReader streamReader = new HackedReader(xmlInputFactory.createXMLStreamReader(new StringReader(xmlString)));
+        final JAXBContext jaxbContext = JAXBContext.newInstance("youtrack.issue.fields:youtrack.issue.fields.values:youtrack");
+        final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        final Object result = jaxbUnmarshaller.unmarshal(streamReader);
+        if (result instanceof Error) {
+            Error error = (Error) result;
+            throw new IOException("Error: " + error.getMessage());
+        }
+        return result;
     }
 
-    public abstract HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException;
+    public abstract HttpMethodBase commandMethod(final @NotNull String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException;
 
     /**
      * Class to work around the JAXB name handling.

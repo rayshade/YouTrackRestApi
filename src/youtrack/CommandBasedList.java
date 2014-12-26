@@ -5,11 +5,10 @@ import com.sun.istack.internal.Nullable;
 import youtrack.commands.base.*;
 import youtrack.commands.util.QueryParameters;
 import youtrack.exceptions.CommandExecutionException;
-import youtrack.exceptions.CommandNotAvailableException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,7 +19,6 @@ import java.util.List;
  */
 
 public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
-    private final List<R> EMPTY_RESULT = new ArrayList<R>();
     private final O owner;
     private final AddCommand<O, R> addCommand;
     private final RemoveCommand<O, R> removeCommand;
@@ -43,47 +41,47 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
     }
 
     @NotNull
-    public CommandResultSingleItem<R> add(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
+    public CommandResultSingleItem<R> add(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         assert addCommand != null;
         addCommand.setItem(item);
         return owner.getYouTrack().execute(addCommand);
     }
 
     @NotNull
-    public CommandResultSingleItem<R> remove(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandNotAvailableException, CommandExecutionException {
+    public CommandResultSingleItem<R> remove(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         assert removeCommand != null;
         removeCommand.setItem(item);
         return owner.getYouTrack().execute(removeCommand);
     }
 
     @Nullable
-    public R item(final int index) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
+    public R item(final int index) throws  CommandExecutionException, NoSuchIssueFieldException, IOException {
         return this.list().get(index);
     }
 
     @Nullable
-    public R item(final @NotNull String id) throws CommandNotAvailableException, CommandExecutionException, NoSuchIssueFieldException, IOException {
+    public R item(final @NotNull String id) throws CommandExecutionException, NoSuchIssueFieldException, IOException {
         assert singleItemCommand != null;
         singleItemCommand.setItemId(id);
         return owner.getYouTrack().execute(singleItemCommand).getResult();
     }
 
     @NotNull
-    public List<R> list() throws CommandNotAvailableException, IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public List<R> list() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         assert listCommand != null;
         final CommandResultItemList<R> result = owner.getYouTrack().execute(listCommand);
-        return result.success() ? result.getResult() : EMPTY_RESULT;
+        return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
     @NotNull
-    public List<R> query(final @NotNull String query, final int start, final int maxResults) throws CommandNotAvailableException, NoSuchIssueFieldException, IOException, CommandExecutionException {
+    public List<R> query(final @NotNull String query, final int start, final int maxResults) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
         assert queryCommand != null;
         queryCommand.setParameters(new QueryParameters(query, start, maxResults));
         final CommandResultItemList<R> result = owner.getYouTrack().execute(queryCommand);
-        return result.success() ? result.getResult() : EMPTY_RESULT;
+        return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
-    public List<R> query(final @NotNull String query) throws CommandNotAvailableException, NoSuchIssueFieldException, IOException, CommandExecutionException {
+    public List<R> query(final @NotNull String query) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
         return query(query, 0, 100);
     }
 }

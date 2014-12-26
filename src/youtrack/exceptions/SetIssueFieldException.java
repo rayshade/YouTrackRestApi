@@ -2,8 +2,6 @@ package youtrack.exceptions;
 
 import youtrack.Issue;
 import youtrack.issue.fields.BaseIssueField;
-import youtrack.issue.fields.IssueField;
-import youtrack.issue.fields.values.BaseIssueFieldValue;
 
 /**
  * Created by egor.malyshev on 02.04.2014.
