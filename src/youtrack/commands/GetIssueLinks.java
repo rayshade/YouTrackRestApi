@@ -9,6 +9,7 @@ import youtrack.LinkList;
 import youtrack.commands.base.ListCommand;
 import youtrack.exceptions.CommandExecutionException;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,11 +21,13 @@ public class GetIssueLinks extends ListCommand<Issue, IssueLink> {
         super(owner);
     }
 
+    @NotNull
     @Override
     public List<IssueLink> getResult() throws CommandExecutionException {
         try {
             final LinkList linkList = (LinkList) objectFromXml(method.getResponseBodyAsString());
-            return linkList.getItems();
+            final List<IssueLink> list = linkList.getItems();
+            return list != null ? list : Collections.<IssueLink>emptyList();
         } catch (Exception e) {
             throw new CommandExecutionException(this, e);
         }

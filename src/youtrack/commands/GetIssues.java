@@ -9,6 +9,7 @@ import youtrack.Project;
 import youtrack.commands.base.ListCommand;
 import youtrack.exceptions.CommandExecutionException;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,11 +21,13 @@ public class GetIssues extends ListCommand<Project, Issue> {
         super(owner);
     }
 
+    @NotNull
     @Override
     public List<Issue> getResult() throws CommandExecutionException {
         try {
-            IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
-            return itemList.getItems();
+            final IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
+            final List<Issue> list = itemList.getItems();
+            return list != null ? list : Collections.<Issue>emptyList();
         } catch (Exception ex) {
             throw new CommandExecutionException(this, ex);
         }

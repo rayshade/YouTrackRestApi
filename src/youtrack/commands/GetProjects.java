@@ -10,6 +10,7 @@ import youtrack.YouTrack;
 import youtrack.commands.base.ListCommand;
 import youtrack.exceptions.CommandExecutionException;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,11 +22,13 @@ public class GetProjects extends ListCommand<YouTrack, Project> {
         super(owner);
     }
 
+    @NotNull
     @Override
     public List<Project> getResult() throws CommandExecutionException {
         try {
             final ProjectList projectList = (ProjectList) objectFromXml(method.getResponseBodyAsString());
-            return projectList.getItems();
+            final List<Project> items = projectList.getItems();
+            return items != null ? items : Collections.<Project>emptyList();
         } catch (Exception e) {
             throw new CommandExecutionException(this, e);
         }

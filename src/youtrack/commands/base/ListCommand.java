@@ -2,6 +2,7 @@ package youtrack.commands.base;
 
 import com.sun.istack.internal.NotNull;
 import youtrack.BaseItem;
+import youtrack.exceptions.CommandExecutionException;
 
 import java.util.List;
 
@@ -12,4 +13,8 @@ public abstract class ListCommand<O extends BaseItem, R> extends Command<O, List
     public ListCommand(@NotNull O owner) {
         super(owner);
     }
+
+    @NotNull
+    @Override
+    public abstract List<R> getResult() throws CommandExecutionException;
 }

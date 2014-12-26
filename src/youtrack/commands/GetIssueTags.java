@@ -9,6 +9,7 @@ import youtrack.TagList;
 import youtrack.commands.base.ListCommand;
 import youtrack.exceptions.CommandExecutionException;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,11 +21,13 @@ public class GetIssueTags extends ListCommand<Issue, IssueTag> {
         super(owner);
     }
 
+    @NotNull
     @Override
     public List<IssueTag> getResult() throws CommandExecutionException {
         try {
-            TagList tagList = (TagList) objectFromXml(method.getResponseBodyAsString());
-            return tagList.getItems();
+            final TagList tagList = (TagList) objectFromXml(method.getResponseBodyAsString());
+            final List<IssueTag> items = tagList.getItems();
+            return items != null ? items : Collections.<IssueTag>emptyList();
         } catch (Exception e) {
             throw new CommandExecutionException(this, e);
         }

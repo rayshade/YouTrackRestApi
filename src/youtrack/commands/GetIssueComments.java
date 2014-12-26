@@ -9,22 +9,25 @@ import youtrack.IssueComment;
 import youtrack.commands.base.ListCommand;
 import youtrack.exceptions.CommandExecutionException;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
-public class GetIssueComments extends ListCommand<Issue,IssueComment> {
+public class GetIssueComments extends ListCommand<Issue, IssueComment> {
 
     public GetIssueComments(@NotNull Issue owner) {
         super(owner);
     }
 
+    @NotNull
     @Override
     public List<IssueComment> getResult() throws CommandExecutionException {
         try {
             final CommentList commentList = (CommentList) objectFromXml(method.getResponseBodyAsString());
-            return commentList.getComments();
+            final List<IssueComment> list = commentList.getComments();
+            return list != null ? list : Collections.<IssueComment>emptyList();
         } catch (Exception e) {
             throw new CommandExecutionException(this, e);
         }
