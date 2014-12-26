@@ -4,12 +4,12 @@ package youtrack.commands.util;
  * Created by egor.malyshev on 08.04.2014.
  */
 public class QueryParameters {
-    private final String filter;
+    private final String query;
     private final int max;
     private final int start;
 
-    public QueryParameters(String filter, int max, int start) {
-        this.filter = filter;
+    public QueryParameters(String query, int start, int max) {
+        this.query = query;
         this.max = max;
         this.start = start;
     }
@@ -22,7 +22,7 @@ public class QueryParameters {
         return start;
     }
 
-    public String getFilter() {
-        return filter;
+    public String getQuery() {
+        return query;
     }
 }

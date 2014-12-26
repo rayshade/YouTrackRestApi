@@ -42,7 +42,7 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
     public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         method = new GetMethod(baseHost + "issue/byproject/" + owner.getId());
         final HttpMethodParams params = new HttpMethodParams();
-        if (parameters.getFilter() != null) params.setParameter("filter", parameters.getFilter());
+        if (parameters.getQuery() != null) params.setParameter("filter", parameters.getQuery());
         if (parameters.getMax() != 0) params.setIntParameter("max", parameters.getMax());
         if (parameters.getStart() != 0) params.setIntParameter("after", parameters.getStart());
         method.setParams(params);
