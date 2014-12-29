@@ -3,10 +3,12 @@ package youtrack.commands.base;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpMethodBase;
-import youtrack.BaseItem;
+import youtrack.*;
 import youtrack.Error;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
+import youtrack.issue.fields.*;
+import youtrack.issue.fields.values.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -59,7 +61,33 @@ public abstract class Command<O extends BaseItem, R> {
     protected Object objectFromXml(final @NotNull String xmlString) throws JAXBException, IOException, XMLStreamException {
         final XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
         final XMLStreamReader streamReader = new HackedReader(xmlInputFactory.createXMLStreamReader(new StringReader(xmlString)));
-        final JAXBContext jaxbContext = JAXBContext.newInstance("youtrack.issue.fields:youtrack.issue.fields.values:youtrack");
+//        final JAXBContext jaxbContext = JAXBContext.newInstance("youtrack.issue.fields:youtrack.issue.fields.values:youtrack");
+        final JAXBContext jaxbContext = JAXBContext.newInstance(AttachmentField.class,
+                BaseIssueField.class,
+                CustomField.class,
+                CustomFieldValue.class,
+                IssueField.class,
+                IssueListField.class,
+                LinkField.class,
+                MultiUserField.class,
+                SingleField.class, AttachmentFieldValue.class,
+                BaseIssueFieldValue.class,
+                IssueFieldValue.class,
+                LinkFieldValue.class,
+                MultiUserFieldValue.class, AttachmentList.class,
+                CommentList.class,
+                Issue.class,
+                IssueAttachment.class,
+                IssueComment.class,
+                IssueCompactList.class,
+                IssueLink.class,
+                IssueProjectList.class,
+                IssueTag.class,
+                ItemList.class,
+                LinkList.class,
+                ProjectList.class,
+                TagList.class,
+                Error.class);
         final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         final Object result = jaxbUnmarshaller.unmarshal(streamReader);
         if (result instanceof Error) {
