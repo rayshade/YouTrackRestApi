@@ -55,44 +55,48 @@ public abstract class Command<O extends BaseItem, R> {
      *
      * @param xmlString Raw XML code.
      * @return Instance of an object.
-     * @throws javax.xml.bind.JAXBException
-     * @throws IOException
      */
-    protected Object objectFromXml(final @NotNull String xmlString) throws JAXBException, IOException, XMLStreamException {
+    protected Object objectFromXml(final @NotNull String xmlString) throws CommandExecutionException {
         final XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-        final XMLStreamReader streamReader = new HackedReader(xmlInputFactory.createXMLStreamReader(new StringReader(xmlString)));
-//        final JAXBContext jaxbContext = JAXBContext.newInstance("youtrack.issue.fields:youtrack.issue.fields.values:youtrack");
-        final JAXBContext jaxbContext = JAXBContext.newInstance(AttachmentField.class,
-                BaseIssueField.class,
-                CustomField.class,
-                CustomFieldValue.class,
-                IssueField.class,
-                IssueListField.class,
-                LinkField.class,
-                MultiUserField.class,
-                SingleField.class, AttachmentFieldValue.class,
-                BaseIssueFieldValue.class,
-                IssueFieldValue.class,
-                LinkFieldValue.class,
-                MultiUserFieldValue.class, AttachmentList.class,
-                CommentList.class,
-                Issue.class,
-                IssueAttachment.class,
-                IssueComment.class,
-                IssueCompactList.class,
-                IssueLink.class,
-                IssueProjectList.class,
-                IssueTag.class,
-                ItemList.class,
-                LinkList.class,
-                ProjectList.class,
-                TagList.class,
-                Error.class);
-        final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-        final Object result = jaxbUnmarshaller.unmarshal(streamReader);
+        Object result;
+        try {
+            final XMLStreamReader streamReader = new HackedReader(xmlInputFactory.createXMLStreamReader(new StringReader(xmlString)));
+            final JAXBContext jaxbContext = JAXBContext.newInstance(AttachmentField.class,
+                    BaseIssueField.class,
+                    CustomField.class,
+                    CustomFieldValue.class,
+                    IssueField.class,
+                    IssueListField.class,
+                    LinkField.class,
+                    MultiUserField.class,
+                    SingleField.class, AttachmentFieldValue.class,
+                    BaseIssueFieldValue.class,
+                    IssueFieldValue.class,
+                    LinkFieldValue.class,
+                    MultiUserFieldValue.class, AttachmentList.class,
+                    CommentList.class,
+                    Issue.class,
+                    IssueAttachment.class,
+                    IssueComment.class,
+                    IssueCompactList.class,
+                    IssueLink.class,
+                    IssueProjectList.class,
+                    IssueTag.class,
+                    ItemList.class,
+                    LinkList.class,
+                    ProjectList.class,
+                    TagList.class,
+                    Error.class);
+            final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+
+            result = jaxbUnmarshaller.unmarshal(streamReader);
+        } catch (Exception e) {
+            throw new CommandExecutionException(this, e);
+        }
         if (result instanceof Error) {
             Error error = (Error) result;
-            throw new IOException("Error: " + error.getMessage());
+            error.setCode(method.getStatusLine().getStatusCode());
+            throw new CommandExecutionException(this, error);
         }
         return result;
     }

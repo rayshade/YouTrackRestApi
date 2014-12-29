@@ -8,6 +8,8 @@ import youtrack.Project;
 import youtrack.commands.base.SingleItemCommand;
 import youtrack.exceptions.CommandExecutionException;
 
+import java.io.IOException;
+
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
@@ -19,11 +21,13 @@ public class GetIssue extends SingleItemCommand<Project, Issue> {
 
     @Override
     public Issue getResult() throws CommandExecutionException {
+        String responseBodyAsString;
         try {
-            return (Issue) objectFromXml(method.getResponseBodyAsString());
-        } catch (Exception ex) {
-            throw new CommandExecutionException(this, ex);
+            responseBodyAsString = method.getResponseBodyAsString();
+        } catch (IOException e) {
+            throw new CommandExecutionException(this, e);
         }
+        return (Issue) objectFromXml(responseBodyAsString);
     }
 
     @Override

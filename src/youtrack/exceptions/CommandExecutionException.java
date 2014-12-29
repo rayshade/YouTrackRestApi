@@ -1,5 +1,6 @@
 package youtrack.exceptions;
 
+import youtrack.Error;
 import youtrack.commands.base.Command;
 
 /**
@@ -8,20 +9,32 @@ import youtrack.commands.base.Command;
 public class CommandExecutionException extends Exception {
 
     private final Command command;
-    private final Exception e;
+    private final youtrack.Error e;
+    private final Exception ex;
 
-    public Exception getUnderlyingException() {
-        return e;
+    public CommandExecutionException(Command command, Error e) {
+        super("Command failed: " + command.toString() + " " + e.getMessage());
+        this.command = command;
+        this.e = e;
+        ex = null;
     }
 
     public CommandExecutionException(Command command, Exception e) {
-        super("Command failed: " + command.toString() + " " + e.getMessage(), e);
+        super("Command failed: " + command.toString() + " " + e.getMessage());
         this.command = command;
-        this.e = e;
+        this.ex = e;
+        this.e = null;
+    }
+
+    public Exception getInnerException() {
+        return ex;
+    }
+
+    public Error getError() {
+        return e;
     }
 
     public Command getCommand() {
         return command;
     }
-
 }

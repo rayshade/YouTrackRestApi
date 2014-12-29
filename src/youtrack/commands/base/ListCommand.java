@@ -4,6 +4,9 @@ import com.sun.istack.internal.NotNull;
 import youtrack.BaseItem;
 import youtrack.exceptions.CommandExecutionException;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
+import java.io.IOException;
 import java.util.List;
 
 /**

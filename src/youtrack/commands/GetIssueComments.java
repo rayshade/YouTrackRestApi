@@ -9,6 +9,7 @@ import youtrack.IssueComment;
 import youtrack.commands.base.ListCommand;
 import youtrack.exceptions.CommandExecutionException;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,13 +25,15 @@ public class GetIssueComments extends ListCommand<Issue, IssueComment> {
     @NotNull
     @Override
     public List<IssueComment> getResult() throws CommandExecutionException {
+        String responseBodyAsString;
         try {
-            final CommentList commentList = (CommentList) objectFromXml(method.getResponseBodyAsString());
-            final List<IssueComment> list = commentList.getComments();
-            return list != null ? list : Collections.<IssueComment>emptyList();
-        } catch (Exception e) {
+            responseBodyAsString = method.getResponseBodyAsString();
+        } catch (IOException e) {
             throw new CommandExecutionException(this, e);
         }
+        final CommentList commentList = (CommentList) objectFromXml(responseBodyAsString);
+        final List<IssueComment> list = commentList.getComments();
+        return list != null ? list : Collections.<IssueComment>emptyList();
     }
 
     @Override
