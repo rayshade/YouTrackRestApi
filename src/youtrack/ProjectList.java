@@ -2,7 +2,6 @@ package youtrack;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,10 +43,6 @@ public class ProjectList extends ItemList<Project> {
         for (Project project : projectList) {
             projects.put(project.getId(), project);
         }
-    }
-
-    List<Project> getProjectList() {
-        return new ArrayList<Project>(projects.values());
     }
 
     Project getProject(String id) {

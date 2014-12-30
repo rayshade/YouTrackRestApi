@@ -17,4 +17,11 @@ public abstract class SingleItemCommand<O extends BaseItem, R> extends Command<O
     public void setItemId(String itemId) {
         this.itemId = itemId;
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName()+"{" +
+                "itemId='" + itemId + '\'' +
+                '}';
+    }
 }
