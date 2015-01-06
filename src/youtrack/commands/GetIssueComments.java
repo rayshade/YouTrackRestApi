@@ -31,7 +31,7 @@ public class GetIssueComments extends ListCommand<Issue, IssueComment> {
             throw new CommandExecutionException(this, e);
         }
         final CommentList commentList = (CommentList) objectFromXml(responseBodyAsString);
-        final List<IssueComment> list = commentList.getComments();
+        final List<IssueComment> list = commentList.getItems();
         return list != null ? list : Collections.<IssueComment>emptyList();
     }
 

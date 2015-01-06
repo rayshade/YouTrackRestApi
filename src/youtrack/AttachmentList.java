@@ -11,7 +11,7 @@ import java.util.List;
  */
 @XmlRootElement(name = "fileUrls")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AttachmentList {
+public class AttachmentList extends ItemList<IssueAttachment> {
 
     @XmlElement(name = "fileUrl")
     private List<IssueAttachment> attachments;
@@ -20,8 +20,8 @@ public class AttachmentList {
 
     }
 
-    public List<IssueAttachment> getAttachments() {
+    @Override
+    public List<IssueAttachment> getItems() {
         return attachments;
     }
-
 }

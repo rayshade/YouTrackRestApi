@@ -31,7 +31,7 @@ public class GetIssueAttachments extends ListCommand<Issue, IssueAttachment> {
             throw new CommandExecutionException(this, e);
         }
         final AttachmentList attachmentList = (AttachmentList) objectFromXml(responseBodyAsString);
-        final List<IssueAttachment> list = attachmentList.getAttachments();
+        final List<IssueAttachment> list = attachmentList.getItems();
         return list != null ? list : Collections.<IssueAttachment>emptyList();
     }
 

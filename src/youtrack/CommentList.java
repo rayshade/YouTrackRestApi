@@ -11,7 +11,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "comments")
-public class CommentList {
+public class CommentList extends ItemList<IssueComment> {
     @XmlElement(name = "comment")
     private List<IssueComment> comments;
 
@@ -19,13 +19,14 @@ public class CommentList {
     }
 
     @Override
+    public List<IssueComment> getItems() {
+        return comments;
+    }
+
+    @Override
     public String toString() {
         return "CommentList{" +
                 "comments=" + comments +
                 '}';
-    }
-
-    public List<IssueComment> getComments() {
-        return comments;
     }
 }
