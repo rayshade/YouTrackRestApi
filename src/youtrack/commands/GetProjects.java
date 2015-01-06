@@ -35,8 +35,7 @@ public class GetProjects extends ListCommand<YouTrack, Project> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
+    public void createCommandMethod(String baseHost) {
         method = new GetMethod(baseHost + "project/all");
-        return method;
     }
 }

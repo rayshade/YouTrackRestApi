@@ -34,8 +34,7 @@ public class GetIssueLinks extends ListCommand<Issue, IssueLink> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
+    public void createCommandMethod(String baseHost) {
         method = new GetMethod(baseHost + "issue/" + owner.getId() + "/link");
-        return method;
     }
 }

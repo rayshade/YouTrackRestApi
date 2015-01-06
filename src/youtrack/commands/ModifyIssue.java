@@ -22,7 +22,7 @@ public class ModifyIssue extends RunningCommand<Issue, String> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void createCommandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         final PostMethod postMethod = new PostMethod(baseHost + "issue/" + owner.getId());
         final String summary = getArguments().get("summary");
         final String description = getArguments().get("description");
@@ -30,6 +30,6 @@ public class ModifyIssue extends RunningCommand<Issue, String> {
                 new NameValuePair("summary", ((summary == null) ? owner.getSummary() : summary)),
                 new NameValuePair("description", ((description == null) ? owner.getDescription() : description))
         });
-        return postMethod;
+        method = postMethod;
     }
 }

@@ -2,7 +2,6 @@ package youtrack.commands;
 
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
@@ -19,11 +18,11 @@ public class RemoveComment extends RemoveCommand<Issue, IssueComment> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
+    public void createCommandMethod(String baseHost) {
         final DeleteMethod deleteMethod = new DeleteMethod(baseHost + "issue/" + owner.getId() + "/comment/" + item.getId());
         final HttpMethodParams params = new HttpMethodParams();
         params.setBooleanParameter("permanently", true);
         deleteMethod.setParams(params);
-        return deleteMethod;
+        method = deleteMethod;
     }
 }

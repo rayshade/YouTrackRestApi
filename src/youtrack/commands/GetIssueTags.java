@@ -34,8 +34,7 @@ public class GetIssueTags extends ListCommand<Issue, IssueTag> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
+    public void createCommandMethod(String baseHost) {
         method = new GetMethod(baseHost + "issue/" + owner.getId() + "/tags/");
-        return method;
     }
 }

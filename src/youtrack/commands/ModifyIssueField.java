@@ -28,12 +28,11 @@ public class ModifyIssueField extends RunningCommand<Issue, String> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
+    public void createCommandMethod(String baseHost) {
         PostMethod postMethod = new PostMethod(baseHost + "issue/" + owner.getId() + "/execute");
         postMethod.setRequestBody(new NameValuePair[]{
                 new NameValuePair("command", getArguments().get("field") + " " + getArguments().get("value"))
         });
         method = postMethod;
-        return method;
     }
 }

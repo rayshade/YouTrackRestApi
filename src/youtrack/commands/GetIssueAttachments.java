@@ -37,8 +37,7 @@ public class GetIssueAttachments extends ListCommand<Issue, IssueAttachment> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
+    public void createCommandMethod(String baseHost) {
         method = new GetMethod(baseHost + "issue/" + owner.getId() + "/attachment");
-        return method;
     }
 }

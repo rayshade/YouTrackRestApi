@@ -33,7 +33,7 @@ public class AddIssue extends AddCommand<Project, Issue> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void createCommandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         method = new PutMethod(baseHost + "issue");
         HttpMethodParams params = new HttpMethodParams();
         params.setParameter("project", owner.getId());
@@ -44,6 +44,5 @@ public class AddIssue extends AddCommand<Project, Issue> {
             throw new CommandExecutionException(this, e);
         }
         method.setParams(params);
-        return method;
     }
 }

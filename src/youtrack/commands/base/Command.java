@@ -99,7 +99,11 @@ public abstract class Command<O extends BaseItem, R> {
         return result;
     }
 
-    public abstract HttpMethodBase commandMethod(final @NotNull String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException;
+    public HttpMethodBase getMethod() {
+        return method;
+    }
+
+    public abstract void createCommandMethod(final @NotNull String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException;
 
     /**
      * Class to work around the JAXB name handling.

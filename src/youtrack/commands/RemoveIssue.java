@@ -20,7 +20,7 @@ public class RemoveIssue extends RemoveCommand<Project, Issue> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException {
-        return new DeleteMethod(baseHost + "/issue/" + item.getId());
+    public void createCommandMethod(String baseHost) throws IOException, NoSuchIssueFieldException {
+        method= new DeleteMethod(baseHost + "/issue/" + item.getId());
     }
 }

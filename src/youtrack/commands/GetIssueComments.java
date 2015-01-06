@@ -37,8 +37,7 @@ public class GetIssueComments extends ListCommand<Issue, IssueComment> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) {
+    public void createCommandMethod(String baseHost) {
         method = new GetMethod(baseHost + "issue/" + owner.getId() + "/comment");
-        return method;
     }
 }

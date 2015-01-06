@@ -58,7 +58,8 @@ public class YouTrack extends BaseItem {
 
     <O extends BaseItem, R> CommandResultData<R> execute(RunningCommand<O, R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         final HttpClient httpClient = new HttpClient();
-        final HttpMethodBase method = command.commandMethod(hostAddress);
+        command.createCommandMethod(hostAddress);
+        final HttpMethodBase method = command.getMethod();
         if (command.usesAuthorization()) {
             method.addRequestHeader("Cookie", authorization);
         }
@@ -76,7 +77,8 @@ public class YouTrack extends BaseItem {
 
     <O extends BaseItem, R extends BaseItem> CommandResultSingleItem<R> execute(Command<O, R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         final HttpClient httpClient = new HttpClient();
-        final HttpMethodBase method = command.commandMethod(hostAddress);
+        command.createCommandMethod(hostAddress);
+        final HttpMethodBase method = command.getMethod();
         if (command.usesAuthorization()) {
             method.addRequestHeader("Cookie", authorization);
         }
@@ -94,7 +96,8 @@ public class YouTrack extends BaseItem {
 
     <O extends BaseItem, R extends BaseItem> CommandResultItemList<R> execute(Command<O, List<R>> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         final HttpClient httpClient = new HttpClient();
-        final HttpMethodBase method = command.commandMethod(hostAddress);
+        command.createCommandMethod(hostAddress);
+        final HttpMethodBase method = command.getMethod();
         if (command.usesAuthorization()) {
             method.addRequestHeader("Cookie", authorization);
         }

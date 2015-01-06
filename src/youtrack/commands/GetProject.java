@@ -38,8 +38,7 @@ public class GetProject extends SingleItemCommand<YouTrack, Project> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(@NotNull String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void createCommandMethod(@NotNull String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         method = new GetMethod(baseHost + "project/all");
-        return method;
     }
 }

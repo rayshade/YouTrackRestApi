@@ -29,12 +29,11 @@ public class Login extends RunningCommand<YouTrack, String> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) throws CommandExecutionException {
+    public void createCommandMethod(String baseHost) throws CommandExecutionException {
         final PostMethod postMethod = new PostMethod(baseHost + "user/login");
         postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("login", getArguments().get("login")),
                         new NameValuePair("password", getArguments().get("password"))}
         );
         method = postMethod;
-        return method;
     }
 }

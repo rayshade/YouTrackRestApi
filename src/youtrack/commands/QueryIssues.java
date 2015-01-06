@@ -37,7 +37,7 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void createCommandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         method = new GetMethod(baseHost + "issue/byproject/" + owner.getId());
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         if (parameters.getQuery() != null) {
@@ -50,6 +50,5 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
             params.add(new NameValuePair("after", String.valueOf(parameters.getStart())));
         }
         method.setQueryString(params.toArray(new NameValuePair[params.size()]));
-        return method;
     }
 }

@@ -1,7 +1,6 @@
 package youtrack.commands;
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
@@ -28,7 +27,7 @@ public class AddAttachment extends AddCommand<Issue, IssueAttachment> {
     }
 
     @Override
-    public HttpMethodBase commandMethod(String baseHost) throws CommandExecutionException {
+    public void createCommandMethod(String baseHost) throws CommandExecutionException {
         final PostMethod postMethod = new PostMethod(baseHost + "issue/" + getOwner().getId() + "/attachment");
         File file = new File(getItem().getUrl());
         try {
@@ -37,6 +36,6 @@ public class AddAttachment extends AddCommand<Issue, IssueAttachment> {
         } catch (Exception ex) {
             throw new CommandExecutionException(this, ex);
         }
-        return postMethod;
+        method = postMethod;
     }
 }
