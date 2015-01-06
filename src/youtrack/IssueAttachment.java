@@ -4,16 +4,11 @@ import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
@@ -61,12 +56,6 @@ public class IssueAttachment extends BaseItem {
                 '}';
     }
 
-    public String getId() {
-        Pattern extractor = Pattern.compile("\\?file=([0-9\\-]+)", Pattern.UNICODE_CASE);
-        Matcher matcher = extractor.matcher(url);
-        return matcher.find() ? matcher.group(1) : null;
-    }
-
     /**
      * Saves attachment to a local folder under its original file name.
      *
@@ -78,7 +67,7 @@ public class IssueAttachment extends BaseItem {
         GetMethod get = new GetMethod(this.url);
         client.executeMethod(get);
         InputStream in = get.getResponseBodyAsStream();
-        if (!path.endsWith("/")) path += "/";
+        if (!path.endsWith(File.separator)) path += File.separator;
         FileOutputStream out = new FileOutputStream(new File(path + this.name));
         byte[] b = new byte[1024];
         int len;

@@ -89,6 +89,7 @@ public abstract class Command<O extends BaseItem, R> {
 
             result = jaxbUnmarshaller.unmarshal(streamReader);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new CommandExecutionException(this, e);
         }
         if (result instanceof Error) {
