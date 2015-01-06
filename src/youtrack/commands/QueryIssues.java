@@ -1,7 +1,6 @@
 package youtrack.commands;
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Issue;
@@ -37,8 +36,8 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        method = new GetMethod(baseHost + "issue/byproject/" + owner.getId());
+    public void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+        method = new GetMethod(owner.getYouTrack().getHostAddress() + "issue/byproject/" + owner.getId());
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         if (parameters.getQuery() != null) {
             params.add(new NameValuePair("filter", parameters.getQuery()));

@@ -2,7 +2,6 @@ package youtrack.commands;
 
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
@@ -22,8 +21,8 @@ public class ModifyIssue extends RunningCommand<Issue, String> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final PostMethod postMethod = new PostMethod(baseHost + "issue/" + owner.getId());
+    public void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+        final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId());
         final String summary = getArguments().get("summary");
         final String description = getArguments().get("description");
         postMethod.setRequestBody(new NameValuePair[]{

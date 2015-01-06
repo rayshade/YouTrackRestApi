@@ -2,7 +2,6 @@ package youtrack.commands;
 
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Project;
 import youtrack.ProjectList;
@@ -35,7 +34,7 @@ public class GetProjects extends ListCommand<YouTrack, Project> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) {
-        method = new GetMethod(baseHost + "project/all");
+    public void createCommandMethod() {
+        method = new GetMethod(owner.getYouTrack().getHostAddress() + "project/all");
     }
 }

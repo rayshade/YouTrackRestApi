@@ -17,7 +17,7 @@ public class RemoveAttachment extends RemoveCommand<Issue, IssueAttachment> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) {
-        method = new DeleteMethod(baseHost + "issue/" + owner.getId() + "/attachment/" + item.getId());
+    public void createCommandMethod() {
+        method = new DeleteMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/attachment/" + item.getId());
     }
 }

@@ -18,8 +18,8 @@ public class RemoveComment extends RemoveCommand<Issue, IssueComment> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) {
-        final DeleteMethod deleteMethod = new DeleteMethod(baseHost + "issue/" + owner.getId() + "/comment/" + item.getId());
+    public void createCommandMethod() {
+        final DeleteMethod deleteMethod = new DeleteMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/comment/" + item.getId());
         final HttpMethodParams params = new HttpMethodParams();
         params.setBooleanParameter("permanently", true);
         deleteMethod.setParams(params);

@@ -1,7 +1,6 @@
 package youtrack.commands;
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
@@ -33,8 +32,8 @@ public class AddIssue extends AddCommand<Project, Issue> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        method = new PutMethod(baseHost + "issue");
+    public void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+        method = new PutMethod(owner.getYouTrack().getHostAddress() + "issue");
         HttpMethodParams params = new HttpMethodParams();
         params.setParameter("project", owner.getId());
         try {

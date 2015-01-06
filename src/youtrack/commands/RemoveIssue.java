@@ -1,7 +1,6 @@
 package youtrack.commands;
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import youtrack.Issue;
 import youtrack.Project;
@@ -20,7 +19,7 @@ public class RemoveIssue extends RemoveCommand<Project, Issue> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) throws IOException, NoSuchIssueFieldException {
-        method= new DeleteMethod(baseHost + "/issue/" + item.getId());
+    public void createCommandMethod() throws IOException, NoSuchIssueFieldException {
+        method= new DeleteMethod(owner.getYouTrack().getHostAddress() + "/issue/" + item.getId());
     }
 }

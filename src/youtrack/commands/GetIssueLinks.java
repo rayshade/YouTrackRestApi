@@ -1,7 +1,6 @@
 package youtrack.commands;
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Issue;
 import youtrack.IssueLink;
@@ -34,7 +33,7 @@ public class GetIssueLinks extends ListCommand<Issue, IssueLink> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) {
-        method = new GetMethod(baseHost + "issue/" + owner.getId() + "/link");
+    public void createCommandMethod() {
+        method = new GetMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/link");
     }
 }

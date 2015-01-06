@@ -2,7 +2,6 @@ package youtrack.commands;
 
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.Issue;
@@ -27,8 +26,8 @@ public class ChangeIssueVotes extends RunningCommand<Issue, Boolean> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) throws CommandExecutionException {
-        final PostMethod postMethod = new PostMethod(baseHost + "issue/" + getOwner().getId() + "/execute");
+    public void createCommandMethod() throws CommandExecutionException {
+        final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/execute");
         postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("command", (getArguments().get("vote") ? "vote" : "unvote"))});
         method= postMethod;
     }

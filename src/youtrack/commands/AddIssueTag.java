@@ -22,8 +22,8 @@ public class AddIssueTag extends AddCommand<Issue, IssueTag> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) {
-        final PostMethod postMethod = new PostMethod(baseHost + "issue/" + getOwner().getId() + "/execute");
+    public void createCommandMethod() {
+        final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/execute");
         postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("command", "tag " + getItem().getTag())});
         method = postMethod;
     }

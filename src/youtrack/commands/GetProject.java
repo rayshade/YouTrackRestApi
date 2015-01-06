@@ -1,7 +1,6 @@
 package youtrack.commands;
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Project;
 import youtrack.ProjectList;
@@ -38,7 +37,7 @@ public class GetProject extends SingleItemCommand<YouTrack, Project> {
     }
 
     @Override
-    public void createCommandMethod(@NotNull String baseHost) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        method = new GetMethod(baseHost + "project/all");
+    public void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+        method = new GetMethod(owner.getYouTrack().getHostAddress() + "project/all");
     }
 }

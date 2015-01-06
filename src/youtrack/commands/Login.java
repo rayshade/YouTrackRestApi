@@ -2,7 +2,6 @@ package youtrack.commands;
 
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import youtrack.YouTrack;
@@ -29,8 +28,8 @@ public class Login extends RunningCommand<YouTrack, String> {
     }
 
     @Override
-    public void createCommandMethod(String baseHost) throws CommandExecutionException {
-        final PostMethod postMethod = new PostMethod(baseHost + "user/login");
+    public void createCommandMethod() throws CommandExecutionException {
+        final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "user/login");
         postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("login", getArguments().get("login")),
                         new NameValuePair("password", getArguments().get("password"))}
         );
