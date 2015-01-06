@@ -15,6 +15,14 @@ public class LinkFieldValue extends BaseIssueFieldValue {
     @XmlAttribute(name = "role")
     private String role;
 
+    @Override
+    public String toString() {
+        return "LinkFieldValue{" +
+                "type='" + type + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
+
     public LinkFieldValue() {
 
     }

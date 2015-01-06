@@ -38,4 +38,12 @@ public class AttachmentFieldValue extends BaseIssueFieldValue {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "AttachmentFieldValue{" +
+                "id='" + id + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }
