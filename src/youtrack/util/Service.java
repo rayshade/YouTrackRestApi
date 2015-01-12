@@ -1,11 +1,17 @@
 package youtrack.util;
 
+import com.sun.istack.internal.NotNull;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLEncoder;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
-class Service {
+public class Service {
 
     public final static String ENC = "UTF-8";
 
@@ -15,5 +21,17 @@ class Service {
         } catch (Exception ex) {
             return str;
         }
+    }
+
+    public static String readStream(final @NotNull InputStream stream) throws IOException {
+        final InputStreamReader is = new InputStreamReader(stream);
+        final StringBuilder sb = new StringBuilder();
+        final BufferedReader br = new BufferedReader(is);
+        String read = br.readLine();
+        while (read != null) {
+            sb.append(read);
+            read = br.readLine();
+        }
+        return sb.toString();
     }
 }

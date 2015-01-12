@@ -41,40 +41,40 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
     }
 
     @NotNull
-    public CommandResultSingleItem<R> add(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public CommandResultSingleItem<R> add(final @NotNull R item) throws CommandExecutionException {
         assert addCommand != null;
         addCommand.setItem(item);
         return owner.getYouTrack().execute(addCommand);
     }
 
     @NotNull
-    public CommandResultSingleItem<R> remove(final @NotNull R item) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public CommandResultSingleItem<R> remove(final @NotNull R item) throws CommandExecutionException {
         assert removeCommand != null;
         removeCommand.setItem(item);
         return owner.getYouTrack().execute(removeCommand);
     }
 
     @Nullable
-    public R item(final int index) throws  CommandExecutionException, NoSuchIssueFieldException, IOException {
+    public R item(final int index) throws CommandExecutionException, NoSuchIssueFieldException, IOException {
         return this.list().get(index);
     }
 
     @Nullable
-    public R item(final @NotNull String id) throws CommandExecutionException, NoSuchIssueFieldException, IOException {
+    public R item(final @NotNull String id) throws CommandExecutionException {
         assert singleItemCommand != null;
         singleItemCommand.setItemId(id);
         return owner.getYouTrack().execute(singleItemCommand).getResult();
     }
 
     @NotNull
-    public List<R> list() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public List<R> list() throws CommandExecutionException {
         assert listCommand != null;
         final CommandResultItemList<R> result = owner.getYouTrack().execute(listCommand);
         return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
     @NotNull
-    public List<R> query(final @NotNull String query, final int start, final int maxResults) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
+    public List<R> query(final @NotNull String query, final int start, final int maxResults) throws CommandExecutionException {
         assert queryCommand != null;
         queryCommand.setParameters(new QueryParameters(query, start, maxResults));
         final CommandResultItemList<R> result = owner.getYouTrack().execute(queryCommand);

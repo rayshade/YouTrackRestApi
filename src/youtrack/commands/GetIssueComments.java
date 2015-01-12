@@ -6,9 +6,8 @@ import youtrack.CommentList;
 import youtrack.Issue;
 import youtrack.IssueComment;
 import youtrack.commands.base.ListCommand;
-import youtrack.exceptions.CommandExecutionException;
+import youtrack.util.Service;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class GetIssueComments extends ListCommand<Issue, IssueComment> {
     @NotNull
     @Override
     public List<IssueComment> getResult() throws Exception {
-        final String responseBodyAsString = method.getResponseBodyAsString();
+        final String responseBodyAsString = Service.readStream(method.getResponseBodyAsStream());
         final CommentList commentList = (CommentList) objectFromXml(responseBodyAsString);
         final List<IssueComment> list = commentList.getItems();
         return list != null ? list : Collections.<IssueComment>emptyList();

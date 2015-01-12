@@ -20,6 +20,6 @@ public class RemoveIssue extends RemoveCommand<Project, Issue> {
 
     @Override
     public void createCommandMethod() throws IOException, NoSuchIssueFieldException {
-        method= new DeleteMethod(owner.getYouTrack().getHostAddress() + "/issue/" + item.getId());
+        method = new DeleteMethod(owner.getYouTrack().getHostAddress() + "/issue/" + item.getId());
     }
 }

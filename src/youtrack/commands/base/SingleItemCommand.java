@@ -20,7 +20,7 @@ public abstract class SingleItemCommand<O extends BaseItem, R> extends Command<O
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName()+"{" +
+        return this.getClass().getSimpleName() + "{" +
                 "itemId='" + itemId + '\'' +
                 '}';
     }

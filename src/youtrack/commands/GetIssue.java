@@ -6,6 +6,7 @@ import youtrack.Issue;
 import youtrack.Project;
 import youtrack.commands.base.SingleItemCommand;
 import youtrack.exceptions.CommandExecutionException;
+import youtrack.util.Service;
 
 import java.io.IOException;
 
@@ -22,7 +23,7 @@ public class GetIssue extends SingleItemCommand<Project, Issue> {
     public Issue getResult() throws Exception {
         String responseBodyAsString;
         try {
-            responseBodyAsString = method.getResponseBodyAsString();
+            responseBodyAsString = Service.readStream(method.getResponseBodyAsStream());
         } catch (IOException e) {
             throw new CommandExecutionException(this, e);
         }

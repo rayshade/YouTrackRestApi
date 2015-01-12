@@ -8,6 +8,7 @@ import youtrack.YouTrack;
 import youtrack.commands.base.SingleItemCommand;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
+import youtrack.util.Service;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +24,7 @@ public class GetProject extends SingleItemCommand<YouTrack, Project> {
     @Override
     public Project getResult() throws Exception {
         try {
-            final ProjectList projectList = (ProjectList) objectFromXml(method.getResponseBodyAsString());
+            final ProjectList projectList = (ProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
             final List<Project> items = projectList.getItems();
             if (items != null) {
                 for (final Project project : items) {

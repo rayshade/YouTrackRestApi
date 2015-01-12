@@ -198,11 +198,11 @@ public class Issue extends BaseItem {
         return getFieldByName("reporterName").getValue();
     }
 
-    public void vote() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void vote() throws CommandExecutionException {
         youTrack.execute(new ChangeIssueVotes(this, true));
     }
 
-    public void unVote() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void unVote() throws CommandExecutionException {
         youTrack.execute(new ChangeIssueVotes(this, false));
     }
 

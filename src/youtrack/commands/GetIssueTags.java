@@ -6,7 +6,7 @@ import youtrack.Issue;
 import youtrack.IssueTag;
 import youtrack.TagList;
 import youtrack.commands.base.ListCommand;
-import youtrack.exceptions.CommandExecutionException;
+import youtrack.util.Service;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +23,7 @@ public class GetIssueTags extends ListCommand<Issue, IssueTag> {
     @NotNull
     @Override
     public List<IssueTag> getResult() throws Exception {
-        final TagList tagList = (TagList) objectFromXml(method.getResponseBodyAsString());
+        final TagList tagList = (TagList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
         final List<IssueTag> items = tagList.getItems();
         return items != null ? items : Collections.<IssueTag>emptyList();
     }

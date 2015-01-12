@@ -6,6 +6,7 @@ import youtrack.AttachmentList;
 import youtrack.Issue;
 import youtrack.IssueAttachment;
 import youtrack.commands.base.ListCommand;
+import youtrack.util.Service;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,7 @@ public class GetIssueAttachments extends ListCommand<Issue, IssueAttachment> {
     @NotNull
     @Override
     public List<IssueAttachment> getResult() throws Exception {
-        final String responseBodyAsString = method.getResponseBodyAsString();
+        final String responseBodyAsString = Service.readStream(method.getResponseBodyAsStream());
         final AttachmentList attachmentList = (AttachmentList) objectFromXml(responseBodyAsString);
         final List<IssueAttachment> list = attachmentList.getItems();
         return list != null ? list : Collections.<IssueAttachment>emptyList();

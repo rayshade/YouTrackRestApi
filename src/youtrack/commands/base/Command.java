@@ -54,44 +54,38 @@ public abstract class Command<O extends BaseItem, R> {
      * @param xmlString Raw XML code.
      * @return Instance of an object.
      */
-    protected Object objectFromXml(final @NotNull String xmlString) throws CommandExecutionException {
+    protected Object objectFromXml(final @NotNull String xmlString) throws Exception {
         final XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
         Object result;
-        try {
-            final XMLStreamReader streamReader = new HackedReader(xmlInputFactory.createXMLStreamReader(new StringReader(xmlString)));
-            final JAXBContext jaxbContext = JAXBContext.newInstance(AttachmentField.class,
-                    BaseIssueField.class,
-                    CustomField.class,
-                    CustomFieldValue.class,
-                    IssueField.class,
-                    IssueListField.class,
-                    LinkField.class,
-                    MultiUserField.class,
-                    SingleField.class, AttachmentFieldValue.class,
-                    BaseIssueFieldValue.class,
-                    IssueFieldValue.class,
-                    LinkFieldValue.class,
-                    MultiUserFieldValue.class, AttachmentList.class,
-                    CommentList.class,
-                    Issue.class,
-                    IssueAttachment.class,
-                    IssueComment.class,
-                    IssueCompactList.class,
-                    IssueLink.class,
-                    IssueProjectList.class,
-                    IssueTag.class,
-                    ItemList.class,
-                    LinkList.class,
-                    ProjectList.class,
-                    TagList.class,
-                    Error.class);
-            final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
-            result = jaxbUnmarshaller.unmarshal(streamReader);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new CommandExecutionException(this, e);
-        }
+        final XMLStreamReader streamReader = new HackedReader(xmlInputFactory.createXMLStreamReader(new StringReader(xmlString)));
+        final JAXBContext jaxbContext = JAXBContext.newInstance(AttachmentField.class,
+                BaseIssueField.class,
+                CustomField.class,
+                CustomFieldValue.class,
+                IssueField.class,
+                IssueListField.class,
+                LinkField.class,
+                MultiUserField.class,
+                SingleField.class, AttachmentFieldValue.class,
+                BaseIssueFieldValue.class,
+                IssueFieldValue.class,
+                LinkFieldValue.class,
+                MultiUserFieldValue.class, AttachmentList.class,
+                CommentList.class,
+                Issue.class,
+                IssueAttachment.class,
+                IssueComment.class,
+                IssueCompactList.class,
+                IssueLink.class,
+                IssueProjectList.class,
+                IssueTag.class,
+                ItemList.class,
+                LinkList.class,
+                ProjectList.class,
+                TagList.class,
+                Error.class);
+        final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        result = jaxbUnmarshaller.unmarshal(streamReader);
         if (result instanceof Error) {
             Error error = (Error) result;
             error.setCode(method.getStatusLine().getStatusCode());

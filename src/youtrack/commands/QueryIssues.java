@@ -9,6 +9,7 @@ import youtrack.Project;
 import youtrack.commands.base.QueryCommand;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
+import youtrack.util.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
 
     @Override
     public List<Issue> getResult() throws Exception {
-        final IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
+        final IssueProjectList itemList = (IssueProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
         final List<Issue> items = itemList.getItems();
         return items != null ? items : Collections.<Issue>emptyList();
     }

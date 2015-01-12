@@ -7,7 +7,7 @@ import youtrack.Project;
 import youtrack.ProjectList;
 import youtrack.YouTrack;
 import youtrack.commands.base.ListCommand;
-import youtrack.exceptions.CommandExecutionException;
+import youtrack.util.Service;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +24,7 @@ public class GetProjects extends ListCommand<YouTrack, Project> {
     @NotNull
     @Override
     public List<Project> getResult() throws Exception {
-        final ProjectList projectList = (ProjectList) objectFromXml(method.getResponseBodyAsString());
+        final ProjectList projectList = (ProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
         final List<Project> items = projectList.getItems();
         return items != null ? items : Collections.<Project>emptyList();
     }
