@@ -46,7 +46,7 @@ public abstract class Command<O extends BaseItem, R> {
     }
 
     @Nullable
-    public abstract R getResult() throws CommandExecutionException;
+    public abstract R getResult() throws Exception;
 
     /**
      * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.

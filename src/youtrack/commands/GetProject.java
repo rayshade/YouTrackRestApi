@@ -21,7 +21,7 @@ public class GetProject extends SingleItemCommand<YouTrack, Project> {
     }
 
     @Override
-    public Project getResult() throws CommandExecutionException {
+    public Project getResult() throws Exception {
         try {
             final ProjectList projectList = (ProjectList) objectFromXml(method.getResponseBodyAsString());
             final List<Project> items = projectList.getItems();

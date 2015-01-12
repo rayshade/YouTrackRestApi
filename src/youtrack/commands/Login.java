@@ -23,7 +23,7 @@ public class Login extends RunningCommand<YouTrack, String> {
     }
 
     @Override
-    public String getResult() {
+    public String getResult() throws Exception {
         return method.getResponseHeader("Set-Cookie").getValue();
     }
 

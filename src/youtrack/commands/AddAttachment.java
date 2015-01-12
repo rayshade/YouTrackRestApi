@@ -22,7 +22,7 @@ public class AddAttachment extends AddCommand<Issue, IssueAttachment> {
     }
 
     @Override
-    public IssueAttachment getResult() {
+    public IssueAttachment getResult() throws Exception {
         return null;
     }
 

@@ -18,7 +18,7 @@ public class AddIssueLink extends AddCommand<Issue, IssueLink> {
     }
 
     @Override
-    public IssueLink getResult() {
+    public IssueLink getResult() throws Exception {
         return null;
     }
 

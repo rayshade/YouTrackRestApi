@@ -25,14 +25,10 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
     }
 
     @Override
-    public List<Issue> getResult() throws CommandExecutionException {
-        try {
-            final IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
-            final List<Issue> items = itemList.getItems();
-            return items != null ? items : Collections.<Issue>emptyList();
-        } catch (Exception ex) {
-            throw new CommandExecutionException(this, ex);
-        }
+    public List<Issue> getResult() throws Exception {
+        final IssueProjectList itemList = (IssueProjectList) objectFromXml(method.getResponseBodyAsString());
+        final List<Issue> items = itemList.getItems();
+        return items != null ? items : Collections.<Issue>emptyList();
     }
 
     @Override

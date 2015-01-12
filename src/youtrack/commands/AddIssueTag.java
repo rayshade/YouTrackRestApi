@@ -17,7 +17,7 @@ public class AddIssueTag extends AddCommand<Issue, IssueTag> {
     }
 
     @Override
-    public IssueTag getResult() {
+    public IssueTag getResult() throws Exception {
         return null;
     }
 

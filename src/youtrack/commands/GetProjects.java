@@ -23,14 +23,10 @@ public class GetProjects extends ListCommand<YouTrack, Project> {
 
     @NotNull
     @Override
-    public List<Project> getResult() throws CommandExecutionException {
-        try {
-            final ProjectList projectList = (ProjectList) objectFromXml(method.getResponseBodyAsString());
-            final List<Project> items = projectList.getItems();
-            return items != null ? items : Collections.<Project>emptyList();
-        } catch (Exception e) {
-            throw new CommandExecutionException(this, e);
-        }
+    public List<Project> getResult() throws Exception {
+        final ProjectList projectList = (ProjectList) objectFromXml(method.getResponseBodyAsString());
+        final List<Project> items = projectList.getItems();
+        return items != null ? items : Collections.<Project>emptyList();
     }
 
     @Override

@@ -21,7 +21,7 @@ public class AddIssue extends AddCommand<Project, Issue> {
     }
 
     @Override
-    public Issue getResult() throws CommandExecutionException {
+    public Issue getResult() throws Exception {
         try {
             final String[] locations = method.getResponseHeader("Location").getValue().split("/");
             final String issueId = locations[locations.length - 1];

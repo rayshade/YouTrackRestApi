@@ -23,13 +23,8 @@ public class GetIssueComments extends ListCommand<Issue, IssueComment> {
 
     @NotNull
     @Override
-    public List<IssueComment> getResult() throws CommandExecutionException {
-        String responseBodyAsString;
-        try {
-            responseBodyAsString = method.getResponseBodyAsString();
-        } catch (IOException e) {
-            throw new CommandExecutionException(this, e);
-        }
+    public List<IssueComment> getResult() throws Exception {
+        final String responseBodyAsString = method.getResponseBodyAsString();
         final CommentList commentList = (CommentList) objectFromXml(responseBodyAsString);
         final List<IssueComment> list = commentList.getItems();
         return list != null ? list : Collections.<IssueComment>emptyList();

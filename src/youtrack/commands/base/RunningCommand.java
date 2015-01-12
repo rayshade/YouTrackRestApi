@@ -2,7 +2,6 @@ package youtrack.commands.base;
 
 import com.sun.istack.internal.NotNull;
 import youtrack.BaseItem;
-import youtrack.exceptions.CommandExecutionException;
 
 import java.util.Map;
 
@@ -17,7 +16,7 @@ public abstract class RunningCommand<O extends BaseItem, R> extends Command<O, R
     }
 
     @Override
-    public R getResult() throws CommandExecutionException {
+    public R getResult() throws Exception {
         return null;
     }
 

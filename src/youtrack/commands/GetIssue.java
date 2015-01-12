@@ -19,7 +19,7 @@ public class GetIssue extends SingleItemCommand<Project, Issue> {
     }
 
     @Override
-    public Issue getResult() throws CommandExecutionException {
+    public Issue getResult() throws Exception {
         String responseBodyAsString;
         try {
             responseBodyAsString = method.getResponseBodyAsString();

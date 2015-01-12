@@ -64,7 +64,11 @@ public class YouTrack extends BaseItem {
             method.addRequestHeader("Cookie", authorization);
         }
         httpClient.executeMethod(method);
-        final CommandResultData<R> result = new CommandResultData<R>(this, method.getStatusCode(), command.getResult());
+        try {
+            final CommandResultData<R> result = new CommandResultData<R>(this, method.getStatusCode(), command.getResult());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         method.releaseConnection();
         return result;
     }
@@ -83,7 +87,11 @@ public class YouTrack extends BaseItem {
             method.addRequestHeader("Cookie", authorization);
         }
         httpClient.executeMethod(method);
-        final CommandResultSingleItem<R> result = new CommandResultSingleItem<R>(this, method.getStatusCode(), command.getResult());
+        try {
+            final CommandResultSingleItem<R> result = new CommandResultSingleItem<R>(this, method.getStatusCode(), command.getResult());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         method.releaseConnection();
         return result;
     }
@@ -102,7 +110,11 @@ public class YouTrack extends BaseItem {
             method.addRequestHeader("Cookie", authorization);
         }
         httpClient.executeMethod(method);
-        final CommandResultItemList<R> result = new CommandResultItemList<R>(this, method.getStatusCode(), command.getResult());
+        try {
+            final CommandResultItemList<R> result = new CommandResultItemList<R>(this, method.getStatusCode(), command.getResult());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         method.releaseConnection();
         return result;
     }

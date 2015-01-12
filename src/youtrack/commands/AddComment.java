@@ -16,7 +16,7 @@ public class AddComment extends AddCommand<Issue, IssueComment> {
     }
 
     @Override
-    public IssueComment getResult() {
+    public IssueComment getResult() throws Exception {
         return null;
     }
 

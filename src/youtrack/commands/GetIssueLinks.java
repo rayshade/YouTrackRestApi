@@ -22,14 +22,10 @@ public class GetIssueLinks extends ListCommand<Issue, IssueLink> {
 
     @NotNull
     @Override
-    public List<IssueLink> getResult() throws CommandExecutionException {
-        try {
-            final LinkList linkList = (LinkList) objectFromXml(method.getResponseBodyAsString());
-            final List<IssueLink> list = linkList.getItems();
-            return list != null ? list : Collections.<IssueLink>emptyList();
-        } catch (Exception e) {
-            throw new CommandExecutionException(this, e);
-        }
+    public List<IssueLink> getResult() throws Exception {
+        final LinkList linkList = (LinkList) objectFromXml(method.getResponseBodyAsString());
+        final List<IssueLink> list = linkList.getItems();
+        return list != null ? list : Collections.<IssueLink>emptyList();
     }
 
     @Override

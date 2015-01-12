@@ -18,12 +18,8 @@ public class ModifyIssueField extends RunningCommand<Issue, String> {
     }
 
     @Override
-    public String getResult() throws CommandExecutionException {
-        try {
-            return method.getStatusCode() == 200 ? null : method.getResponseBodyAsString();
-        } catch (Exception e) {
-            throw new CommandExecutionException(this, e);
-        }
+    public String getResult() throws Exception {
+        return method.getStatusCode() == 200 ? null : method.getResponseBodyAsString();
     }
 
     @Override

@@ -22,14 +22,10 @@ public class GetIssueTags extends ListCommand<Issue, IssueTag> {
 
     @NotNull
     @Override
-    public List<IssueTag> getResult() throws CommandExecutionException {
-        try {
-            final TagList tagList = (TagList) objectFromXml(method.getResponseBodyAsString());
-            final List<IssueTag> items = tagList.getItems();
-            return items != null ? items : Collections.<IssueTag>emptyList();
-        } catch (Exception e) {
-            throw new CommandExecutionException(this, e);
-        }
+    public List<IssueTag> getResult() throws Exception {
+        final TagList tagList = (TagList) objectFromXml(method.getResponseBodyAsString());
+        final List<IssueTag> items = tagList.getItems();
+        return items != null ? items : Collections.<IssueTag>emptyList();
     }
 
     @Override
