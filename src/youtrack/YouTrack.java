@@ -66,6 +66,8 @@ public class YouTrack extends BaseItem {
             final CommandResultData<R> result = new CommandResultData<R>(this, method.getStatusCode(), command.getResult());
             method.releaseConnection();
             return result;
+        } catch (CommandExecutionException cee) {
+            throw cee;
         } catch (Exception e) {
             throw new CommandExecutionException(command, e);
         }
@@ -89,6 +91,8 @@ public class YouTrack extends BaseItem {
             final CommandResultSingleItem<R> result = new CommandResultSingleItem<R>(this, method.getStatusCode(), command.getResult());
             method.releaseConnection();
             return result;
+        } catch (CommandExecutionException cee) {
+            throw cee;
         } catch (Exception e) {
             throw new CommandExecutionException(command, e);
         }
@@ -112,6 +116,8 @@ public class YouTrack extends BaseItem {
             final CommandResultItemList<R> result = new CommandResultItemList<R>(this, method.getStatusCode(), command.getResult());
             method.releaseConnection();
             return result;
+        } catch (CommandExecutionException cee) {
+            throw cee;
         } catch (Exception e) {
             throw new CommandExecutionException(command, e);
         }

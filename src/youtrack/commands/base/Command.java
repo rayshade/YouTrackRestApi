@@ -98,7 +98,7 @@ public abstract class Command<O extends BaseItem, R> {
         return method;
     }
 
-    public abstract void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException;
+    public abstract void createCommandMethod() throws Exception;
 
     /**
      * Class to work around the JAXB name handling.

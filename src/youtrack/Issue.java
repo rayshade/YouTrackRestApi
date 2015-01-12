@@ -88,7 +88,7 @@ public class Issue extends BaseItem {
             params.put("field", fieldName);
             params.put("value", value);
             modifyCommand.setArguments(params);
-            CommandResultData<String> result = youTrack.execute(modifyCommand);
+            final CommandResultData<String> result = youTrack.execute(modifyCommand);
             if (!result.success()) {
                 throw new SetIssueFieldException(this, fields.get(fieldName), value);
             }
@@ -116,7 +116,6 @@ public class Issue extends BaseItem {
     public String toString() {
         return "Issue{" +
                 "id='" + getId() + '\'' +
-                ", fieldArray=" + fieldArray +
                 '}';
     }
 

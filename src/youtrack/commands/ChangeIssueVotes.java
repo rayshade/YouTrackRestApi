@@ -26,7 +26,7 @@ public class ChangeIssueVotes extends RunningCommand<Issue, Boolean> {
     }
 
     @Override
-    public void createCommandMethod() throws CommandExecutionException {
+    public void createCommandMethod() throws Exception {
         final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/execute");
         postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("command", (getArguments().get("vote") ? "vote" : "unvote"))});
         method = postMethod;

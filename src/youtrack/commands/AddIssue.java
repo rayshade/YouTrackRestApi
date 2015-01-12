@@ -22,26 +22,18 @@ public class AddIssue extends AddCommand<Project, Issue> {
 
     @Override
     public Issue getResult() throws Exception {
-        try {
-            final String[] locations = method.getResponseHeader("Location").getValue().split("/");
-            final String issueId = locations[locations.length - 1];
-            return owner.issues.item(issueId);
-        } catch (Exception e) {
-            throw new CommandExecutionException(this, e);
-        }
+        final String[] locations = method.getResponseHeader("Location").getValue().split("/");
+        final String issueId = locations[locations.length - 1];
+        return owner.issues.item(issueId);
     }
 
     @Override
-    public void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void createCommandMethod() throws Exception {
         method = new PutMethod(owner.getYouTrack().getHostAddress() + "issue");
         HttpMethodParams params = new HttpMethodParams();
         params.setParameter("project", owner.getId());
-        try {
-            params.setParameter("summary", getItem().getSummary());
-            params.setParameter("description", getItem().getDescription());
-        } catch (Exception e) {
-            throw new CommandExecutionException(this, e);
-        }
+        params.setParameter("summary", getItem().getSummary());
+        params.setParameter("description", getItem().getDescription());
         method.setParams(params);
     }
 }
