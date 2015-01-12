@@ -10,9 +10,7 @@ import youtrack.commands.base.Command;
 import youtrack.commands.base.RunningCommand;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
-import youtrack.exceptions.NoSuchIssueFieldException;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,21 +54,21 @@ public class YouTrack extends BaseItem {
      * @return instance of @link CommandResult containing command execution results.
      */
 
-    <O extends BaseItem, R> CommandResultData<R> execute(RunningCommand<O, R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final HttpClient httpClient = new HttpClient();
-        command.createCommandMethod();
-        final HttpMethodBase method = command.getMethod();
-        if (command.usesAuthorization()) {
-            method.addRequestHeader("Cookie", authorization);
-        }
-        httpClient.executeMethod(method);
+    <O extends BaseItem, R> CommandResultData<R> execute(RunningCommand<O, R> command) throws CommandExecutionException {
         try {
+            final HttpClient httpClient = new HttpClient();
+            command.createCommandMethod();
+            final HttpMethodBase method = command.getMethod();
+            if (command.usesAuthorization()) {
+                method.addRequestHeader("Cookie", authorization);
+            }
+            httpClient.executeMethod(method);
             final CommandResultData<R> result = new CommandResultData<R>(this, method.getStatusCode(), command.getResult());
+            method.releaseConnection();
+            return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new CommandExecutionException(command, e);
         }
-        method.releaseConnection();
-        return result;
     }
 
     /**
@@ -79,21 +77,21 @@ public class YouTrack extends BaseItem {
      * @return instance of @link CommandResult containing command execution results.
      */
 
-    <O extends BaseItem, R extends BaseItem> CommandResultSingleItem<R> execute(Command<O, R> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final HttpClient httpClient = new HttpClient();
-        command.createCommandMethod();
-        final HttpMethodBase method = command.getMethod();
-        if (command.usesAuthorization()) {
-            method.addRequestHeader("Cookie", authorization);
-        }
-        httpClient.executeMethod(method);
+    <O extends BaseItem, R extends BaseItem> CommandResultSingleItem<R> execute(Command<O, R> command) throws CommandExecutionException {
         try {
+            final HttpClient httpClient = new HttpClient();
+            command.createCommandMethod();
+            final HttpMethodBase method = command.getMethod();
+            if (command.usesAuthorization()) {
+                method.addRequestHeader("Cookie", authorization);
+            }
+            httpClient.executeMethod(method);
             final CommandResultSingleItem<R> result = new CommandResultSingleItem<R>(this, method.getStatusCode(), command.getResult());
+            method.releaseConnection();
+            return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new CommandExecutionException(command, e);
         }
-        method.releaseConnection();
-        return result;
     }
 
     /**
@@ -102,21 +100,21 @@ public class YouTrack extends BaseItem {
      * @return instance of @link CommandResult containing command execution results.
      */
 
-    <O extends BaseItem, R extends BaseItem> CommandResultItemList<R> execute(Command<O, List<R>> command) throws IOException, NoSuchIssueFieldException, CommandExecutionException {
-        final HttpClient httpClient = new HttpClient();
-        command.createCommandMethod();
-        final HttpMethodBase method = command.getMethod();
-        if (command.usesAuthorization()) {
-            method.addRequestHeader("Cookie", authorization);
-        }
-        httpClient.executeMethod(method);
+    <O extends BaseItem, R extends BaseItem> CommandResultItemList<R> execute(Command<O, List<R>> command) throws CommandExecutionException {
         try {
+            final HttpClient httpClient = new HttpClient();
+            command.createCommandMethod();
+            final HttpMethodBase method = command.getMethod();
+            if (command.usesAuthorization()) {
+                method.addRequestHeader("Cookie", authorization);
+            }
+            httpClient.executeMethod(method);
             final CommandResultItemList<R> result = new CommandResultItemList<R>(this, method.getStatusCode(), command.getResult());
+            method.releaseConnection();
+            return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new CommandExecutionException(command, e);
         }
-        method.releaseConnection();
-        return result;
     }
 
     public String getHostAddress() {
@@ -129,7 +127,7 @@ public class YouTrack extends BaseItem {
      * Retrieved token is stored for later use with all commands that need authentication.
      */
 
-    public void login(@NotNull String userName, @NotNull String password) throws AuthenticationErrorException, IOException, NoSuchIssueFieldException, CommandExecutionException {
+    public void login(@NotNull String userName, @NotNull String password) throws AuthenticationErrorException, CommandExecutionException {
         final Login login = new Login(this);
         final HashMap<String, String> arguments = new HashMap<String, String>();
         arguments.put("login", userName);
