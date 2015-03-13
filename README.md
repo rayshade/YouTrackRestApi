@@ -18,7 +18,7 @@ A set of Java classes wrapped around YouTrack REST API that provides convenient 
         final YouTrack youTrack = YouTrack.getInstance("http://youtrack.jetbrains.com/rest/");
 
         //Try to log in using some credentials.
-        youTrack.login("megor", "K9i9kim,");
+        youTrack.login("megor", "password");
 
         //Get a list of all projects.
         final List<Project> projectList = youTrack.projects.list();
