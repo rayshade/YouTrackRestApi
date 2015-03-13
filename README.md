@@ -3,13 +3,13 @@ YouTrackRestApi
 
 A set of Java classes wrapped around YouTrack REST API that provides convenient way to interact with YouTrack from your Java applications. This simple app explains most of the API functionality and gives a good starting point if you decide to try it yourself.
 
-package impl;
+    package impl;
 
-import youtrack.*;
+    import youtrack.*;
 
-import java.util.List;
+    import java.util.List;
 
-public class Sample {
+    public class Sample {
 
     public static void main(String[] args) throws Exception {
 
