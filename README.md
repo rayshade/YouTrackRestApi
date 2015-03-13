@@ -82,4 +82,4 @@ A set of Java classes wrapped around YouTrack REST API that provides convenient 
             issueAttachment.saveTo("C:");
         }
     }
-}
+    }
