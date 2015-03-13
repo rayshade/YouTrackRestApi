@@ -9,9 +9,6 @@ import youtrack.*;
 
 import java.util.List;
 
-/**
- * Created by egor.malyshev on 07.04.2014.
- */
 public class Sample {
 
     public static void main(String[] args) throws Exception {
@@ -33,11 +30,10 @@ public class Sample {
 
         System.out.println("Project " + project.getName() + " total issues: " + project.issues.list().size());
 
-/*
-        Get all issues from project. This is, however, not really useful...
-        final List<Issue> issues = project.issues.list();
-        ...So instead we'll query issues that match specific criteria.
-*/
+        //Get all issues from project. This is, however, not really useful...
+        //final List<Issue> issues = project.issues.list();
+        //...So instead we'll query issues that match specific criteria.
+
         final List<Issue> issues = project.issues.query("reported by: #me #Unresolved");
 
         for (final Issue issue : issues) {
@@ -47,11 +43,11 @@ public class Sample {
         //Now get some issue by its id:
         final Issue issue = project.issues.item("DOC-3200");
 
-/*
-        When you're working with a live issue instance, it always performs actual operations like
-        reading or writing, which isn't always quite OK, so we're creating a snapshot, a copy of issue that
-        doesn't do that. It's useful when you only need to output issue fields like here.
-*/
+
+        //When you're working with a live issue instance, it always performs actual operations like
+        //reading or writing, which isn't always quite OK, so we're creating a snapshot, a copy of issue that
+        //doesn't do that. It's useful when you only need to output issue fields like here.
+
         final Issue snapShot = issue.createSnapshot();
 
         System.out.println("Assignee: " + snapShot.getAssignee().getFullName());
