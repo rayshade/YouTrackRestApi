@@ -25,7 +25,11 @@ public class GetIssues extends ListCommand<Project, Issue> {
     public List<Issue> getResult() throws Exception {
         final IssueProjectList itemList = (IssueProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
         final List<Issue> list = itemList.getItems();
-        return list != null ? list : Collections.<Issue>emptyList();
+        if (list == null) return Collections.emptyList();
+        for (final Issue issue : list) {
+            issue.setOwner(owner);
+        }
+        return list;
     }
 
     @Override

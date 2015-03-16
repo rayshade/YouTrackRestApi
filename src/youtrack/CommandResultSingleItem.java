@@ -8,6 +8,6 @@ public class CommandResultSingleItem<R extends BaseItem> extends CommandResultBa
     public CommandResultSingleItem(YouTrack youTrack, int responseCode, R result) {
         super(youTrack, responseCode);
         this.result = result;
-        this.result.setYouTrack(youTrack);
+        if (result != null) this.result.setYouTrack(youTrack);
     }
 }

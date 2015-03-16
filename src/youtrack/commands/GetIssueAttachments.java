@@ -26,7 +26,11 @@ public class GetIssueAttachments extends ListCommand<Issue, IssueAttachment> {
         final String responseBodyAsString = Service.readStream(method.getResponseBodyAsStream());
         final AttachmentList attachmentList = (AttachmentList) objectFromXml(responseBodyAsString);
         final List<IssueAttachment> list = attachmentList.getItems();
-        return list != null ? list : Collections.<IssueAttachment>emptyList();
+        if (list == null) return Collections.emptyList();
+        for (IssueAttachment attachment : list) {
+            attachment.setOwner(owner);
+        }
+        return list;
     }
 
     @Override

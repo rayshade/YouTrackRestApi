@@ -24,7 +24,7 @@ public class ModifyIssueField extends RunningCommand<Issue, String> {
 
     @Override
     public void createCommandMethod() {
-        PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/execute");
+        final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/execute");
         postMethod.setRequestBody(new NameValuePair[]{
                 new NameValuePair("command", getArguments().get("field") + " " + getArguments().get("value"))
         });

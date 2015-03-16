@@ -29,7 +29,7 @@ public class AddAttachment extends AddCommand<Issue, IssueAttachment> {
     @Override
     public void createCommandMethod() throws CommandExecutionException {
         final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/attachment");
-        File file = new File(getItem().getUrl());
+        final File file = new File(getItem().getUrl());
         try {
             final Part[] parts = {new FilePart(file.getName(), file)};
             postMethod.setRequestEntity(new MultipartRequestEntity(parts, postMethod.getParams()));

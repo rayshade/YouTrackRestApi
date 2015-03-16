@@ -6,7 +6,6 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import youtrack.*;
 import youtrack.Error;
 import youtrack.exceptions.CommandExecutionException;
-import youtrack.exceptions.NoSuchIssueFieldException;
 import youtrack.issue.fields.*;
 import youtrack.issue.fields.values.*;
 
@@ -15,7 +14,6 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.util.StreamReaderDelegate;
-import java.io.IOException;
 import java.io.StringReader;
 
 /**

@@ -8,9 +8,10 @@ import java.util.List;
 public class CommandResultItemList<R extends BaseItem> extends CommandResultBase<List<R>> {
     public CommandResultItemList(YouTrack youTrack, int responseCode, List<R> result) {
         super(youTrack, responseCode);
-        for (R item : result) {
-            item.setYouTrack(youTrack);
-        }
         this.result = result;
+        if (result != null)
+            for (R item : this.result) {
+                item.setYouTrack(youTrack);
+            }
     }
 }

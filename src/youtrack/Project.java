@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.*;
  */
 @XmlRootElement(name = "project")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Project extends BaseItem {
+public class Project extends BaseItem<YouTrack> {
     @XmlTransient
     public final CommandBasedList<Project, Issue> issues;
     @XmlAttribute(name = "name")

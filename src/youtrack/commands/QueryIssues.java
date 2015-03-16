@@ -29,7 +29,11 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
     public List<Issue> getResult() throws Exception {
         final IssueProjectList itemList = (IssueProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
         final List<Issue> items = itemList.getItems();
-        return items != null ? items : Collections.<Issue>emptyList();
+        if (items == null) return Collections.emptyList();
+        for (Issue issue : items) {
+            issue.setOwner(owner);
+        }
+        return items;
     }
 
     @Override

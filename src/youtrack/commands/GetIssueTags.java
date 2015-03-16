@@ -25,7 +25,11 @@ public class GetIssueTags extends ListCommand<Issue, IssueTag> {
     public List<IssueTag> getResult() throws Exception {
         final TagList tagList = (TagList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
         final List<IssueTag> items = tagList.getItems();
-        return items != null ? items : Collections.<IssueTag>emptyList();
+        if (items == null) return Collections.emptyList();
+        for (IssueTag tag : items) {
+            tag.setOwner(owner);
+        }
+        return items;
     }
 
     @Override

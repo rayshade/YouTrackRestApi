@@ -23,18 +23,14 @@ public class GetProject extends SingleItemCommand<YouTrack, Project> {
 
     @Override
     public Project getResult() throws Exception {
-        try {
-            final ProjectList projectList = (ProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
-            final List<Project> items = projectList.getItems();
-            if (items != null) {
-                for (final Project project : items) {
-                    if (itemId.equals(project.getId())) return project;
-                }
+        final ProjectList projectList = (ProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
+        final List<Project> items = projectList.getItems();
+        if (items != null) {
+            for (final Project project : items) {
+                if (itemId.equals(project.getId())) return project;
             }
-            throw new Exception("Project " + itemId + " not found.");
-        } catch (Exception e) {
-            throw new CommandExecutionException(this, e);
         }
+        throw new Exception("Project " + itemId + " not found.");
     }
 
     @Override

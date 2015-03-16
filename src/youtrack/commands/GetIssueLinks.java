@@ -25,7 +25,11 @@ public class GetIssueLinks extends ListCommand<Issue, IssueLink> {
     public List<IssueLink> getResult() throws Exception {
         final LinkList linkList = (LinkList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
         final List<IssueLink> list = linkList.getItems();
-        return list != null ? list : Collections.<IssueLink>emptyList();
+        if (list == null) return Collections.emptyList();
+        for (IssueLink link : list) {
+            link.setOwner(owner);
+        }
+        return list;
     }
 
     @Override

@@ -6,10 +6,6 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.Project;
 import youtrack.commands.base.AddCommand;
-import youtrack.exceptions.CommandExecutionException;
-import youtrack.exceptions.NoSuchIssueFieldException;
-
-import java.io.IOException;
 
 /**
  * Created by egor.malyshev on 01.04.2014.

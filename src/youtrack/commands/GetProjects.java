@@ -26,7 +26,11 @@ public class GetProjects extends ListCommand<YouTrack, Project> {
     public List<Project> getResult() throws Exception {
         final ProjectList projectList = (ProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
         final List<Project> items = projectList.getItems();
-        return items != null ? items : Collections.<Project>emptyList();
+        if (items == null) return Collections.emptyList();
+        for (Project project : items) {
+            project.setOwner(owner);
+        }
+        return items;
     }
 
     @Override

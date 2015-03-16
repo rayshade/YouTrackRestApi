@@ -8,7 +8,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "comment")
-public class IssueComment extends BaseItem {
+public class IssueComment extends BaseItem<Issue> {
 
     @XmlAttribute(name = "issueId")
     private String issueId;

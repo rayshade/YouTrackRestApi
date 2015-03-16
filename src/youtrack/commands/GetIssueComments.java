@@ -26,7 +26,11 @@ public class GetIssueComments extends ListCommand<Issue, IssueComment> {
         final String responseBodyAsString = Service.readStream(method.getResponseBodyAsStream());
         final CommentList commentList = (CommentList) objectFromXml(responseBodyAsString);
         final List<IssueComment> list = commentList.getItems();
-        return list != null ? list : Collections.<IssueComment>emptyList();
+        if (list == null) return Collections.emptyList();
+        for (IssueComment comment : list) {
+            comment.setOwner(owner);
+        }
+        return list;
     }
 
     @Override

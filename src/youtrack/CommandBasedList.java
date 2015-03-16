@@ -5,9 +5,7 @@ import com.sun.istack.internal.Nullable;
 import youtrack.commands.base.*;
 import youtrack.commands.util.QueryParameters;
 import youtrack.exceptions.CommandExecutionException;
-import youtrack.exceptions.NoSuchIssueFieldException;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,21 +39,21 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
     }
 
     @NotNull
-    public CommandResultSingleItem<R> add(final @NotNull R item) throws CommandExecutionException {
+    public void add(final @NotNull R item) throws CommandExecutionException {
         assert addCommand != null;
         addCommand.setItem(item);
-        return owner.getYouTrack().execute(addCommand);
+        owner.getYouTrack().execute(addCommand);
     }
 
     @NotNull
-    public CommandResultSingleItem<R> remove(final @NotNull R item) throws CommandExecutionException {
+    public void remove(final @NotNull R item) throws CommandExecutionException {
         assert removeCommand != null;
         removeCommand.setItem(item);
-        return owner.getYouTrack().execute(removeCommand);
+        owner.getYouTrack().execute(removeCommand);
     }
 
     @Nullable
-    public R item(final int index) throws CommandExecutionException, NoSuchIssueFieldException, IOException {
+    public R item(final int index) throws CommandExecutionException {
         return this.list().get(index);
     }
 
@@ -81,7 +79,7 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
         return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
-    public List<R> query(final @NotNull String query) throws NoSuchIssueFieldException, IOException, CommandExecutionException {
+    public List<R> query(final @NotNull String query) throws CommandExecutionException {
         return query(query, 0, 100);
     }
 }

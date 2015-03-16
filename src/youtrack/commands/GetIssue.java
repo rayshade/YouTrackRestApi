@@ -27,7 +27,9 @@ public class GetIssue extends SingleItemCommand<Project, Issue> {
         } catch (IOException e) {
             throw new CommandExecutionException(this, e);
         }
-        return (Issue) objectFromXml(responseBodyAsString);
+        final Issue issue = (Issue) objectFromXml(responseBodyAsString);
+        issue.setOwner(owner);
+        return issue;
     }
 
     @Override

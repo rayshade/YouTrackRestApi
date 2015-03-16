@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "issueLink")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueLink extends BaseItem {
+public class IssueLink extends BaseItem<Issue> {
     @XmlAttribute(name = "typeInward")
     private String typeInward;
     @XmlAttribute(name = "typeOutward")

@@ -18,7 +18,7 @@ import java.io.InputStream;
  */
 @XmlRootElement(name = "fileUrl")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueAttachment extends BaseItem {
+public class IssueAttachment extends BaseItem<Issue> {
 
     @XmlAttribute(name = "url")
     private String url;

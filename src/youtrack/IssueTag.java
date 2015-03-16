@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "tag")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueTag extends BaseItem {
+public class IssueTag extends BaseItem<Issue> {
 
     IssueTag() {
     }
