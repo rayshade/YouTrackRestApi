@@ -6,9 +6,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import youtrack.commands.GetProject;
 import youtrack.commands.GetProjects;
 import youtrack.commands.Login;
-import youtrack.commands.base.Command;
-import youtrack.commands.base.RunningCommand;
-import youtrack.commands.base.SingleItemCommand;
+import youtrack.commands.base.*;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 
@@ -76,6 +74,32 @@ public class YouTrack extends BaseItem {
     }
 
     /**
+     * Executes a YouTrack command that returns nothing. Only execution result itself is available.
+     * Typically this is a running command that performs some operation and returns strings or booleans.
+     *
+     * @return instance of @link CommandResult containing command execution results.
+     */
+
+    <O extends BaseItem, R> CommandResultData<R> execute(VoidCommand<O, R> command) throws CommandExecutionException {
+        try {
+            final HttpClient httpClient = new HttpClient();
+            command.createCommandMethod();
+            final HttpMethodBase method = command.getMethod();
+            if (command.usesAuthorization()) {
+                method.addRequestHeader("Cookie", authorization);
+            }
+            httpClient.executeMethod(method);
+            final CommandResultData<R> result = new CommandResultData<R>(this, method.getStatusCode(), command.getResult());
+            method.releaseConnection();
+            return result;
+        } catch (CommandExecutionException cee) {
+            throw cee;
+        } catch (Exception e) {
+            throw new CommandExecutionException(command, e);
+        }
+    }
+
+    /**
      * Executes a YouTrack command that returns a single item result.
      *
      * @return instance of @link CommandResult containing command execution results.
@@ -106,7 +130,7 @@ public class YouTrack extends BaseItem {
      * @return instance of @link CommandResult containing command execution results.
      */
 
-    <O extends BaseItem, R extends BaseItem> CommandResultItemList<R> execute(Command<O, List<R>> command) throws CommandExecutionException {
+    <O extends BaseItem, R extends BaseItem> CommandResultItemList<R> execute(ListCommand<O, R> command) throws CommandExecutionException {
         try {
             final HttpClient httpClient = new HttpClient();
             command.createCommandMethod();
@@ -144,7 +168,7 @@ public class YouTrack extends BaseItem {
         final CommandResultData<String> result = execute(login);
         if (result.success()) {
             authorization = result.getResult();
-        } else throw new AuthenticationErrorException(this, userName, password.replaceAll(".", "*"));
+        } else throw new AuthenticationErrorException(this, userName, password.replaceAll("\\.", "*"));
     }
 
     public String getAuthorization() {

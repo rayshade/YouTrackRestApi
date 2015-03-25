@@ -15,6 +15,8 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.util.StreamReaderDelegate;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by egor.malyshev on 31.03.2014.
@@ -22,6 +24,7 @@ import java.io.StringReader;
 public abstract class Command<O extends BaseItem, R> {
     protected final O owner;
     protected HttpMethodBase method;
+    protected Map<String, String> parameters = new HashMap<String, String>();
 
     public Command(final @NotNull O owner) {
         this.owner = owner;
@@ -114,5 +117,14 @@ public abstract class Command<O extends BaseItem, R> {
                     attributeValue.substring(0, 1).toLowerCase() + attributeValue.substring(1)
                     : super.getAttributeValue(index);
         }
+    }
+
+
+    public void addParameter(final @NotNull String name, final @Nullable String value) {
+        parameters.put(name, value);
+    }
+
+    public void removeParameter(final @NotNull String name) {
+        if (parameters.containsKey(name)) parameters.remove(name);
     }
 }

@@ -3,7 +3,6 @@ package youtrack;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import youtrack.commands.base.*;
-import youtrack.commands.util.QueryParameters;
 import youtrack.exceptions.CommandExecutionException;
 
 import java.util.Collections;
@@ -73,8 +72,11 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
 
     @NotNull
     public List<R> query(final @NotNull String query, final int start, final int maxResults) throws CommandExecutionException {
+
         assert queryCommand != null;
-        queryCommand.setParameters(new QueryParameters(query, start, maxResults));
+        queryCommand.addParameter("query", query);
+        queryCommand.addParameter("max", String.valueOf(maxResults));
+        queryCommand.addParameter("start", String.valueOf(start));
         final CommandResultItemList<R> result = owner.getYouTrack().execute(queryCommand);
         return result.success() ? result.getResult() : Collections.<R>emptyList();
     }

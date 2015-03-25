@@ -34,6 +34,14 @@ public class GetIssue extends SingleItemCommand<Project, Issue> {
 
     @Override
     public void createCommandMethod() {
-        method = new GetMethod(owner.getYouTrack().getHostAddress() + "issue/" + itemId);
+        final StringBuilder sb = new StringBuilder();
+        sb.append(owner.getYouTrack().getHostAddress()).append("issue/").append(itemId);
+        if (!parameters.isEmpty()) {
+            sb.append("?");
+            for (String name : parameters.keySet()) {
+                sb.append(name).append("=").append(parameters.get(name)).append("&");
+            }
+        }
+        method = new GetMethod(sb.toString());
     }
 }

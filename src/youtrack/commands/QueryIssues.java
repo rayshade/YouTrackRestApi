@@ -40,14 +40,14 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
     public void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         method = new GetMethod(owner.getYouTrack().getHostAddress() + "issue/byproject/" + owner.getId());
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
-        if (parameters.getQuery() != null) {
-            params.add(new NameValuePair("filter", parameters.getQuery()));
+        if (parameters.get("query") != null) {
+            params.add(new NameValuePair("filter", parameters.get("query")));
         }
-        if (parameters.getMax() != 0) {
-            params.add(new NameValuePair("max", String.valueOf(parameters.getMax())));
+        if (parameters.get("max")!=null) {
+            params.add(new NameValuePair("max", parameters.get("max")));
         }
-        if (parameters.getStart() != 0) {
-            params.add(new NameValuePair("after", String.valueOf(parameters.getStart())));
+        if (parameters.get("start")!=null) {
+            params.add(new NameValuePair("after", parameters.get("start")));
         }
         method.setQueryString(params.toArray(new NameValuePair[params.size()]));
     }

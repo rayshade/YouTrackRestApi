@@ -24,7 +24,7 @@ public class Service {
     }
 
     public static String readStream(final @NotNull InputStream stream) throws IOException {
-        final InputStreamReader is = new InputStreamReader(stream);
+        final InputStreamReader is = new InputStreamReader(stream, ENC);
         final StringBuilder sb = new StringBuilder();
         final BufferedReader br = new BufferedReader(is);
         String read = br.readLine();

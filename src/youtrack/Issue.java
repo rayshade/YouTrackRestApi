@@ -40,6 +40,8 @@ public class Issue extends BaseItem<Project> {
     private List<BaseIssueField> fieldArray;
     @XmlTransient
     private HashMap<String, BaseIssueField> fields;
+    @XmlTransient
+    private boolean wikify;
 
     Issue() {
         comments = new CommandBasedList<Issue, IssueComment>(this,
@@ -128,6 +130,14 @@ public class Issue extends BaseItem<Project> {
         return state == null ? null : state.getValue();
     }
 
+    public boolean isWikify() {
+        return wikify;
+    }
+
+    public void setWikify(boolean wikify) {
+        this.wikify = wikify;
+    }
+
     public void setState(String state) throws IOException, SetIssueFieldException, NoSuchIssueFieldException, CommandExecutionException {
         setFieldByName("State", state);
     }
@@ -213,6 +223,7 @@ public class Issue extends BaseItem<Project> {
 
     private void updateSelf() throws CommandExecutionException {
         final GetIssue command = new GetIssue(owner);
+        if (wikify) command.addParameter("wikifyDescription", String.valueOf(true));
         command.setItemId(getId());
         final Issue issue = youTrack.execute(command).getResult();
         if (issue != null) {
