@@ -8,6 +8,7 @@ import youtrack.commands.GetProjects;
 import youtrack.commands.Login;
 import youtrack.commands.base.Command;
 import youtrack.commands.base.RunningCommand;
+import youtrack.commands.base.SingleItemCommand;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 
@@ -80,7 +81,7 @@ public class YouTrack extends BaseItem {
      * @return instance of @link CommandResult containing command execution results.
      */
 
-    <O extends BaseItem, R extends BaseItem> CommandResultSingleItem<R> execute(Command<O, R> command) throws CommandExecutionException {
+    <O extends BaseItem, R extends BaseItem> CommandResultSingleItem<R> execute(SingleItemCommand<O, R> command) throws CommandExecutionException {
         try {
             final HttpClient httpClient = new HttpClient();
             command.createCommandMethod();
