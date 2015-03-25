@@ -18,6 +18,7 @@ import java.util.Map;
 /**
  * Created by Egor.Malyshev on 18.12.13.
  */
+@SuppressWarnings("unused")
 public class YouTrack extends BaseItem {
 
     private final static Map<String, YouTrack> INSTANCES = new HashMap<String, YouTrack>();
