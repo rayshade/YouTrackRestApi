@@ -23,8 +23,8 @@ public class ModifyIssue extends RunningCommand<Issue, String> {
     @Override
     public void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId());
-        final String summary = getArguments().get("summary");
-        final String description = getArguments().get("description");
+        final String summary = parameters.get("summary");
+        final String description = parameters.get("description");
         postMethod.setRequestBody(new NameValuePair[]{
                 new NameValuePair("summary", ((summary == null) ? owner.getSummary() : summary)),
                 new NameValuePair("description", ((description == null) ? owner.getDescription() : description))

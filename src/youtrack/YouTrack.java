@@ -181,10 +181,8 @@ public class YouTrack extends BaseItem {
 
     public void login(@NotNull String userName, @NotNull String password) throws AuthenticationErrorException, CommandExecutionException {
         final Login login = new Login(this);
-        final HashMap<String, String> arguments = new HashMap<String, String>();
-        arguments.put("login", userName);
-        arguments.put("password", password);
-        login.setArguments(arguments);
+        login.addParameter("login", userName);
+        login.addParameter("password", password);
         final CommandResultData<String> result = execute(login);
         if (result.success()) {
             authorization = result.getResult();

@@ -85,10 +85,8 @@ public class Issue extends BaseItem<Project> {
     void setFieldByName(@NotNull String fieldName, @Nullable String value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
         if (fields.containsKey(fieldName)) {
             final ModifyIssueField modifyCommand = new ModifyIssueField(this);
-            final Map<String, String> params = new HashMap<String, String>();
-            params.put("field", fieldName);
-            params.put("value", value);
-            modifyCommand.setArguments(params);
+            modifyCommand.addParameter("field", fieldName);
+            modifyCommand.addParameter("value", value);
             final CommandResultData<String> result = youTrack.execute(modifyCommand);
             if (!result.success()) {
                 throw new SetIssueFieldException(this, fields.get(fieldName), value);
@@ -149,9 +147,7 @@ public class Issue extends BaseItem<Project> {
 
     public void setDescription(String description) throws IOException, SetIssueFieldException, CommandExecutionException {
         final ModifyIssue command = new ModifyIssue(this);
-        final Map<String, String> params = new HashMap<String, String>();
-        params.put("description", description);
-        command.setArguments(params);
+        command.addParameter("description", description);
         final CommandResultData<String> result = youTrack.execute(command);
         if (result.success()) {
             updateSelf();
@@ -165,9 +161,7 @@ public class Issue extends BaseItem<Project> {
 
     public void setSummary(String summary) throws IOException, SetIssueFieldException, CommandExecutionException {
         final ModifyIssue command = new ModifyIssue(this);
-        final Map<String, String> params = new HashMap<String, String>();
-        params.put("summary", summary);
-        command.setArguments(params);
+        command.addParameter("summary", summary);
         final CommandResultData<String> result = youTrack.execute(command);
         if (result.success()) {
             updateSelf();

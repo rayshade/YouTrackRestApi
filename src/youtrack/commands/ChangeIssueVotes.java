@@ -20,14 +20,13 @@ public class ChangeIssueVotes extends RunningCommand<Issue, Boolean> {
 
     public ChangeIssueVotes(@NotNull Issue owner, final boolean voteUp) {
         this(owner);
-        arguments = new HashMap<String, Boolean>();
-        arguments.put("vote", voteUp);
+        addParameter("vote", (voteUp ? "vote" : "unvote"));
     }
 
     @Override
     public void createCommandMethod() throws Exception {
         final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/execute");
-        postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("command", (getArguments().get("vote") ? "vote" : "unvote"))});
+        postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("command", parameters.get("vote"))});
         method = postMethod;
     }
 }

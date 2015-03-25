@@ -30,8 +30,8 @@ public class Login extends RunningCommand<YouTrack, String> {
     @Override
     public void createCommandMethod() throws CommandExecutionException {
         final PostMethod postMethod = new PostMethod(owner.getYouTrack().getHostAddress() + "user/login");
-        postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("login", getArguments().get("login")),
-                        new NameValuePair("password", getArguments().get("password"))}
+        postMethod.setRequestBody(new NameValuePair[]{new NameValuePair("login", parameters.get("login")),
+                        new NameValuePair("password", parameters.get("password"))}
         );
         method = postMethod;
     }
