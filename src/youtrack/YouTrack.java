@@ -26,7 +26,7 @@ public class YouTrack extends BaseItem {
     private String authorization;
     private String userName;
     private String password;
-    private final static long INTERVAL = 180000;
+    private final static long INTERVAL = 180000L;
     private long timeout = -1L;
 
     private YouTrack(@NotNull String hostAddress) {
@@ -50,7 +50,6 @@ public class YouTrack extends BaseItem {
                 "hostAddress='" + hostAddress + '\'' +
                 '}';
     }
-
 
     /**
      * Determines if stored YouTrack auth token is still valid for request, and if not, refreshes it.

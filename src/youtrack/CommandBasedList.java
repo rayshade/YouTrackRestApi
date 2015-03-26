@@ -37,7 +37,6 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
         this.singleItemCommand.set(singleItemCommand);
     }
 
-    @NotNull
     public void add(final @NotNull R item) throws CommandExecutionException {
         final AddCommand<O, R> addCommand = this.addCommand.get();
         assert addCommand != null;
@@ -45,7 +44,6 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
         owner.get().getYouTrack().execute(addCommand);
     }
 
-    @NotNull
     public void remove(final @NotNull R item) throws CommandExecutionException {
         final RemoveCommand<O, R> removeCommand = this.removeCommand.get();
         assert removeCommand != null;
@@ -55,7 +53,8 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
 
     @Nullable
     public R item(final int index) throws CommandExecutionException {
-        return this.list().get(index);
+        final List<R> result = query("", index, 1);
+        return result.size() > 0 ? result.get(0) : null;
     }
 
     @Nullable
@@ -83,9 +82,5 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
         queryCommand.addParameter("start", String.valueOf(start));
         final CommandResultItemList<R> result = owner.get().getYouTrack().execute(queryCommand);
         return result.success() ? result.getResult() : Collections.<R>emptyList();
-    }
-
-    public List<R> query(final @NotNull String query) throws CommandExecutionException {
-        return query(query, 0, 100);
     }
 }
