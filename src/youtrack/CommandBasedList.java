@@ -16,12 +16,12 @@ import java.util.List;
  */
 
 public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
-    private final O owner;
-    private final AddCommand<O, R> addCommand;
-    private final RemoveCommand<O, R> removeCommand;
-    private final ListCommand<O, R> listCommand;
-    private final QueryCommand<O, R> queryCommand;
-    private final SingleItemCommand<O, R> singleItemCommand;
+    private final ThreadLocal<O> owner = new ThreadLocal<O>();
+    private final ThreadLocal<AddCommand<O, R>> addCommand = new ThreadLocal<AddCommand<O, R>>();
+    private final ThreadLocal<RemoveCommand<O, R>> removeCommand = new ThreadLocal<RemoveCommand<O, R>>();
+    private final ThreadLocal<ListCommand<O, R>> listCommand = new ThreadLocal<ListCommand<O, R>>();
+    private final ThreadLocal<QueryCommand<O, R>> queryCommand = new ThreadLocal<QueryCommand<O, R>>();
+    private final ThreadLocal<SingleItemCommand<O, R>> singleItemCommand = new ThreadLocal<SingleItemCommand<O, R>>();
 
     CommandBasedList(@NotNull O owner,
                      @Nullable AddCommand<O, R> addCommand,
@@ -29,26 +29,28 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
                      @Nullable ListCommand<O, R> listCommand,
                      @Nullable QueryCommand<O, R> queryCommand,
                      @Nullable SingleItemCommand<O, R> singleItemCommand) {
-        this.owner = owner;
-        this.addCommand = addCommand;
-        this.removeCommand = removeCommand;
-        this.listCommand = listCommand;
-        this.queryCommand = queryCommand;
-        this.singleItemCommand = singleItemCommand;
+        this.owner.set(owner);
+        this.addCommand.set(addCommand);
+        this.removeCommand.set(removeCommand);
+        this.listCommand.set(listCommand);
+        this.queryCommand.set(queryCommand);
+        this.singleItemCommand.set(singleItemCommand);
     }
 
     @NotNull
     public void add(final @NotNull R item) throws CommandExecutionException {
+        final AddCommand<O, R> addCommand = this.addCommand.get();
         assert addCommand != null;
         addCommand.setItem(item);
-        owner.getYouTrack().execute(addCommand);
+        owner.get().getYouTrack().execute(addCommand);
     }
 
     @NotNull
     public void remove(final @NotNull R item) throws CommandExecutionException {
+        final RemoveCommand<O, R> removeCommand = this.removeCommand.get();
         assert removeCommand != null;
         removeCommand.setItem(item);
-        owner.getYouTrack().execute(removeCommand);
+        owner.get().getYouTrack().execute(removeCommand);
     }
 
     @Nullable
@@ -58,26 +60,28 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
 
     @Nullable
     public R item(final @NotNull String id) throws CommandExecutionException {
+        final SingleItemCommand<O, R> singleItemCommand = this.singleItemCommand.get();
         assert singleItemCommand != null;
         singleItemCommand.setItemId(id);
-        return owner.getYouTrack().execute(singleItemCommand).getResult();
+        return owner.get().getYouTrack().execute(singleItemCommand).getResult();
     }
 
     @NotNull
     public List<R> list() throws CommandExecutionException {
+        final ListCommand<O, R> listCommand = this.listCommand.get();
         assert listCommand != null;
-        final CommandResultItemList<R> result = owner.getYouTrack().execute(listCommand);
+        final CommandResultItemList<R> result = owner.get().getYouTrack().execute(listCommand);
         return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
     @NotNull
     public List<R> query(final @NotNull String query, final int start, final int maxResults) throws CommandExecutionException {
-
+        final QueryCommand<O, R> queryCommand = this.queryCommand.get();
         assert queryCommand != null;
         queryCommand.addParameter("query", query);
         queryCommand.addParameter("max", String.valueOf(maxResults));
         queryCommand.addParameter("start", String.valueOf(start));
-        final CommandResultItemList<R> result = owner.getYouTrack().execute(queryCommand);
+        final CommandResultItemList<R> result = owner.get().getYouTrack().execute(queryCommand);
         return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
