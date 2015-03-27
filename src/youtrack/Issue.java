@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Created by Egor.Malyshev on 19.12.13.
  * Provides access to a single issue and its fields.
@@ -29,13 +28,13 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Issue extends BaseItem<Project> {
     @XmlTransient
-    private final ThreadLocal<CommandBasedList<Issue, IssueComment>> comments;
+    public final CommandBasedList<Issue, IssueComment> comments;
     @XmlTransient
-    private final ThreadLocal<CommandBasedList<Issue, IssueAttachment>> attachments;
+    public final CommandBasedList<Issue, IssueAttachment> attachments;
     @XmlTransient
-    private final ThreadLocal<CommandBasedList<Issue, IssueLink>> links;
+    public final CommandBasedList<Issue, IssueLink> links;
     @XmlTransient
-    private final ThreadLocal<CommandBasedList<Issue, IssueTag>> tags;
+    public final CommandBasedList<Issue, IssueTag> tags;
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     @XmlElement(name = "field")
     private List<BaseIssueField> fieldArray;
@@ -46,42 +45,14 @@ public class Issue extends BaseItem<Project> {
 
     Issue() {
         final Issue thiz = this;
-        comments = new ThreadLocal<CommandBasedList<Issue, IssueComment>>() {
-            @Override
-            public CommandBasedList<Issue, IssueComment> get() {
-                return new CommandBasedList<Issue, IssueComment>(thiz,
-                        new AddComment(thiz), new RemoveComment(thiz), new GetIssueComments(thiz), null, null);
-            }
-        };
 
-        attachments = new ThreadLocal<CommandBasedList<Issue, IssueAttachment>>() {
-            @Override
-            public CommandBasedList<Issue, IssueAttachment> get() {
-                return new CommandBasedList<Issue, IssueAttachment>(thiz, new AddAttachment(thiz),
-                        new RemoveAttachment(thiz), new GetIssueAttachments(thiz), null, null);
-            }
-        };
+        comments = new CommandBasedList<Issue, IssueComment>(this,
+                new AddComment(this), new RemoveComment(this), new GetIssueComments(this), null, null);
+        attachments = new CommandBasedList<Issue, IssueAttachment>(this, new AddAttachment(this),
+                new RemoveAttachment(this), new GetIssueAttachments(this), null, null);
+        links = new CommandBasedList<Issue, IssueLink>(this, new AddIssueLink(this), new RemoveIssueLink(this), new GetIssueLinks(this), null, null);
+        tags = new CommandBasedList<Issue, IssueTag>(this, new AddIssueTag(this), new RemoveIssueTag(this), new GetIssueTags(this), null, null);
 
-        links = new ThreadLocal<CommandBasedList<Issue, IssueLink>>() {
-            @Override
-            public CommandBasedList<Issue, IssueLink> get() {
-                return new CommandBasedList<Issue, IssueLink>(thiz, new AddIssueLink(thiz),
-                        new RemoveIssueLink(thiz), new GetIssueLinks(thiz), null, null);
-            }
-        };
-
-        tags = new ThreadLocal<CommandBasedList<Issue, IssueTag>>() {
-            @Override
-            public CommandBasedList<Issue, IssueTag> get() {
-                return new CommandBasedList<Issue, IssueTag>(thiz, new AddIssueTag(thiz),
-                        new RemoveIssueTag(thiz), new GetIssueTags(thiz), null, null);
-            }
-        };
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
     }
 
     private Issue(String summary, String description) {

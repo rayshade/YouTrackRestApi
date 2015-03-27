@@ -21,7 +21,7 @@ import java.util.Map;
 public class YouTrack extends BaseItem {
 
     private final static Map<String, YouTrack> INSTANCES = new HashMap<String, YouTrack>();
-    private final ThreadLocal<CommandBasedList<YouTrack, Project>> projects;
+    public final CommandBasedList<YouTrack, Project> projects;
     private final String hostAddress;
     private String authorization;
     private String userName;
@@ -31,17 +31,7 @@ public class YouTrack extends BaseItem {
 
     private YouTrack(@NotNull String hostAddress) {
         this.hostAddress = hostAddress;
-        final YouTrack thiz = this;
-        projects = new ThreadLocal<CommandBasedList<YouTrack, Project>>() {
-            @Override
-            public CommandBasedList<YouTrack, Project> get() {
-                return new CommandBasedList<YouTrack, Project>(thiz, null, null, new GetProjects(thiz), null, new GetProject(thiz));
-            }
-        };
-    }
-
-    public CommandBasedList<YouTrack, Project> projects() {
-        return projects.get();
+        projects = new CommandBasedList<YouTrack, Project>(this, null, null, new GetProjects(this), null, new GetProject(this));
     }
 
     /**

@@ -20,7 +20,7 @@ public class AddIssue extends AddCommand<Project, Issue> {
     public Issue getResult() throws Exception {
         final String[] locations = method.getResponseHeader("Location").getValue().split("/");
         final String issueId = locations[locations.length - 1];
-        return owner.issues().item(issueId);
+        return owner.issues.item(issueId);
     }
 
     @Override
