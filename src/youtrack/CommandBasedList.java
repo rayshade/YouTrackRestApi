@@ -7,7 +7,6 @@ import youtrack.exceptions.CommandExecutionException;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
@@ -17,106 +16,71 @@ import java.util.function.Supplier;
  */
 
 public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
-    private final ThreadLocal<O> owner;
-    private final ThreadLocal<AddCommand<O, R>> addCommand;
-    private final ThreadLocal<RemoveCommand<O, R>> removeCommand;
-    private final ThreadLocal<ListCommand<O, R>> listCommand;
-    private final ThreadLocal<QueryCommand<O, R>> queryCommand;
-    private final ThreadLocal<SingleItemCommand<O, R>> singleItemCommand;
+    private final O owner;
+    private final AddCommand<O, R> addCommand;
+    private final RemoveCommand<O, R> removeCommand;
+    private final ListCommand<O, R> listCommand;
+    private final QueryCommand<O, R> queryCommand;
+    private final SingleItemCommand<O, R> singleItemCommand;
 
-    CommandBasedList(final @NotNull O owner,
-                     final @Nullable AddCommand<O, R> addCommand,
-                     final @Nullable RemoveCommand<O, R> removeCommand,
-                     final @Nullable ListCommand<O, R> listCommand,
-                     final @Nullable QueryCommand<O, R> queryCommand,
-                     final @Nullable SingleItemCommand<O, R> singleItemCommand) {
-
-        this.owner = ThreadLocal.withInitial(new Supplier<O>() {
-            @Override
-            public O get() {
-                return owner;
-            }
-        });
-        this.addCommand = ThreadLocal.withInitial(new Supplier<AddCommand<O, R>>() {
-            @Override
-            public AddCommand<O, R> get() {
-                return addCommand;
-            }
-        });
-        this.removeCommand = ThreadLocal.withInitial(new Supplier<RemoveCommand<O, R>>() {
-            @Override
-            public RemoveCommand<O, R> get() {
-                return removeCommand;
-            }
-        });
-        this.listCommand = ThreadLocal.withInitial(new Supplier<ListCommand<O, R>>() {
-            @Override
-            public ListCommand<O, R> get() {
-                return listCommand;
-            }
-        });
-        this.queryCommand = ThreadLocal.withInitial(new Supplier<QueryCommand<O, R>>() {
-            @Override
-            public QueryCommand<O, R> get() {
-                return queryCommand;
-            }
-        });
-        this.singleItemCommand = ThreadLocal.withInitial(new Supplier<SingleItemCommand<O, R>>() {
-            @Override
-            public SingleItemCommand<O, R> get() {
-                return singleItemCommand;
-            }
-        });
+    CommandBasedList(@NotNull O owner,
+                     @Nullable AddCommand<O, R> addCommand,
+                     @Nullable RemoveCommand<O, R> removeCommand,
+                     @Nullable ListCommand<O, R> listCommand,
+                     @Nullable QueryCommand<O, R> queryCommand,
+                     @Nullable SingleItemCommand<O, R> singleItemCommand) {
+        this.owner = owner;
+        this.addCommand = addCommand;
+        this.removeCommand = removeCommand;
+        this.listCommand = listCommand;
+        this.queryCommand = queryCommand;
+        this.singleItemCommand = singleItemCommand;
     }
 
+    @NotNull
     public void add(final @NotNull R item) throws CommandExecutionException {
-        final AddCommand<O, R> addCommand = this.addCommand.get();
         assert addCommand != null;
         addCommand.setItem(item);
-        owner.get().getYouTrack().execute(addCommand);
+        owner.getYouTrack().execute(addCommand);
     }
 
+    @NotNull
     public void remove(final @NotNull R item) throws CommandExecutionException {
-        final RemoveCommand<O, R> removeCommand = this.removeCommand.get();
         assert removeCommand != null;
         removeCommand.setItem(item);
-        owner.get().getYouTrack().execute(removeCommand);
+        owner.getYouTrack().execute(removeCommand);
     }
 
     @Nullable
     public R item(final int index) throws CommandExecutionException {
-        final List<R> result = query("", index, 1);
-        return result.size() > 0 ? result.get(0) : null;
+        return this.list().get(index);
     }
 
     @Nullable
     public R item(final @NotNull String id) throws CommandExecutionException {
-        final SingleItemCommand<O, R> singleItemCommand = this.singleItemCommand.get();
         assert singleItemCommand != null;
         singleItemCommand.setItemId(id);
-        return owner.get().getYouTrack().execute(singleItemCommand).getResult();
+        return owner.getYouTrack().execute(singleItemCommand).getResult();
     }
 
     @NotNull
     public List<R> list() throws CommandExecutionException {
-        final ListCommand<O, R> listCommand = this.listCommand.get();
         assert listCommand != null;
-        final CommandResultItemList<R> result = owner.get().getYouTrack().execute(listCommand);
+        final CommandResultItemList<R> result = owner.getYouTrack().execute(listCommand);
         return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
     @NotNull
     public List<R> query(final @NotNull String query, final int start, final int maxResults) throws CommandExecutionException {
-        final QueryCommand<O, R> queryCommand = this.queryCommand.get();
+
         assert queryCommand != null;
         queryCommand.addParameter("query", query);
         queryCommand.addParameter("max", String.valueOf(maxResults));
         queryCommand.addParameter("start", String.valueOf(start));
-        final CommandResultItemList<R> result = owner.get().getYouTrack().execute(queryCommand);
+        final CommandResultItemList<R> result = owner.getYouTrack().execute(queryCommand);
         return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
-    @NotNull
     public List<R> query(final @NotNull String query) throws CommandExecutionException {
         return query(query, 0, 100);
     }
