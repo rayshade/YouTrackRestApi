@@ -7,6 +7,7 @@ import youtrack.exceptions.CommandExecutionException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
@@ -16,25 +17,56 @@ import java.util.List;
  */
 
 public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
-    private final ThreadLocal<O> owner = new ThreadLocal<O>();
-    private final ThreadLocal<AddCommand<O, R>> addCommand = new ThreadLocal<AddCommand<O, R>>();
-    private final ThreadLocal<RemoveCommand<O, R>> removeCommand = new ThreadLocal<RemoveCommand<O, R>>();
-    private final ThreadLocal<ListCommand<O, R>> listCommand = new ThreadLocal<ListCommand<O, R>>();
-    private final ThreadLocal<QueryCommand<O, R>> queryCommand = new ThreadLocal<QueryCommand<O, R>>();
-    private final ThreadLocal<SingleItemCommand<O, R>> singleItemCommand = new ThreadLocal<SingleItemCommand<O, R>>();
+    private final ThreadLocal<O> owner;
+    private final ThreadLocal<AddCommand<O, R>> addCommand;
+    private final ThreadLocal<RemoveCommand<O, R>> removeCommand;
+    private final ThreadLocal<ListCommand<O, R>> listCommand;
+    private final ThreadLocal<QueryCommand<O, R>> queryCommand;
+    private final ThreadLocal<SingleItemCommand<O, R>> singleItemCommand;
 
-    CommandBasedList(@NotNull O owner,
-                     @Nullable AddCommand<O, R> addCommand,
-                     @Nullable RemoveCommand<O, R> removeCommand,
-                     @Nullable ListCommand<O, R> listCommand,
-                     @Nullable QueryCommand<O, R> queryCommand,
-                     @Nullable SingleItemCommand<O, R> singleItemCommand) {
-        this.owner.set(owner);
-        this.addCommand.set(addCommand);
-        this.removeCommand.set(removeCommand);
-        this.listCommand.set(listCommand);
-        this.queryCommand.set(queryCommand);
-        this.singleItemCommand.set(singleItemCommand);
+    CommandBasedList(final @NotNull O owner,
+                     final @Nullable AddCommand<O, R> addCommand,
+                     final @Nullable RemoveCommand<O, R> removeCommand,
+                     final @Nullable ListCommand<O, R> listCommand,
+                     final @Nullable QueryCommand<O, R> queryCommand,
+                     final @Nullable SingleItemCommand<O, R> singleItemCommand) {
+
+        this.owner = ThreadLocal.withInitial(new Supplier<O>() {
+            @Override
+            public O get() {
+                return owner;
+            }
+        });
+        this.addCommand = ThreadLocal.withInitial(new Supplier<AddCommand<O, R>>() {
+            @Override
+            public AddCommand<O, R> get() {
+                return addCommand;
+            }
+        });
+        this.removeCommand = ThreadLocal.withInitial(new Supplier<RemoveCommand<O, R>>() {
+            @Override
+            public RemoveCommand<O, R> get() {
+                return removeCommand;
+            }
+        });
+        this.listCommand = ThreadLocal.withInitial(new Supplier<ListCommand<O, R>>() {
+            @Override
+            public ListCommand<O, R> get() {
+                return listCommand;
+            }
+        });
+        this.queryCommand = ThreadLocal.withInitial(new Supplier<QueryCommand<O, R>>() {
+            @Override
+            public QueryCommand<O, R> get() {
+                return queryCommand;
+            }
+        });
+        this.singleItemCommand = ThreadLocal.withInitial(new Supplier<SingleItemCommand<O, R>>() {
+            @Override
+            public SingleItemCommand<O, R> get() {
+                return singleItemCommand;
+            }
+        });
     }
 
     public void add(final @NotNull R item) throws CommandExecutionException {
@@ -82,5 +114,10 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
         queryCommand.addParameter("start", String.valueOf(start));
         final CommandResultItemList<R> result = owner.get().getYouTrack().execute(queryCommand);
         return result.success() ? result.getResult() : Collections.<R>emptyList();
+    }
+
+    @NotNull
+    public List<R> query(final @NotNull String query) throws CommandExecutionException {
+        return query(query, 0, 100);
     }
 }
