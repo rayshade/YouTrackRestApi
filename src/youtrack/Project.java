@@ -3,7 +3,6 @@ package youtrack;
 import youtrack.commands.*;
 
 import javax.xml.bind.annotation.*;
-import java.util.function.Supplier;
 
 /**
  * Created by egor.malyshev on 01.04.2014.
@@ -20,13 +19,13 @@ public class Project extends BaseItem<YouTrack> {
 
     Project() {
         final Project thiz = this;
-        issues = ThreadLocal.withInitial(new Supplier<CommandBasedList<Project, Issue>>() {
+        issues = new ThreadLocal<CommandBasedList<Project, Issue>>() {
             @Override
             public CommandBasedList<Project, Issue> get() {
                 return new CommandBasedList<Project, Issue>(thiz,
                         new AddIssue(thiz), new RemoveIssue(thiz), new GetIssues(thiz), new QueryIssues(thiz), new GetIssue(thiz));
             }
-        });
+        };
     }
 
     public CommandBasedList<Project, Issue> issues() {

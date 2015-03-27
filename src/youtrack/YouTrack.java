@@ -13,7 +13,6 @@ import youtrack.exceptions.CommandExecutionException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * Created by Egor.Malyshev on 18.12.13.
@@ -33,12 +32,12 @@ public class YouTrack extends BaseItem {
     private YouTrack(@NotNull String hostAddress) {
         this.hostAddress = hostAddress;
         final YouTrack thiz = this;
-        projects = ThreadLocal.withInitial(new Supplier<CommandBasedList<YouTrack, Project>>() {
+        projects = new ThreadLocal<CommandBasedList<YouTrack, Project>>() {
             @Override
             public CommandBasedList<YouTrack, Project> get() {
                 return new CommandBasedList<YouTrack, Project>(thiz, null, null, new GetProjects(thiz), null, new GetProject(thiz));
             }
-        });
+        };
     }
 
     public CommandBasedList<YouTrack, Project> projects() {

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
+
 
 /**
  * Created by Egor.Malyshev on 19.12.13.
@@ -46,37 +46,42 @@ public class Issue extends BaseItem<Project> {
 
     Issue() {
         final Issue thiz = this;
-
-
-        comments = ThreadLocal.withInitial(new Supplier<CommandBasedList<Issue, IssueComment>>() {
+        comments = new ThreadLocal<CommandBasedList<Issue, IssueComment>>() {
             @Override
             public CommandBasedList<Issue, IssueComment> get() {
                 return new CommandBasedList<Issue, IssueComment>(thiz,
                         new AddComment(thiz), new RemoveComment(thiz), new GetIssueComments(thiz), null, null);
             }
-        });
+        };
 
-        attachments = ThreadLocal.withInitial(new Supplier<CommandBasedList<Issue, IssueAttachment>>() {
+        attachments = new ThreadLocal<CommandBasedList<Issue, IssueAttachment>>() {
             @Override
             public CommandBasedList<Issue, IssueAttachment> get() {
                 return new CommandBasedList<Issue, IssueAttachment>(thiz, new AddAttachment(thiz),
                         new RemoveAttachment(thiz), new GetIssueAttachments(thiz), null, null);
             }
-        });
+        };
 
-        links = ThreadLocal.withInitial(new Supplier<CommandBasedList<Issue, IssueLink>>() {
+        links = new ThreadLocal<CommandBasedList<Issue, IssueLink>>() {
             @Override
             public CommandBasedList<Issue, IssueLink> get() {
-                return new CommandBasedList<Issue, IssueLink>(thiz, new AddIssueLink(thiz), new RemoveIssueLink(thiz), new GetIssueLinks(thiz), null, null);
+                return new CommandBasedList<Issue, IssueLink>(thiz, new AddIssueLink(thiz),
+                        new RemoveIssueLink(thiz), new GetIssueLinks(thiz), null, null);
             }
-        });
+        };
 
-        tags = ThreadLocal.withInitial(new Supplier<CommandBasedList<Issue, IssueTag>>() {
+        tags = new ThreadLocal<CommandBasedList<Issue, IssueTag>>() {
             @Override
             public CommandBasedList<Issue, IssueTag> get() {
-                return new CommandBasedList<Issue, IssueTag>(thiz, new AddIssueTag(thiz), new RemoveIssueTag(thiz), new GetIssueTags(thiz), null, null);
+                return new CommandBasedList<Issue, IssueTag>(thiz, new AddIssueTag(thiz),
+                        new RemoveIssueTag(thiz), new GetIssueTags(thiz), null, null);
             }
-        });
+        };
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
     }
 
     private Issue(String summary, String description) {
