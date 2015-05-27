@@ -1,8 +1,6 @@
 package youtrack.commands.base;
-
 import com.sun.istack.internal.NotNull;
 import youtrack.BaseItem;
-
 /**
  * Created by Egor.Malyshev on 25.03.2015.
  */

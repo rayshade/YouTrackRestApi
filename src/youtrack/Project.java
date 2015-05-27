@@ -1,9 +1,7 @@
 package youtrack;
-
 import youtrack.commands.*;
 
 import javax.xml.bind.annotation.*;
-
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
@@ -16,25 +14,20 @@ public class Project extends BaseItem<YouTrack> {
     private String name;
     @XmlAttribute(name = "shortName")
     private String shortName;
-
     Project() {
-        issues =                 new CommandBasedList<Project, Issue>(this,
+        issues = new CommandBasedList<Project, Issue>(this,
                 new AddIssue(this), new RemoveIssue(this), new GetIssues(this), new QueryIssues(this), new GetIssue(this));
-
     }
-
-   @Override
+    @Override
     public String toString() {
         return "Project{" +
                 "name='" + name + '\'' +
                 ", shortName='" + shortName + '\'' +
                 '}';
     }
-
     public String getName() {
         return name;
     }
-
     public String getId() {
         return shortName;
     }

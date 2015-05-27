@@ -1,5 +1,4 @@
 package youtrack.commands.base;
-
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -17,7 +16,6 @@ import javax.xml.stream.util.StreamReaderDelegate;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
-
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
@@ -25,30 +23,24 @@ public abstract class Command<O extends BaseItem, R> {
     protected final O owner;
     protected HttpMethodBase method;
     protected Map<String, String> parameters = new HashMap<String, String>();
-
     public Command(final @NotNull O owner) {
         this.owner = owner;
     }
-
     @Override
     public String toString() {
         return "Command " + this.getClass().getSimpleName() + "{" +
                 "owner=" + owner +
                 '}';
     }
-
     @NotNull
     public O getOwner() {
         return owner;
     }
-
     public boolean usesAuthorization() {
         return true;
     }
-
     @Nullable
     public abstract R getResult() throws Exception;
-
     /**
      * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.
      *
@@ -87,20 +79,23 @@ public abstract class Command<O extends BaseItem, R> {
                 Error.class);
         final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         result = jaxbUnmarshaller.unmarshal(streamReader);
-        if (result instanceof Error) {
+        if(result instanceof Error) {
             Error error = (Error) result;
             error.setCode(method.getStatusLine().getStatusCode());
             throw new CommandExecutionException(this, error);
         }
         return result;
     }
-
     public HttpMethodBase getMethod() {
         return method;
     }
-
     public abstract void createCommandMethod() throws Exception;
-
+    public void addParameter(final @NotNull String name, final @Nullable String value) {
+        parameters.put(name, value);
+    }
+    public void removeParameter(final @NotNull String name) {
+        if(parameters.containsKey(name)) parameters.remove(name);
+    }
     /**
      * Class to work around the JAXB name handling.
      * Forces upper case on the first letter of xsi:type attribute.
@@ -109,22 +104,12 @@ public abstract class Command<O extends BaseItem, R> {
         public HackedReader(XMLStreamReader xmlStreamReader) {
             super(xmlStreamReader);
         }
-
         @Override
         public String getAttributeValue(int index) {
             final String attributeValue = super.getAttributeValue(index);
-            return (getAttributeLocalName(index).equals("type")) ?
+            return ("type".equals(getAttributeLocalName(index))) ?
                     attributeValue.substring(0, 1).toLowerCase() + attributeValue.substring(1)
                     : super.getAttributeValue(index);
         }
-    }
-
-
-    public void addParameter(final @NotNull String name, final @Nullable String value) {
-        parameters.put(name, value);
-    }
-
-    public void removeParameter(final @NotNull String name) {
-        if (parameters.containsKey(name)) parameters.remove(name);
     }
 }

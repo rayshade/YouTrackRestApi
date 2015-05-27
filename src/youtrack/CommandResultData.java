@@ -1,5 +1,4 @@
 package youtrack;
-
 /**
  * Created by Egor.Malyshev on 25.12.2014.
  */

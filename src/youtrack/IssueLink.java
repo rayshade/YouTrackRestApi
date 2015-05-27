@@ -1,10 +1,8 @@
 package youtrack;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
@@ -21,15 +19,13 @@ public class IssueLink extends BaseItem<Issue> {
     private String target;
     @XmlAttribute(name = "source")
     private String source;
-
     IssueLink() {
     }
-
     public static IssueLink createLink(String target, LinkTypes relation) {
         IssueLink issueLink = new IssueLink();
         issueLink.target = target;
         issueLink.wrapper = true;
-        switch (relation) {
+        switch(relation) {
             case DEPENDS_ON:
                 issueLink.typeName = "depends on ";
                 break;
@@ -47,23 +43,18 @@ public class IssueLink extends BaseItem<Issue> {
                 break;
             case SUBTASK_OF:
                 issueLink.typeName = "subtask of";
-
         }
         return issueLink;
     }
-
     public String getTypeInward() {
         return typeInward;
     }
-
     public String getTypeOutward() {
         return typeOutward;
     }
-
     public String getTypeName() {
         return typeName;
     }
-
     @Override
     public String toString() {
         return "IssueLink{" +
@@ -74,15 +65,12 @@ public class IssueLink extends BaseItem<Issue> {
                 ", source='" + source + '\'' +
                 '}';
     }
-
     public String getTarget() {
         return target;
     }
-
     public String getSource() {
         return source;
     }
-
     public enum LinkTypes {
         RELATES_TO,
         REQUIRED_FOR,
