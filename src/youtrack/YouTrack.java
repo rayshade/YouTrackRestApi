@@ -5,12 +5,10 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import youtrack.commands.GetProject;
 import youtrack.commands.GetProjects;
 import youtrack.commands.Login;
-import youtrack.commands.base.ListCommand;
-import youtrack.commands.base.RunningCommand;
-import youtrack.commands.base.SingleItemCommand;
-import youtrack.commands.base.VoidCommand;
+import youtrack.commands.base.*;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
+import youtrack.exceptions.NotLoggedInException;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -50,9 +48,13 @@ public class YouTrack extends BaseItem {
     /**
      * Determines if stored YouTrack auth token is still valid for request, and if not, refreshes it.
      */
-    private void checkAuthState() throws AuthenticationErrorException, CommandExecutionException {
+    private void checkAuthState(final @NotNull Command command) throws NotLoggedInException, AuthenticationErrorException, CommandExecutionException {
         if((Calendar.getInstance().getTimeInMillis() - timeout) > INTERVAL) {
-            login(userName, password);
+            if(userName != null && password != null) {
+                login(userName, password);
+            } else {
+                throw new NotLoggedInException(command);
+            }
         }
     }
     /**
@@ -67,7 +69,7 @@ public class YouTrack extends BaseItem {
             command.createCommandMethod();
             final HttpMethodBase method = command.getMethod();
             if(command.usesAuthorization()) {
-                checkAuthState();
+                checkAuthState(command);
                 method.addRequestHeader("Cookie", authorization);
             }
             httpClient.executeMethod(method);
@@ -92,7 +94,7 @@ public class YouTrack extends BaseItem {
             command.createCommandMethod();
             final HttpMethodBase method = command.getMethod();
             if(command.usesAuthorization()) {
-                checkAuthState();
+                checkAuthState(command);
                 method.addRequestHeader("Cookie", authorization);
             }
             httpClient.executeMethod(method);
@@ -110,13 +112,13 @@ public class YouTrack extends BaseItem {
      *
      * @return instance of @link CommandResult containing command execution results.
      */
-    <O extends BaseItem, R extends BaseItem> CommandResultSingleItem<R> execute(SingleItemCommand<O, R> command) throws CommandExecutionException {
+    <O extends BaseItem, R extends BaseItem<O>> CommandResultSingleItem<R> execute(SingleItemCommand<O, R> command) throws CommandExecutionException {
         try {
             final HttpClient httpClient = new HttpClient();
             command.createCommandMethod();
             final HttpMethodBase method = command.getMethod();
             if(command.usesAuthorization()) {
-                checkAuthState();
+                checkAuthState(command);
                 method.addRequestHeader("Cookie", authorization);
             }
             httpClient.executeMethod(method);
@@ -130,6 +132,7 @@ public class YouTrack extends BaseItem {
         }
     }
     /**
+     * rjtxyj
      * Executes a YouTrack command that returns multiple results.
      *
      * @return instance of @link CommandResult containing command execution results.
@@ -140,7 +143,7 @@ public class YouTrack extends BaseItem {
             command.createCommandMethod();
             final HttpMethodBase method = command.getMethod();
             if(command.usesAuthorization()) {
-                checkAuthState();
+                checkAuthState(command);
                 method.addRequestHeader("Cookie", authorization);
             }
             httpClient.executeMethod(method);

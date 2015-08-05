@@ -25,7 +25,7 @@ public abstract class ListCommand<O extends BaseItem, R extends BaseItem<O>> ext
             final ItemList<R> resultList = (ItemList<R>) objectFromXml(responseBodyAsString);
             list = resultList.getItems();
             if(list == null) return Collections.emptyList();
-            for(R item : list) {
+            for(final R item : list) {
                 item.setOwner(owner);
             }
         } catch(CommandExecutionException e) {
