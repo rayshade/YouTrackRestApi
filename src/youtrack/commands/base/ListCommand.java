@@ -17,11 +17,11 @@ public abstract class ListCommand<O extends BaseItem, R extends BaseItem<O>> ext
     }
     @NotNull
     @Override
-//    @SuppressWarnings("unchecked")
     public List<R> getResult() throws AuthenticationErrorException, CommandExecutionException {
         List<R> list;
         try {
             final String responseBodyAsString = Service.readStream(method.getResponseBodyAsStream());
+            @SuppressWarnings("unchecked")
             final ItemList<R> resultList = (ItemList<R>) objectFromXml(responseBodyAsString);
             list = resultList.getItems();
             if(list == null) return Collections.emptyList();

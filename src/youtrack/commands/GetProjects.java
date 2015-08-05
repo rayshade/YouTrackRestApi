@@ -11,17 +11,6 @@ public class GetProjects extends ListCommand<YouTrack, Project> {
     public GetProjects(@NotNull YouTrack owner) {
         super(owner);
     }
-/*    @NotNull
-    @Override
-    public List<Project> getResult() {
-        final ProjectList projectList = (ProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
-        final List<Project> items = projectList.getItems();
-        if(items == null) return Collections.emptyList();
-        for(Project project : items) {
-            project.setOwner(owner);
-        }
-        return items;
-    }*/
     @Override
     public void createCommandMethod() {
         method = new GetMethod(owner.getYouTrack().getHostAddress() + "project/all");

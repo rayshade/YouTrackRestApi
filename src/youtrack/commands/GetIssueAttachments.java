@@ -11,18 +11,6 @@ public class GetIssueAttachments extends ListCommand<Issue, IssueAttachment> {
     public GetIssueAttachments(@NotNull Issue owner) {
         super(owner);
     }
-    /*@NotNull
-    @Override
-    public List<IssueAttachment> getResult() {
-        final String responseBodyAsString = Service.readStream(method.getResponseBodyAsStream());
-        final AttachmentList attachmentList = (AttachmentList) objectFromXml(responseBodyAsString);
-        final List<IssueAttachment> list = attachmentList.getItems();
-        if(list == null) return Collections.emptyList();
-        for(IssueAttachment attachment : list) {
-            attachment.setOwner(owner);
-        }
-        return list;
-    }*/
     @Override
     public void createCommandMethod() {
         method = new GetMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/attachment");

@@ -11,17 +11,6 @@ public class GetIssueLinks extends ListCommand<Issue, IssueLink> {
     public GetIssueLinks(@NotNull Issue owner) {
         super(owner);
     }
-  /*  @NotNull
-    @Override
-    public List<IssueLink> getResult() {
-        final LinkList linkList = (LinkList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
-        final List<IssueLink> list = linkList.getItems();
-        if(list == null) return Collections.emptyList();
-        for(IssueLink link : list) {
-            link.setOwner(owner);
-        }
-        return list;
-    }*/
     @Override
     public void createCommandMethod() {
         method = new GetMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/link");

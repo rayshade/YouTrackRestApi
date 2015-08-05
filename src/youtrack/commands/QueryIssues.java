@@ -18,18 +18,6 @@ public class QueryIssues extends QueryCommand<Project, Issue> {
     public QueryIssues(@NotNull Project owner) {
         super(owner);
     }
-/*
-    @Override
-    public List<Issue> getResult() {
-        final IssueProjectList itemList = (IssueProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
-        final List<Issue> items = itemList.getItems();
-        if(items == null) return Collections.emptyList();
-        for(Issue issue : items) {
-            issue.setOwner(owner);
-        }
-        return items;
-    }
-*/
     @Override
     public void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException {
         method = new GetMethod(owner.getYouTrack().getHostAddress() + "issue/byproject/" + owner.getId());
