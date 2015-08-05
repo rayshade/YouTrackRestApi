@@ -4,10 +4,9 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Issue;
 import youtrack.Project;
 import youtrack.commands.base.SingleItemCommand;
+import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.util.Service;
-
-import java.io.IOException;
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
@@ -16,16 +15,18 @@ public class GetIssue extends SingleItemCommand<Project, Issue> {
         super(owner);
     }
     @Override
-    public Issue getResult() throws Exception {
+    public Issue getResult() throws CommandExecutionException, AuthenticationErrorException {
         String responseBodyAsString;
         try {
             responseBodyAsString = Service.readStream(method.getResponseBodyAsStream());
-        } catch(IOException e) {
+            final Issue issue = (Issue) objectFromXml(responseBodyAsString);
+            issue.setOwner(owner);
+            return issue;
+        } catch(CommandExecutionException e) {
+            throw e;
+        } catch(Exception e) {
             throw new CommandExecutionException(this, e);
         }
-        final Issue issue = (Issue) objectFromXml(responseBodyAsString);
-        issue.setOwner(owner);
-        return issue;
     }
     @Override
     public void createCommandMethod() {

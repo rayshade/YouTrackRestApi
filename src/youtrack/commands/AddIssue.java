@@ -5,6 +5,8 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
 import youtrack.Project;
 import youtrack.commands.base.AddCommand;
+import youtrack.exceptions.AuthenticationErrorException;
+import youtrack.exceptions.CommandExecutionException;
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
@@ -13,7 +15,7 @@ public class AddIssue extends AddCommand<Project, Issue> {
         super(owner);
     }
     @Override
-    public Issue getResult() throws Exception {
+    public Issue getResult() throws CommandExecutionException, AuthenticationErrorException {
         final String[] locations = method.getResponseHeader("Location").getValue().split("/");
         final String issueId = locations[locations.length - 1];
         return owner.issues.item(issueId);

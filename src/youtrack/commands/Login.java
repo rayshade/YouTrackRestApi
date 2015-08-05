@@ -17,7 +17,7 @@ public class Login extends RunningCommand<YouTrack, String> {
         return false;
     }
     @Override
-    public String getResult() throws Exception {
+    public String getResult() {
         return method.getResponseHeader("Set-Cookie").getValue();
     }
     @Override

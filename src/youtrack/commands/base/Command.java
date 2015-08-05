@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.HttpMethodBase;
 import youtrack.*;
 import youtrack.Error;
+import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.issue.fields.*;
 import youtrack.issue.fields.values.*;
@@ -40,7 +41,7 @@ public abstract class Command<O extends BaseItem, R> {
         return true;
     }
     @Nullable
-    public abstract R getResult() throws Exception;
+    public abstract R getResult() throws CommandExecutionException, AuthenticationErrorException;
     /**
      * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.
      *

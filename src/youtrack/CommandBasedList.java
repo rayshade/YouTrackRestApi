@@ -12,7 +12,7 @@ import java.util.List;
  * Operates with items of R owned by items of O.
  * For example, CommandBasedList<Project, Issue> allows handling issues from project.
  */
-public class CommandBasedList<O extends BaseItem, R extends BaseItem> {
+public class CommandBasedList<O extends BaseItem, R extends BaseItem<O>> {
     private final O owner;
     private final AddCommand<O, R> addCommand;
     private final RemoveCommand<O, R> removeCommand;

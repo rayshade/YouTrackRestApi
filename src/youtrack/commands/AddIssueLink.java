@@ -13,7 +13,7 @@ public class AddIssueLink extends AddCommand<Issue, IssueLink> {
         super(owner);
     }
     @Override
-    public IssueLink getResult() throws Exception {
+    public IssueLink getResult() {
         return null;
     }
     @Override

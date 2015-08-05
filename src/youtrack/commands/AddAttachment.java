@@ -18,7 +18,7 @@ public class AddAttachment extends AddCommand<Issue, IssueAttachment> {
         super(owner);
     }
     @Override
-    public IssueAttachment getResult() throws Exception {
+    public IssueAttachment getResult() {
         return null;
     }
     @Override

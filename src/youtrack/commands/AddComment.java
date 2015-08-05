@@ -13,7 +13,7 @@ public class AddComment extends AddCommand<Issue, IssueComment> {
         super(owner);
     }
     @Override
-    public IssueComment getResult() throws Exception {
+    public IssueComment getResult() {
         return null;
     }
     @Override

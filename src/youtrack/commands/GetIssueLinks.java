@@ -3,12 +3,7 @@ import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.methods.GetMethod;
 import youtrack.Issue;
 import youtrack.IssueLink;
-import youtrack.LinkList;
 import youtrack.commands.base.ListCommand;
-import youtrack.util.Service;
-
-import java.util.Collections;
-import java.util.List;
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
@@ -16,9 +11,9 @@ public class GetIssueLinks extends ListCommand<Issue, IssueLink> {
     public GetIssueLinks(@NotNull Issue owner) {
         super(owner);
     }
-    @NotNull
+  /*  @NotNull
     @Override
-    public List<IssueLink> getResult() throws Exception {
+    public List<IssueLink> getResult() {
         final LinkList linkList = (LinkList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
         final List<IssueLink> list = linkList.getItems();
         if(list == null) return Collections.emptyList();
@@ -26,7 +21,7 @@ public class GetIssueLinks extends ListCommand<Issue, IssueLink> {
             link.setOwner(owner);
         }
         return list;
-    }
+    }*/
     @Override
     public void createCommandMethod() {
         method = new GetMethod(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/link");

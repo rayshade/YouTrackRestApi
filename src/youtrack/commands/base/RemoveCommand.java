@@ -13,7 +13,7 @@ public abstract class RemoveCommand<O extends BaseItem, R> extends VoidCommand<O
         this.item = item;
     }
     @Override
-    public R getResult() throws Exception {
+    public R getResult() {
         return null;
     }
 }

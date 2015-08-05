@@ -5,6 +5,7 @@ import youtrack.Project;
 import youtrack.ProjectList;
 import youtrack.YouTrack;
 import youtrack.commands.base.SingleItemCommand;
+import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 import youtrack.util.Service;
@@ -19,15 +20,20 @@ public class GetProject extends SingleItemCommand<YouTrack, Project> {
         super(owner);
     }
     @Override
-    public Project getResult() throws Exception {
-        final ProjectList projectList = (ProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
+    public Project getResult() throws CommandExecutionException, AuthenticationErrorException {
+        final ProjectList projectList;
+        try {
+            projectList = (ProjectList) objectFromXml(Service.readStream(method.getResponseBodyAsStream()));
+        } catch(Exception e) {
+            throw new CommandExecutionException(this, e);
+        }
         final List<Project> items = projectList.getItems();
         if(items != null) {
             for(final Project project : items) {
                 if(itemId.equals(project.getId())) return project;
             }
         }
-        throw new Exception("Project " + itemId + " not found.");
+        throw new CommandExecutionException(this, new Exception("Project " + itemId + " not found."));
     }
     @Override
     public void createCommandMethod() throws IOException, NoSuchIssueFieldException, CommandExecutionException {

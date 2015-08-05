@@ -13,7 +13,7 @@ public class AddIssueTag extends AddCommand<Issue, IssueTag> {
         super(owner);
     }
     @Override
-    public IssueTag getResult() throws Exception {
+    public IssueTag getResult() {
         return null;
     }
     @Override

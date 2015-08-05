@@ -21,7 +21,7 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class YouTrack extends BaseItem {
     private final static Map<String, YouTrack> INSTANCES = new HashMap<String, YouTrack>();
-    private final static long INTERVAL = 180000L;
+    private final static long INTERVAL = 1800000L;
     public final CommandBasedList<YouTrack, Project> projects;
     private final String hostAddress;
     private String authorization;
@@ -134,7 +134,7 @@ public class YouTrack extends BaseItem {
      *
      * @return instance of @link CommandResult containing command execution results.
      */
-    <O extends BaseItem, R extends BaseItem> CommandResultItemList<R> execute(ListCommand<O, R> command) throws CommandExecutionException {
+    <O extends BaseItem, R extends BaseItem<O>> CommandResultItemList<R> execute(ListCommand<O, R> command) throws CommandExecutionException {
         try {
             final HttpClient httpClient = new HttpClient();
             command.createCommandMethod();

@@ -2,8 +2,11 @@ package youtrack.commands;
 import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
+import youtrack.Error;
 import youtrack.Issue;
 import youtrack.commands.base.RunningCommand;
+import youtrack.exceptions.AuthenticationErrorException;
+import youtrack.exceptions.CommandExecutionException;
 import youtrack.util.Service;
 /**
  * Created by egor.malyshev on 02.04.2014.
@@ -13,8 +16,21 @@ public class ModifyIssueField extends RunningCommand<Issue, String> {
         super(owner);
     }
     @Override
-    public String getResult() throws Exception {
-        return method.getStatusCode() == 200 ? null : Service.readStream(method.getResponseBodyAsStream());
+    public String getResult() throws CommandExecutionException, AuthenticationErrorException {
+        try {
+            if(method.getStatusCode() != 200) {
+                final Error e = new Error();
+                e.setMessage(method.getStatusText());
+                e.setCode(method.getStatusCode());
+                throw new CommandExecutionException(this, e);
+            } else {
+                return Service.readStream(method.getResponseBodyAsStream());
+            }
+        } catch(CommandExecutionException e) {
+            throw e;
+        } catch(Exception e) {
+            throw new CommandExecutionException(this, e);
+        }
     }
     @Override
     public void createCommandMethod() {
