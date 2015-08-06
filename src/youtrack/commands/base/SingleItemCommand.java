@@ -1,7 +1,7 @@
 package youtrack.commands.base;
 import com.sun.istack.internal.NotNull;
 import youtrack.BaseItem;
-import youtrack.ItemList;
+import youtrack.BaseItemList;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.util.Service;
@@ -23,8 +23,8 @@ public abstract class SingleItemCommand<O extends BaseItem, R extends BaseItem<O
             if(receivedData instanceof BaseItem) {
                 result = (R) receivedData;
             }
-            if(receivedData instanceof ItemList) {
-                ItemList<R> list = (ItemList<R>) receivedData;
+            if(receivedData instanceof BaseItemList) {
+                BaseItemList<R> list = (BaseItemList<R>) receivedData;
                 for(final R item : list.getItems()) {
                     if(itemId.equals(item.getId())) {
                         result = item;

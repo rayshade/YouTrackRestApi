@@ -9,7 +9,7 @@ import java.util.List;
  */
 @XmlRootElement(name = "issueLinks")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LinkList extends ItemList<IssueLink> {
+public class LinkList extends BaseItemList<IssueLink> {
     @XmlElement(name = "issueLink")
     private List<IssueLink> links;
     LinkList() {

@@ -73,7 +73,7 @@ public abstract class Command<O extends BaseItem, R> {
                 IssueLink.class,
                 IssueProjectList.class,
                 IssueTag.class,
-                ItemList.class,
+                BaseItemList.class,
                 LinkList.class,
                 ProjectList.class,
                 TagList.class,

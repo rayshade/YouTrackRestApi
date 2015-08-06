@@ -1,7 +1,7 @@
 package youtrack.commands.base;
 import com.sun.istack.internal.NotNull;
 import youtrack.BaseItem;
-import youtrack.ItemList;
+import youtrack.BaseItemList;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.util.Service;
@@ -22,7 +22,7 @@ public abstract class ListCommand<O extends BaseItem, R extends BaseItem<O>> ext
         try {
             final String responseBodyAsString = Service.readStream(method.getResponseBodyAsStream());
             @SuppressWarnings("unchecked")
-            final ItemList<R> resultList = (ItemList<R>) objectFromXml(responseBodyAsString);
+            final BaseItemList<R> resultList = (BaseItemList<R>) objectFromXml(responseBodyAsString);
             list = resultList.getItems();
             if(list == null) return Collections.emptyList();
             for(final R item : list) {

@@ -6,7 +6,7 @@ import java.util.List;
  * Created by egor.malyshev on 01.04.2014.
  */
 @XmlRootElement(name = "issueCompacts")
-public class IssueCompactList extends ItemList<Issue> {
+public class IssueCompactList extends BaseItemList<Issue> {
     @XmlElement(name = "issue")
     protected List<Issue> items;
     public IssueCompactList() {

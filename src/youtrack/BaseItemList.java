@@ -13,13 +13,13 @@ import java.util.Map;
  * Created by egor.malyshev on 01.04.2014.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class ItemList<T extends BaseItem> {
+public abstract class BaseItemList<T extends BaseItem> {
     /*
        This is used to work around the issue with JAXB not being able to unmarshal a Map.
     */
     @XmlTransient
     protected Map<String, T> itemsMap;
-    ItemList() {
+    BaseItemList() {
     }
     public abstract List<T> getItems();
     @SuppressWarnings("UnusedDeclaration")

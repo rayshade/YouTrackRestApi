@@ -9,7 +9,7 @@ import java.util.List;
  */
 @XmlRootElement(name = "projects")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProjectList extends ItemList<Project> {
+public class ProjectList extends BaseItemList<Project> {
     @XmlElement(name = "project")
     private List<Project> projects;
     ProjectList() {

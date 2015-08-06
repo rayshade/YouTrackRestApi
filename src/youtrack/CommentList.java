@@ -9,7 +9,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "comments")
-public class CommentList extends ItemList<IssueComment> {
+public class CommentList extends BaseItemList<IssueComment> {
     @XmlElement(name = "comment")
     private List<IssueComment> comments;
     CommentList() {

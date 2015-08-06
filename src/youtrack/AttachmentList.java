@@ -9,7 +9,7 @@ import java.util.List;
  */
 @XmlRootElement(name = "fileUrls")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AttachmentList extends ItemList<IssueAttachment> {
+public class AttachmentList extends BaseItemList<IssueAttachment> {
     @XmlElement(name = "fileUrl")
     private List<IssueAttachment> attachments;
     AttachmentList() {
