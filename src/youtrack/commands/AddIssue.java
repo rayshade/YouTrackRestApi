@@ -3,15 +3,15 @@ import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import youtrack.Issue;
-import youtrack.Project;
+import youtrack.YouTrack;
 import youtrack.commands.base.AddCommand;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 /**
  * Created by egor.malyshev on 01.04.2014.
  */
-public class AddIssue extends AddCommand<Project, Issue> {
-    public AddIssue(@NotNull Project owner) {
+public class AddIssue extends AddCommand<YouTrack, Issue> {
+    public AddIssue(@NotNull YouTrack owner) {
         super(owner);
     }
     @Override
@@ -24,7 +24,7 @@ public class AddIssue extends AddCommand<Project, Issue> {
     public void createCommandMethod() throws Exception {
         method = new PutMethod(owner.getYouTrack().getHostAddress() + "issue");
         HttpMethodParams params = new HttpMethodParams();
-        params.setParameter("project", owner.getId());
+        params.setParameter("project", item.getProjectId());
         params.setParameter("summary", getItem().getSummary());
         params.setParameter("description", getItem().getDescription());
         method.setParams(params);

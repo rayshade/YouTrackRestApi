@@ -10,7 +10,7 @@ import java.util.List;
  * Created by egor.malyshev on 03.04.2014.
  * <p/>
  * Operates with items of R owned by items of O.
- * For example, CommandBasedList<Project, Issue> allows handling issues from project.
+ * For example, CommandBasedList<YouTrack, Issue> allows handling issues from project.
  */
 public class CommandBasedList<O extends BaseItem, R extends BaseItem<O>> {
     private final O owner;

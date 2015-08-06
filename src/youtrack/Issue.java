@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @XmlRootElement(name = "issue")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Issue extends BaseItem<Project> {
+public class Issue extends BaseItem<YouTrack> {
     @XmlTransient
     public final CommandBasedList<Issue, IssueComment> comments;
     @XmlTransient
@@ -197,5 +197,8 @@ public class Issue extends BaseItem<Project> {
             this.fields.clear();
             this.fields.putAll(issue.fields);
         }
+    }
+    public String getProjectId() {
+        return getId().substring(0, getId().indexOf("-"));
     }
 }

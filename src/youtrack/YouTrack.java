@@ -2,9 +2,7 @@ package youtrack;
 import com.sun.istack.internal.NotNull;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
-import youtrack.commands.GetProject;
-import youtrack.commands.GetProjects;
-import youtrack.commands.Login;
+import youtrack.commands.*;
 import youtrack.commands.base.*;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
@@ -20,6 +18,7 @@ import java.util.Map;
 public class YouTrack extends BaseItem {
     private final static Map<String, YouTrack> INSTANCES = new HashMap<String, YouTrack>();
     private final static long INTERVAL = 1800000L;
+    public final CommandBasedList<YouTrack, Issue> issues;
     public final CommandBasedList<YouTrack, Project> projects;
     private final String hostAddress;
     private String authorization;
@@ -29,6 +28,7 @@ public class YouTrack extends BaseItem {
     private YouTrack(@NotNull String hostAddress) {
         this.hostAddress = hostAddress;
         projects = new CommandBasedList<YouTrack, Project>(this, null, null, new GetProjects(this), null, new GetProject(this));
+        issues = new CommandBasedList<YouTrack, Issue>(this, new AddIssue(this), new RemoveIssue(this), new GetIssues(this), new QueryIssues(this), new GetIssue(this));
     }
     /**
      * Gets a @link YouTrack instance associated with given URL.
