@@ -42,7 +42,6 @@ public abstract class SingleItemCommand<O extends BaseItem, R extends BaseItem<O
             System.out.println("Throwing wrapper " + e);
             throw new CommandExecutionException(this, e);
         }
-        System.out.println("returning " + result);
         return result;
     }
     public void setItemId(String itemId) {
