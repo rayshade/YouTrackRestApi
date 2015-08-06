@@ -36,10 +36,8 @@ public abstract class SingleItemCommand<O extends BaseItem, R extends BaseItem<O
                 throw new CommandExecutionException(this, new Exception("Cannot get \"" + itemId + "\"+ from " + owner.toString()));
             result.setOwner(owner);
         } catch(CommandExecutionException e) {
-            System.out.println("Throwing " + e);
             throw e;
         } catch(Exception e) {
-            System.out.println("Throwing wrapper " + e);
             throw new CommandExecutionException(this, e);
         }
         return result;
