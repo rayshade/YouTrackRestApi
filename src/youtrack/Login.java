@@ -35,7 +35,7 @@ final class Login extends RunningCommand<YouTrack, String> {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("login", parameters.get("login")));
         params.add(new BasicNameValuePair("password", parameters.get("password")));
-        result.setEntity(new UrlEncodedFormEntity(params, Charsets.UTF_8));
+        result.setEntity(new UrlEncodedFormEntity(params,Charsets.toCharset("UTF-8")));
         return result;
     }
 }

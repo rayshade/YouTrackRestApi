@@ -29,7 +29,7 @@ final class ModifyIssue extends RunningCommand<Issue, String> {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("summary", ((summary == null) ? owner.getSummary() : summary)));
         params.add(new BasicNameValuePair("description", ((description == null) ? owner.getDescription() : description)));
-        result.setEntity(new UrlEncodedFormEntity(params, Charsets.UTF_8));
+        result.setEntity(new UrlEncodedFormEntity(params,Charsets.toCharset("UTF-8")));
         return result;
     }
 }

@@ -23,7 +23,7 @@ public class YouTrack extends BaseItem {
     private final Logger LOG = Logger.getLogger(getClass().getName());
     private final static Map<String, YouTrack> INSTANCES = new HashMap<String, YouTrack>();
     private final static long INTERVAL = 1800000L;
-    public final CommandBasedList<YouTrack, Issue> issue;
+    public final CommandBasedList<YouTrack, Issue> issues;
     public final CommandBasedList<YouTrack, Project> projects;
     private final String hostAddress;
     private String authorization;
@@ -44,7 +44,7 @@ public class YouTrack extends BaseItem {
         this.hostAddress = hostAddress;
         this.trustAllMode = trustAllMode;
         projects = new CommandBasedList<YouTrack, Project>(this, null, null, new GetProjects(this), null, new GetProject(this));
-        issue = new CommandBasedList<YouTrack, Issue>(this, new AddIssue(this), new RemoveIssue(this), null, new QueryIssues(this), new GetIssue(this));
+        issues = new CommandBasedList<YouTrack, Issue>(this, new AddIssue(this), new RemoveIssue(this), null, new QueryIssues(this), new GetIssue(this));
     }
 
     /**

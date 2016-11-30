@@ -27,7 +27,7 @@ class AddIssue extends AddCommand<YouTrack, Issue> {
         final String issueId = locations[locations.length - 1];
         final CommandResult<Issue> result = new CommandResult<Issue>(this);
         try {
-            result.setResult(owner.issue.item(issueId));
+            result.setResult(owner.issues.item(issueId));
         } catch (CommandExecutionException ce) {
             result.setException(ce);
         } catch (Exception e) {
@@ -45,7 +45,7 @@ class AddIssue extends AddCommand<YouTrack, Issue> {
         params.add(new BasicNameValuePair("project", item.getProjectId()));
         params.add(new BasicNameValuePair("summary", getItem().getSummary()));
         params.add(new BasicNameValuePair("description", getItem().getDescription()));
-        result.setEntity(new UrlEncodedFormEntity(params, Charsets.UTF_8));
+        result.setEntity(new UrlEncodedFormEntity(params,Charsets.toCharset("UTF-8")));
         return result;
     }
 }

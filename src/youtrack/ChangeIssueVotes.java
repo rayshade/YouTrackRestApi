@@ -25,7 +25,7 @@ public class ChangeIssueVotes extends RunningCommand<Issue, Boolean> {
     @Override
     HttpRequestBase createMethod() {
         final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/createMethod");
-        result.setEntity(new UrlEncodedFormEntity(Collections.singletonList(new BasicNameValuePair("command", parameters.get("vote"))), Charsets.UTF_8));
+        result.setEntity(new UrlEncodedFormEntity(Collections.singletonList(new BasicNameValuePair("command", parameters.get("vote"))),Charsets.toCharset("UTF-8")));
         return result;
     }
 }
