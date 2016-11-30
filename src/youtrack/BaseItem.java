@@ -1,5 +1,7 @@
 package youtrack;
+
 import javax.xml.bind.annotation.*;
+
 /**
  * Created by egor.malyshev on 07.04.2014.
  */
@@ -16,23 +18,27 @@ public abstract class BaseItem<O extends BaseItem> {
     @SuppressWarnings("UnusedDeclaration")
     @XmlAttribute(name = "id")
     protected String id;
+
     BaseItem() {
     }
+
     public O getOwner() {
         return owner;
     }
+
     public void setOwner(O owner) {
         this.owner = owner;
+        youTrack = owner.getYouTrack();
     }
+
     public YouTrack getYouTrack() {
         return youTrack;
     }
-    void setYouTrack(YouTrack youTrack) {
-        this.youTrack = youTrack;
-    }
+
     public String getId() {
         return id;
     }
+
     public BaseItem createSnapshot() {
         return this;
     }
