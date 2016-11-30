@@ -5,11 +5,11 @@ import com.sun.istack.internal.Nullable;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 import youtrack.exceptions.SetIssueFieldException;
-import youtrack.issue.fields.BaseIssueField;
-import youtrack.issue.fields.SingleField;
-import youtrack.issue.fields.values.BaseIssueFieldValue;
-import youtrack.issue.fields.values.IssueFieldValue;
-import youtrack.issue.fields.values.MultiUserFieldValue;
+import youtrack.issues.fields.BaseIssueField;
+import youtrack.issues.fields.SingleField;
+import youtrack.issues.fields.values.BaseIssueFieldValue;
+import youtrack.issues.fields.values.IssueFieldValue;
+import youtrack.issues.fields.values.MultiUserFieldValue;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;

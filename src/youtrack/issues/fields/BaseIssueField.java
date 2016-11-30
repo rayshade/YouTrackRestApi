@@ -1,4 +1,4 @@
-package youtrack.issue.fields;
+package youtrack.issues.fields;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;

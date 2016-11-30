@@ -1,5 +1,5 @@
-package youtrack.issue.fields;
-import youtrack.issue.fields.values.BaseIssueFieldValue;
+package youtrack.issues.fields;
+import youtrack.issues.fields.values.BaseIssueFieldValue;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

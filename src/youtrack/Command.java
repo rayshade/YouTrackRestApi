@@ -6,8 +6,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import youtrack.exceptions.CommandExecutionException;
-import youtrack.issue.fields.*;
-import youtrack.issue.fields.values.*;
+import youtrack.issues.fields.*;
+import youtrack.issues.fields.values.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.stream.XMLInputFactory;
