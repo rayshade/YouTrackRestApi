@@ -1,5 +1,5 @@
 package youtrack.exceptions;
-import youtrack.commands.base.Command;
+import youtrack.Command;
 /**
  * Created by Egor.Malyshev on 05.08.2015.
  */

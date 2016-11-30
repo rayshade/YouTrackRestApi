@@ -1,5 +1,7 @@
 package youtrack;
+
 import javax.xml.bind.annotation.*;
+
 /**
  * Created by Egor.Malyshev on 25.12.2014.
  */
@@ -10,18 +12,23 @@ public class Error {
     private String message;
     @XmlTransient
     private int code;
-    public Error() {
+
+    Error() {
     }
+
     public String getMessage() {
         return message;
     }
-    public void setMessage(String message) {
+
+    void setMessage(String message) {
         this.message = message;
     }
+
     public int getCode() {
         return code;
     }
-    public void setCode(int code) {
+
+    void setCode(int code) {
         this.code = code;
     }
 }
