@@ -28,7 +28,7 @@ A set of Java classes wrapped around YouTrack REST API that provides convenient 
         //Getting a specific project by its ID.
         final Project project = youTrack.projects.item("DOC");
 
-        System.out.println("Project " + project.getName() + " total issues: " + project.issue.list().size());
+        System.out.println("Project " + project.getName() + " total issues: " + project.issues.list().size());
 
         //Get all issues from project. This is, however, not really useful...
         //final List<Issue> issues = project.issues.list();
