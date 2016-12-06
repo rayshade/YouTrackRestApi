@@ -3,13 +3,11 @@ YouTrackRestApi
 
 A set of Java classes wrapped around YouTrack REST API that provides convenient way to interact with YouTrack from your Java applications. This simple app explains most of the API functionality and gives a good starting point if you decide to try it yourself.
 
-    package impl;
+package impl;
 
-    import youtrack.*;
+import java.util.List;
 
-    import java.util.List;
-
-    public class Sample {
+public class Sample {
 
     public static void main(String[] args) throws Exception {
 
@@ -28,20 +26,20 @@ A set of Java classes wrapped around YouTrack REST API that provides convenient 
         //Getting a specific project by its ID.
         final Project project = youTrack.projects.item("DOC");
 
-        System.out.println("Project " + project.getName() + " total issues: " + project.issues.list().size());
+        System.out.println("Project " + project.getName() + " total issues: " + youTrack.issues.list().size());
 
         //Get all issues from project. This is, however, not really useful...
         //final List<Issue> issues = project.issues.list();
         //...So instead we'll query issue that match specific criteria.
 
-        final List<Issue> issues = project.issue.query("reported by: #me #Unresolved");
+        final List<Issue> issues = youTrack.issues.query("reported by: #me #Unresolved");
 
         for (final Issue issue : issues) {
             System.out.println(issue.toString());
         }
 
         //Now get some issue by its id:
-        final Issue issue = project.issues.item("DOC-3200");
+        final Issue issue = youTrack.issues.item("DOC-3200");
 
 
         //When you're working with a live issue instance, it always performs actual operations like
@@ -63,9 +61,7 @@ A set of Java classes wrapped around YouTrack REST API that provides convenient 
         System.out.println(issue.comments.list().size() + " total comments.");
 
         //We can even leave a message.
-
-        final CommandResultSingleItem<IssueComment> newComment =
-                issue.comments.add(IssueComment.createComment("Hey people, I am commenting via API!"));
+        issue.comments.add(IssueComment.createComment("Hey people, I am commenting via API!"));
 
         //Same works for tags
         final List<IssueTag> issueTags = issue.tags.list();
@@ -82,4 +78,4 @@ A set of Java classes wrapped around YouTrack REST API that provides convenient 
             issueAttachment.saveTo("C:");
         }
     }
-    }
+}
