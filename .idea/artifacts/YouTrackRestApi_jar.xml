@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="YouTrackRestApi:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/YouTrackRestApi_jar</output-path>
+    <root id="archive" name="YouTrackRestApi.jar">
+      <element id="module-output" name="YouTrackRestApi" />
+    </root>
+  </artifact>
+</component>
