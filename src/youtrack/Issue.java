@@ -112,7 +112,7 @@ public class Issue extends BaseItem<YouTrack> {
     @SuppressWarnings("UnusedParameters")
     private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
         fields = new HashMap<String, BaseIssueField>();
-        for (BaseIssueField issueField : fieldArray) {
+        for (final BaseIssueField issueField : fieldArray) {
             fields.put(issueField.getName(), issueField);
         }
     }

@@ -111,9 +111,10 @@ public abstract class Command<O extends BaseItem, R> {
         StringBuilder sb = new StringBuilder();
         while (matcher.find()) {
             sb.append(xmlString.substring(last, matcher.start()));
-            final String typeName = matcher.group(0);
-            final String valueToReturn = typeName.substring(0, 1).toLowerCase() + typeName.substring(1);
-            sb.append("xsi:type=\"").append(valueToReturn.contains("Field") ? allowedTypeNames.contains(valueToReturn) ? valueToReturn : "singleField" : valueToReturn).append("\"");
+            final String typeName = matcher.group(1);
+            final String cleanTypeName = typeName.substring(0, 1).toLowerCase() + typeName.substring(1);
+            sb.append("xsi:type=\"").append(!cleanTypeName.contains("Field") ||
+                    allowedTypeNames.contains(cleanTypeName) ? cleanTypeName : "singleField").append("\"");
             last = matcher.end();
         }
         sb.append(xmlString.substring(last));
