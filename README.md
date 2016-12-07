@@ -26,7 +26,7 @@ public class Sample {
         //Getting a specific project by its ID.
         final Project project = youTrack.projects.item("DOC");
 
-        System.out.println("Project " + project.getName() + " total issues: " + youTrack.issues.list().size());
+        System.out.println("Project " + project.getName() + " total issues: " + youTrack.issues.query("in: DOC").size());
 
         //Get all issues from project. This is, however, not really useful...
         //final List<Issue> issues = project.issues.list();
