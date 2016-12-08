@@ -38,9 +38,10 @@ final class Login extends RunningCommand<YouTrack, String> {
             } else if (resultObject instanceof Error) {
                 result.setStatus((Error) resultObject);
             }
-            result.setStatus(response.getStatusLine());
         } catch (Exception e) {
             result.setException(new CommandExecutionException(this, e));
+        } finally {
+            if (response != null) result.setStatus(response.getStatusLine());
         }
         return result;
     }

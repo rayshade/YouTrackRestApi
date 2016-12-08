@@ -19,7 +19,7 @@ final class AddIssueTag extends AddCommand<Issue, IssueTag> {
 
     @Override
     HttpRequestBase createMethod() {
-        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/createMethod");
+        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/execute");
         result.setEntity(new UrlEncodedFormEntity(Collections.singletonList(new BasicNameValuePair("command", "tag " + getItem().getTag())), Charsets.toCharset("UTF-8")));
         return result;
     }
