@@ -1,9 +1,9 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.FileEntity;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 

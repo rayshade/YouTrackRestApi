@@ -1,6 +1,6 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.apache.http.util.EntityUtils;
 import youtrack.exceptions.CommandExecutionException;
 

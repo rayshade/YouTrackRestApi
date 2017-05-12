@@ -1,6 +1,7 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Egor.Malyshev on 25.12.2014.

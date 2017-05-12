@@ -1,5 +1,5 @@
 group 'org.jetbrains.webteam.youtrack'
-version '1.0'
+version '1.1.SNAPSHOT'
 
 buildscript {
     repositories {
@@ -17,6 +17,7 @@ repositories {
 dependencies{
     compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'commons-io:commons-io:2.5'
+    compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
 }
 
 publishing {
