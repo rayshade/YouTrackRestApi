@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -35,7 +34,7 @@ public class IssueAttachment extends BaseItem<Issue> {
      * @param fileName local file to map attachment to.
      * @return a new IssueAttachment instance mapped to a local file.
      */
-    public static IssueAttachment createAttachment(@NotNull String fileName) {
+    public static IssueAttachment createAttachment(String fileName) {
         IssueAttachment issueAttachment = new IssueAttachment();
         issueAttachment.url = fileName;
         issueAttachment.wrapper = true;
@@ -63,7 +62,7 @@ public class IssueAttachment extends BaseItem<Issue> {
      *
      * @param path local path to save attachment to.
      */
-    public boolean saveTo(@NotNull String path) throws IOException {
+    public boolean saveTo(String path) throws IOException {
         final CloseableHttpClient client = youTrack.getHttpClient();
         final HttpGet get = new HttpGet(this.url);
         InputStream in = null;

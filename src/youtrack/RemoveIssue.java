@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpRequestBase;
 
@@ -8,7 +7,7 @@ import org.apache.http.client.methods.HttpRequestBase;
  * Created by egor.malyshev on 08.04.2014.
  */
 final class RemoveIssue extends RemoveCommand<YouTrack, Issue> {
-    RemoveIssue(@NotNull YouTrack owner) {
+    RemoveIssue(YouTrack owner) {
         super(owner);
     }
 

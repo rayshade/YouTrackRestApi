@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -13,11 +12,11 @@ import java.util.Collections;
  * Created by egor.malyshev on 03.04.2014.
  */
 public class ChangeIssueVotes extends RunningCommand<Issue, Boolean> {
-    public ChangeIssueVotes(@NotNull Issue owner) {
+    public ChangeIssueVotes(Issue owner) {
         super(owner);
     }
 
-    public ChangeIssueVotes(@NotNull Issue owner, final boolean voteUp) {
+    public ChangeIssueVotes(Issue owner, final boolean voteUp) {
         this(owner);
         setParameter("vote", (voteUp ? "vote" : "unvote"));
     }

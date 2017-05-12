@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -33,11 +32,11 @@ public class YouTrack extends BaseItem {
     private String password;
     private long timeout = -1L;
 
-    private YouTrack(@NotNull String hostAddress) {
+    private YouTrack(String hostAddress) {
         this(hostAddress, false);
     }
 
-    private YouTrack(@NotNull String hostAddress, boolean trustAllMode) {
+    private YouTrack(String hostAddress, boolean trustAllMode) {
         this.hostAddress = hostAddress;
         this.trustAllMode = trustAllMode;
         projects = new CommandBasedList<YouTrack, Project>(this, null, null, new GetProjects(this), null, new GetProject(this));
@@ -49,7 +48,7 @@ public class YouTrack extends BaseItem {
      * <p/>
      * URL must correspond to the base REST API URL of YouTrack server you're connecting to.
      */
-    public static YouTrack getInstance(final @NotNull String hostAddress) {
+    public static YouTrack getInstance(final String hostAddress) {
         return getInstance(hostAddress, false);
     }
 
@@ -58,7 +57,7 @@ public class YouTrack extends BaseItem {
      * <p/>
      * URL must correspond to the base REST API URL of YouTrack server you're connecting to.
      */
-    public static YouTrack getInstance(final @NotNull String hostAddress, boolean trustAllMode) {
+    public static YouTrack getInstance(final String hostAddress, boolean trustAllMode) {
         if (!INSTANCES.containsKey(hostAddress)) INSTANCES.put(hostAddress, new YouTrack(hostAddress, trustAllMode));
         return INSTANCES.get(hostAddress);
     }
@@ -107,7 +106,7 @@ public class YouTrack extends BaseItem {
         return result;
     }
 
-    private void checkAuthState(final @NotNull Command command) throws NotLoggedInException, AuthenticationErrorException, CommandExecutionException, IOException {
+    private void checkAuthState(final Command command) throws NotLoggedInException, AuthenticationErrorException, CommandExecutionException, IOException {
         if ((Calendar.getInstance().getTimeInMillis() - timeout) > INTERVAL) {
             if (userName != null && password != null) {
                 login(userName, password);
@@ -152,7 +151,7 @@ public class YouTrack extends BaseItem {
      * <p/>
      * Retrieved token is stored for later use with all commands that need authentication.
      */
-    public void login(@NotNull String userName, @NotNull String password) throws AuthenticationErrorException, CommandExecutionException, IOException {
+    public void login(String userName, String password) throws AuthenticationErrorException, CommandExecutionException, IOException {
         final Login login = new Login(this);
         login.setParameter("login", userName);
         login.setParameter("password", password);
@@ -169,7 +168,7 @@ public class YouTrack extends BaseItem {
         return authorization;
     }
 
-    public void setAuthorization(@NotNull String authorization) {
+    public void setAuthorization(String authorization) {
         this.authorization = authorization;
     }
 

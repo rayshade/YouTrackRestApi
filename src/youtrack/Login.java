@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -17,7 +16,7 @@ import java.util.List;
  * Created by egor.malyshev on 31.03.2014.
  */
 final class Login extends RunningCommand<YouTrack, String> {
-    Login(@NotNull YouTrack owner) {
+    Login(YouTrack owner) {
         super(owner);
     }
 

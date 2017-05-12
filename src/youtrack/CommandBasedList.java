@@ -1,7 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.CommandNotAvailableException;
 
@@ -24,12 +22,12 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem<O>> {
     private final ListCommand<O, R> queryCommand;
     private final SingleItemCommand<O, R> singleItemCommand;
 
-    CommandBasedList(@NotNull O owner,
-                     @Nullable AddCommand<O, R> addCommand,
-                     @Nullable RemoveCommand<O, R> removeCommand,
-                     @Nullable ListCommand<O, R> listCommand,
-                     @Nullable ListCommand<O, R> queryCommand,
-                     @Nullable SingleItemCommand<O, R> singleItemCommand) {
+    CommandBasedList(O owner,
+                     AddCommand<O, R> addCommand,
+                     RemoveCommand<O, R> removeCommand,
+                     ListCommand<O, R> listCommand,
+                     ListCommand<O, R> queryCommand,
+                     SingleItemCommand<O, R> singleItemCommand) {
         this.owner = owner;
         this.addCommand = addCommand;
         this.removeCommand = removeCommand;
@@ -38,21 +36,21 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem<O>> {
         this.singleItemCommand = singleItemCommand;
     }
 
-    @NotNull
-    public R add(final @NotNull R item) throws CommandExecutionException, IOException, CommandNotAvailableException {
+
+    public R add(final R item) throws CommandExecutionException, IOException, CommandNotAvailableException {
         if (addCommand == null) throw new CommandNotAvailableException(this, "addCommand");
         addCommand.setItem(item);
         return owner.getYouTrack().execute(addCommand).getResult();
     }
 
-    @NotNull
-    public void remove(final @NotNull R item) throws CommandExecutionException, IOException, CommandNotAvailableException {
+
+    public void remove(final R item) throws CommandExecutionException, IOException, CommandNotAvailableException {
         if (removeCommand == null) throw new CommandNotAvailableException(this, "removeCommand");
         removeCommand.setItem(item);
         owner.getYouTrack().execute(removeCommand);
     }
 
-    @Nullable
+
     public R item(final int index) throws CommandExecutionException, IOException, CommandNotAvailableException {
         return this.list().get(index);
     }
@@ -63,22 +61,22 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem<O>> {
                 "owner=" + owner + '}';
     }
 
-    @Nullable
-    public R item(final @NotNull String id) throws CommandExecutionException, IOException, CommandNotAvailableException {
+
+    public R item(final String id) throws CommandExecutionException, IOException, CommandNotAvailableException {
         if (singleItemCommand == null) throw new CommandNotAvailableException(this, "singleItemCommand");
         singleItemCommand.setItemId(id);
         return owner.getYouTrack().execute(singleItemCommand).getResult();
     }
 
-    @NotNull
+
     public List<R> list() throws CommandExecutionException, IOException, CommandNotAvailableException {
         if (listCommand == null) throw new CommandNotAvailableException(this, "listCommand");
         final CommandResult<List<R>> result = owner.getYouTrack().execute(listCommand);
         return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
-    @NotNull
-    public List<R> query(final @NotNull String query, final int start, final int maxResults) throws CommandExecutionException, IOException, CommandNotAvailableException {
+
+    public List<R> query(final String query, final int start, final int maxResults) throws CommandExecutionException, IOException, CommandNotAvailableException {
         if (queryCommand == null) throw new CommandNotAvailableException(this, "queryCommand");
         queryCommand.setParameter("filter", query);
         queryCommand.setParameter("max", String.valueOf(maxResults));
@@ -87,7 +85,7 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem<O>> {
         return result.success() ? result.getResult() : Collections.<R>emptyList();
     }
 
-    public List<R> query(final @NotNull String query) throws CommandExecutionException, IOException, CommandNotAvailableException {
+    public List<R> query(final String query) throws CommandExecutionException, IOException, CommandNotAvailableException {
         return query(query, 0, 100);
     }
 }

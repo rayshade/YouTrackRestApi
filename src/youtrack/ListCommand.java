@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.http.util.EntityUtils;
 import youtrack.exceptions.CommandExecutionException;
 
@@ -11,11 +10,11 @@ import java.util.List;
  * Created by Egor.Malyshev on 23.12.2014.
  */
 abstract class ListCommand<O extends BaseItem, R extends BaseItem<O>> extends Command<O, List<R>> {
-    ListCommand(@NotNull O owner) {
+    ListCommand(O owner) {
         super(owner);
     }
 
-    @NotNull
+
     @Override
     CommandResult<List<R>> getResult() {
         final CommandResult<List<R>> result = new CommandResult<List<R>>(this);

@@ -1,14 +1,12 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
-
 /**
  * Created by Egor.Malyshev on 23.12.2014.
  */
 abstract class AddCommand<O extends BaseItem, R> extends RunningCommand<O, R> {
     protected R item;
 
-    AddCommand(@NotNull O owner) {
+    AddCommand(O owner) {
         super(owner);
     }
 

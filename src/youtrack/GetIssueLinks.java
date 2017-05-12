@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 
@@ -8,7 +7,7 @@ import org.apache.http.client.methods.HttpRequestBase;
  * Created by egor.malyshev on 02.04.2014.
  */
 final class GetIssueLinks extends ListCommand<Issue, IssueLink> {
-    GetIssueLinks(@NotNull Issue owner) {
+    GetIssueLinks(Issue owner) {
         super(owner);
     }
 

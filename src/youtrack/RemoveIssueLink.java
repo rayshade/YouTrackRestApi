@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -15,7 +14,7 @@ import java.util.List;
  * Created by egor.malyshev on 03.04.2014.
  */
 class RemoveIssueLink extends RemoveCommand<Issue, IssueLink> {
-    RemoveIssueLink(@NotNull Issue owner) {
+    RemoveIssueLink(Issue owner) {
         super(owner);
     }
 

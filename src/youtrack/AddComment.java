@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -13,7 +12,7 @@ import java.util.Collections;
  * Created by egor.malyshev on 31.03.2014.
  */
 final class AddComment extends AddCommand<Issue, IssueComment> {
-    AddComment(@NotNull Issue owner) {
+    AddComment(Issue owner) {
         super(owner);
     }
 

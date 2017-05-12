@@ -1,7 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NoSuchIssueFieldException;
 import youtrack.exceptions.SetIssueFieldException;
@@ -91,7 +89,7 @@ public class Issue extends BaseItem<YouTrack> {
         return new Issue(fields);
     }
 
-    void setFieldByName(@NotNull String fieldName, @Nullable String value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
+    void setFieldByName(String fieldName, String value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
         if (fields.containsKey(fieldName)) {
             final ModifyIssueField modifyCommand = new ModifyIssueField(this);
             modifyCommand.setParameter("field", fieldName);
@@ -105,8 +103,8 @@ public class Issue extends BaseItem<YouTrack> {
     }
 
     @SuppressWarnings("unchecked")
-    @Nullable
-    <V extends BaseIssueFieldValue> V getFieldByName(@NotNull String fieldName) throws IOException, CommandExecutionException {
+
+    <V extends BaseIssueFieldValue> V getFieldByName(String fieldName) throws IOException, CommandExecutionException {
         if (fields.containsKey(fieldName)) {
             if (!wrapper) updateSelf();
             return (V) fields.get(fieldName).getValue();

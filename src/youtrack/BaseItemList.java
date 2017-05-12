@@ -1,8 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,8 +34,8 @@ public abstract class BaseItemList<T extends BaseItem> {
             }
     }
 
-    @Nullable
-    public T getItemById(final @NotNull String id) {
+
+    public T getItemById(final String id) {
         return itemsMap == null ? null : itemsMap.get(id);
     }
 }

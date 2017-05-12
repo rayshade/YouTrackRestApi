@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 
@@ -8,7 +7,7 @@ import org.apache.http.client.methods.HttpRequestBase;
  * Created by Egor.Malyshev on 26.12.2014.
  */
 final class GetProject extends SingleItemCommand<YouTrack, Project> {
-    GetProject(@NotNull YouTrack owner) {
+    GetProject(YouTrack owner) {
         super(owner);
     }
 

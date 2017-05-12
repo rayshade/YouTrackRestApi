@@ -1,7 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -43,7 +41,7 @@ public abstract class Command<O extends BaseItem, R> {
             "sprintField"
     );
 
-    Command(final @NotNull O owner) {
+    Command(final O owner) {
         this.owner = owner;
         youTrack = owner.getYouTrack();
     }
@@ -55,7 +53,7 @@ public abstract class Command<O extends BaseItem, R> {
                 '}';
     }
 
-    @NotNull
+
     O getOwner() {
         return owner;
     }
@@ -64,7 +62,7 @@ public abstract class Command<O extends BaseItem, R> {
         return true;
     }
 
-    @NotNull
+
     abstract CommandResult<R> getResult();
 
     /**
@@ -73,7 +71,7 @@ public abstract class Command<O extends BaseItem, R> {
      * @param xmlString Raw XML code.
      * @return Instance of an object.
      */
-    <T> T objectFromXml(final @NotNull String xmlString) throws Exception {
+    <T> T objectFromXml(final String xmlString) throws Exception {
         //noinspection unchecked
         return (T) JAXBContext.newInstance(AttachmentField.class,
                 BaseIssueField.class,
@@ -123,11 +121,11 @@ public abstract class Command<O extends BaseItem, R> {
 
     abstract HttpRequestBase createMethod() throws IOException, CommandExecutionException;
 
-    void setParameter(final @NotNull String name, final @Nullable String value) {
+    void setParameter(final String name, final String value) {
         parameters.put(name, value);
     }
 
-    void removeParameter(final @NotNull String name) {
+    void removeParameter(final String name) {
         if (parameters.containsKey(name)) parameters.remove(name);
     }
 
@@ -141,8 +139,8 @@ public abstract class Command<O extends BaseItem, R> {
         if (response != null) response.close();
     }
 
-    @NotNull
-    private String encodeParam(@NotNull String param) {
+
+    private String encodeParam(String param) {
         try {
             return URLEncoder.encode(param, "UTF-8").replaceAll("\\+", "%20");
         } catch (UnsupportedEncodingException ignored) {
@@ -151,7 +149,7 @@ public abstract class Command<O extends BaseItem, R> {
         return param;
     }
 
-    @NotNull
+
     String parametersAsQuery() {
         final StringBuilder sb = new StringBuilder();
         for (final String key : parameters.keySet()) {

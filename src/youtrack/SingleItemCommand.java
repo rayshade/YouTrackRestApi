@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.http.util.EntityUtils;
 import youtrack.exceptions.CommandExecutionException;
 
@@ -11,7 +10,7 @@ import youtrack.exceptions.CommandExecutionException;
 abstract class SingleItemCommand<O extends BaseItem, R extends BaseItem<O>> extends Command<O, R> {
     String itemId;
 
-    SingleItemCommand(@NotNull O owner) {
+    SingleItemCommand(O owner) {
         super(owner);
     }
 

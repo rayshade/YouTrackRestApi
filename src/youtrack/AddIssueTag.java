@@ -1,6 +1,5 @@
 package youtrack;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -13,7 +12,7 @@ import java.util.Collections;
  * Created by egor.malyshev on 07.04.2014.
  */
 final class AddIssueTag extends AddCommand<Issue, IssueTag> {
-    AddIssueTag(@NotNull Issue owner) {
+    AddIssueTag(Issue owner) {
         super(owner);
     }
 
