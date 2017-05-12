@@ -41,7 +41,7 @@ class ModifyIssueField extends RunningCommand<Issue, String> {
 
     @Override
     HttpRequestBase createMethod() {
-        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/createMethod");
+        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/execute");
         result.setEntity(new UrlEncodedFormEntity(Collections.singletonList(new BasicNameValuePair(
                 "command", parameters.get("field") + " " + parameters.get("value"))), Charsets.toCharset("UTF-8")));
         return result;
