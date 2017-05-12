@@ -1,0 +1,19 @@
+group 'org.jetbrains.webteam.youtrack'
+version '1.0'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies{
+    compile 'org.apache.httpcomponents:httpclient:4.5'
+    compile 'commons-io:commons-io:2.5'
+}
