@@ -1,0 +1,39 @@
+group 'org.jetbrains.webteam.youtrack'
+version '1.1.SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies{
+    compile 'org.apache.httpcomponents:httpclient:4.5'
+    compile 'commons-io:commons-io:2.5'
+    compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'org.jetbrains.webteam'
+            artifactId 'youtrack-rest'
+            version '1.1'
+
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            url "http://repo.labs.intellij.net/webteam"
+        }
+    }
+}
