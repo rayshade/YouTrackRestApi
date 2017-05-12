@@ -39,10 +39,10 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem<O>> {
     }
 
     @NotNull
-    public void add(final @NotNull R item) throws CommandExecutionException, IOException, CommandNotAvailableException {
+    public R add(final @NotNull R item) throws CommandExecutionException, IOException, CommandNotAvailableException {
         if (addCommand == null) throw new CommandNotAvailableException(this, "addCommand");
         addCommand.setItem(item);
-        owner.getYouTrack().execute(addCommand);
+        return owner.getYouTrack().execute(addCommand).getResult();
     }
 
     @NotNull

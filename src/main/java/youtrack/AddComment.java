@@ -19,7 +19,7 @@ final class AddComment extends AddCommand<Issue, IssueComment> {
 
     @Override
     HttpRequestBase createMethod() {
-        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/execute");
+        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/createMethod");
         result.setEntity(new UrlEncodedFormEntity(Collections.singletonList(new BasicNameValuePair("comment", item.getText())), Charsets.toCharset("UTF-8")));
         return result;
     }
