@@ -42,6 +42,8 @@ public class Issue extends BaseItem<YouTrack> {
     private HashMap<String, BaseIssueField> fields;
     @XmlTransient
     private boolean wikify;
+    @XmlTransient
+    private String projectId;
 
     Issue() {
         final Issue thiz = this;
@@ -75,8 +77,10 @@ public class Issue extends BaseItem<YouTrack> {
         this.fields.putAll(fields);
     }
 
-    public static Issue createIssue(String summary, String description) {
-        return new Issue(summary, description);
+    public static Issue createIssue(String projectId, String summary, String description) {
+        final Issue issue = new Issue(summary, description);
+        issue.projectId = projectId;
+        return issue;
     }
 
     public HashMap<String, BaseIssueField> getFields() {
@@ -115,6 +119,8 @@ public class Issue extends BaseItem<YouTrack> {
         for (final BaseIssueField issueField : fieldArray) {
             fields.put(issueField.getName(), issueField);
         }
+        String id = getId();
+        if (id != null) projectId = getId().substring(0, getId().indexOf("-"));
     }
 
     @Override
@@ -232,6 +238,6 @@ public class Issue extends BaseItem<YouTrack> {
     }
 
     public String getProjectId() {
-        return getId().substring(0, getId().indexOf("-"));
+        return projectId;
     }
 }

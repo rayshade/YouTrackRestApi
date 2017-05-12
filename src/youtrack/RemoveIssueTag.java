@@ -19,7 +19,7 @@ final class RemoveIssueTag extends RemoveCommand<Issue, IssueTag> {
 
     @Override
     HttpRequestBase createMethod() {
-        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/execute");
+        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/createMethod");
         result.setEntity(new UrlEncodedFormEntity(Collections.singletonList(new BasicNameValuePair("command", "untag " + item.getTag())), Charsets.toCharset("UTF-8")));
         return result;
     }

@@ -19,7 +19,7 @@ final class AddIssueLink extends AddCommand<Issue, IssueLink> {
 
     @Override
     HttpRequestBase createMethod() {
-        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/execute");
+        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/createMethod");
         result.setEntity(new UrlEncodedFormEntity(Collections.singletonList(new BasicNameValuePair("command", getItem().getTypeName() + getItem().getTarget())), Charsets.toCharset("UTF-8")));
         return result;
     }
