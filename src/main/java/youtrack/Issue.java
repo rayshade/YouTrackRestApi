@@ -91,22 +91,20 @@ public class Issue extends BaseItem<YouTrack> {
         return new Issue(fields);
     }
 
-    void setFieldByName(@NotNull String fieldName, @Nullable String value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
-        if (fields.containsKey(fieldName)) {
-            final ModifyIssueField modifyCommand = new ModifyIssueField(this);
-            modifyCommand.setParameter("field", fieldName);
-            modifyCommand.setParameter("value", value);
-            final CommandResult<String> result = youTrack.execute(modifyCommand);
-            if (!result.success()) {
-                throw new SetIssueFieldException(this, fields.get(fieldName), value);
-            }
-            updateSelf();
-        } else throw new NoSuchIssueFieldException(this, fieldName);
+    public void setFieldByName(@NotNull String fieldName, @Nullable String value) throws SetIssueFieldException, IOException, NoSuchIssueFieldException, CommandExecutionException {
+        final ModifyIssueField modifyCommand = new ModifyIssueField(this);
+        modifyCommand.setParameter("field", fieldName);
+        modifyCommand.setParameter("value", value);
+        final CommandResult<String> result = youTrack.execute(modifyCommand);
+        if (!result.success()) {
+            throw new SetIssueFieldException(this, fields.get(fieldName), value);
+        }
+        updateSelf();
     }
 
     @SuppressWarnings("unchecked")
     @Nullable
-    <V extends BaseIssueFieldValue> V getFieldByName(@NotNull String fieldName) throws IOException, CommandExecutionException {
+    public <V extends BaseIssueFieldValue> V getFieldByName(@NotNull String fieldName) throws IOException, CommandExecutionException {
         if (fields.containsKey(fieldName)) {
             if (!wrapper) updateSelf();
             return (V) fields.get(fieldName).getValue();
