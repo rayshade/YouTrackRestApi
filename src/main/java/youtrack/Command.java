@@ -102,7 +102,8 @@ public abstract class Command<O extends BaseItem, R> {
                 ProjectList.class,
                 TagList.class,
                 Error.class,
-                LoginResult.class).createUnmarshaller().unmarshal(new StringReader(cleanupTypes(xmlString)));
+                LoginResult.class
+                ).createUnmarshaller().unmarshal(new StringReader(cleanupTypes(xmlString)));
     }
 
     private static String cleanupTypes(String xmlString) {

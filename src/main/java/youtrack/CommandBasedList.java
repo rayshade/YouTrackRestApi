@@ -45,7 +45,6 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem<O>> {
         return owner.getYouTrack().execute(addCommand).getResult();
     }
 
-    @NotNull
     public void remove(final @NotNull R item) throws CommandExecutionException, IOException, CommandNotAvailableException {
         if (removeCommand == null) throw new CommandNotAvailableException(this, "removeCommand");
         removeCommand.setItem(item);

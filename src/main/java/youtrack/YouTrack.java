@@ -1,12 +1,12 @@
 package youtrack;
 
-import org.jetbrains.annotations.NotNull;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.jetbrains.annotations.NotNull;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NotLoggedInException;
@@ -177,4 +177,5 @@ public class YouTrack extends BaseItem {
     public YouTrack getYouTrack() {
         return this;
     }
+
 }

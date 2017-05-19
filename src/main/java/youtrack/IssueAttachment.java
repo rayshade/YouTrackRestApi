@@ -1,19 +1,17 @@
 package youtrack;
 
-import org.jetbrains.annotations.NotNull;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
@@ -21,6 +19,7 @@ import java.io.InputStream;
 @XmlRootElement(name = "fileUrl")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class IssueAttachment extends BaseItem<Issue> {
+
     @XmlAttribute(name = "url")
     private String url;
     @XmlAttribute(name = "name")
@@ -29,15 +28,22 @@ public class IssueAttachment extends BaseItem<Issue> {
     IssueAttachment() {
     }
 
+    private InputStream dataStream;
+
     /**
      * Creates IssueAttachment when you need to add a new attachment to an issue.
      *
      * @param fileName local file to map attachment to.
      * @return a new IssueAttachment instance mapped to a local file.
      */
-    public static IssueAttachment createAttachment(@NotNull String fileName) {
+    public static IssueAttachment createAttachment(@NotNull String fileName) throws FileNotFoundException {
+        return createAttachment(new FileInputStream(new File(fileName)), fileName);
+    }
+
+    public static IssueAttachment createAttachment(@NotNull InputStream dataStream, @NotNull String attachmentName) {
         IssueAttachment issueAttachment = new IssueAttachment();
-        issueAttachment.url = fileName;
+        issueAttachment.dataStream = dataStream;
+        issueAttachment.url = attachmentName;
         issueAttachment.wrapper = true;
         return issueAttachment;
     }
@@ -81,5 +87,10 @@ public class IssueAttachment extends BaseItem<Issue> {
             IOUtils.closeQuietly(in);
             IOUtils.closeQuietly(out);
         }
+    }
+
+    @Nullable
+    InputStream getDataStream() {
+        return dataStream;
     }
 }

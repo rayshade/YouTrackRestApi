@@ -2,10 +2,7 @@ package youtrack;
 
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.entity.FileEntity;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
+import org.apache.http.entity.InputStreamEntity;
 
 /**
  * Created by egor.malyshev on 03.04.2014.
@@ -18,7 +15,8 @@ final class AddAttachment extends AddCommand<Issue, IssueAttachment> {
     @Override
     HttpRequestBase createMethod() {
         final HttpPost postMethod = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/attachment");
-        postMethod.setEntity(new FileEntity(new File(getItem().getUrl())));
+        assert (getItem().getDataStream()) != null;
+        postMethod.setEntity(new InputStreamEntity((getItem().getDataStream())));
         return postMethod;
     }
 }
