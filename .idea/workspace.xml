@@ -2,17 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4919a6bb-7084-48ab-b45c-912149796485" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/youtrack/RunningCommand.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/AddAttachment.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/AddAttachment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/AddCommand.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/AddCommand.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/AddComment.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/AddComment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/AddIssueLink.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/AddIssueLink.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/AddIssueTag.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/AddIssueTag.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/ChangeIssueVotes.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/ChangeIssueVotes.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/Command.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/Command.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/Login.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/Login.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/ModifyIssue.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/ModifyIssue.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/ModifyIssueField.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/ModifyIssueField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/RemoveCommand.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/RemoveCommand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/SingleItemCommand.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/SingleItemCommand.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/RemoveIssueLink.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/RemoveIssueLink.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/youtrack/RemoveIssueTag.java" afterPath="$PROJECT_DIR$/src/main/java/youtrack/RemoveIssueTag.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -54,8 +50,8 @@
       <file leaf-file-name="Command.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/Command.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+            <state relative-caret-position="-1270">
+              <caret line="37" column="25" lean-forward="false" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
               <folding>
                 <element signature="e#988#1004#0" expanded="true" />
                 <element signature="e#1915#1916#0" expanded="true" />
@@ -85,11 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddIssue.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AddIssue.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/AddIssue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+            <state relative-caret-position="425">
+              <caret line="38" column="22" lean-forward="false" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -100,6 +96,46 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
               <caret line="20" column="28" lean-forward="false" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="YouTrack.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/YouTrack.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1437">
+              <caret line="60" column="7" lean-forward="false" selection-start-line="60" selection-start-column="7" selection-end-line="60" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Project.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/Project.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AddIssueTag.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/AddIssueTag.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="21" column="125" lean-forward="false" selection-start-line="21" selection-start-column="117" selection-end-line="21" selection-end-column="125" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AddComment.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/AddComment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="25" column="1" lean-forward="false" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -124,10 +160,12 @@
       <find>generateid</find>
       <find>ile</find>
       <find>RunningCommand</find>
+      <find>/createMethod</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>Command</replace>
+      <replace>/execute</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -551,6 +589,7 @@
         <option value="$PROJECT_DIR$/src/main/java/youtrack/RemoveCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/youtrack/RunningCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/youtrack/AddCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/youtrack/AddComment.java" />
       </list>
     </option>
   </component>
@@ -1188,7 +1227,7 @@
       <workItem from="1494598747171" duration="3716000" />
       <workItem from="1494609375475" duration="1360000" />
       <workItem from="1494842598091" duration="17364000" />
-      <workItem from="1495702482179" duration="4810000" />
+      <workItem from="1495702482179" duration="6783000" />
     </task>
     <task id="LOCAL-00001" summary="No checks for fields">
       <created>1494855658959</created>
@@ -1211,11 +1250,18 @@
       <option name="project" value="LOCAL" />
       <updated>1495705812418</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="RunningCommand removed because it was redundant.">
+      <created>1495708477361</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1495708477361</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27497000" />
+    <option name="totallyTimeSpent" value="29470000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
@@ -1284,7 +1330,8 @@
     <MESSAGE value="No checks for fields" />
     <MESSAGE value="Support to create attachments from streams" />
     <MESSAGE value="Fixed adding attachments to issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed adding attachments to issues" />
+    <MESSAGE value="RunningCommand removed because it was redundant." />
+    <option name="LAST_COMMIT_MESSAGE" value="RunningCommand removed because it was redundant." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1507,14 +1554,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/Project.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/issues/fields/SingleField.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -1665,14 +1704,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/YouTrack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="134" column="0" lean-forward="false" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/IssueAttachment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="118">
@@ -1757,18 +1788,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/Command.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <element signature="e#988#1004#0" expanded="true" />
-            <element signature="e#1915#1916#0" expanded="true" />
-            <element signature="e#1964#1965#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/AddCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1779,8 +1798,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/AddIssue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        <state relative-caret-position="425">
+          <caret line="38" column="22" lean-forward="false" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/Command.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1270">
+          <caret line="37" column="25" lean-forward="false" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
+          <folding>
+            <element signature="e#988#1004#0" expanded="true" />
+            <element signature="e#1915#1916#0" expanded="true" />
+            <element signature="e#1964#1965#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/YouTrack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1437">
+          <caret line="60" column="7" lean-forward="false" selection-start-line="60" selection-start-column="7" selection-end-line="60" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/Project.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/AddIssueTag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="21" column="125" lean-forward="false" selection-start-line="21" selection-start-column="117" selection-end-line="21" selection-end-column="125" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/youtrack/AddComment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="25" column="1" lean-forward="false" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
           <folding />
         </state>
       </provider>

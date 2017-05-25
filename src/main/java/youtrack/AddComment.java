@@ -1,11 +1,11 @@
 package youtrack;
 
-import org.jetbrains.annotations.NotNull;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
@@ -19,7 +19,7 @@ final class AddComment extends AddCommand<Issue, IssueComment> {
 
     @Override
     HttpRequestBase createMethod() {
-        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/createMethod");
+        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + getOwner().getId() + "/execute");
         result.setEntity(new UrlEncodedFormEntity(Collections.singletonList(new BasicNameValuePair("comment", item.getText())), Charsets.toCharset("UTF-8")));
         return result;
     }

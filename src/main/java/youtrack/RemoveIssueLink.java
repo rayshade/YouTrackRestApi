@@ -21,7 +21,7 @@ class RemoveIssueLink extends RemoveCommand<Issue, IssueLink> {
 
     @Override
     HttpRequestBase createMethod() {
-        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/createMethod");
+        final HttpPost result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" + owner.getId() + "/execute");
         List<NameValuePair> commandParams = new ArrayList<NameValuePair>();
         commandParams.add(new BasicNameValuePair("command", "remove " + item.getTypeOutward() + " " + item.getTarget()));
         result.setEntity(new UrlEncodedFormEntity(commandParams, Charsets.toCharset("UTF-8")));
