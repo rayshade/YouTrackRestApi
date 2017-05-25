@@ -14,8 +14,10 @@ repositories {
     mavenCentral()
 }
 
-dependencies{
-    compile 'org.apache.httpcomponents:httpclient:4.5'
+dependencies {
+
+    compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.5.3'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
     compile 'commons-io:commons-io:2.5'
     compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
 }

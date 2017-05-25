@@ -11,6 +11,7 @@ abstract class RunningCommand<O extends BaseItem, R> extends Command<O, R> {
         super(owner);
     }
 
+    @NotNull
     @Override
     CommandResult<R> getResult() {
         return new CommandResult<R>(this);

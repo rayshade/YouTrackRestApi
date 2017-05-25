@@ -7,6 +7,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.NotLoggedInException;
@@ -178,4 +179,8 @@ public class YouTrack extends BaseItem {
         return this;
     }
 
+    @Nullable
+    public String getUserName() {
+        return userName;
+    }
 }

@@ -38,7 +38,7 @@ public class CommandBasedList<O extends BaseItem, R extends BaseItem<O>> {
         this.singleItemCommand = singleItemCommand;
     }
 
-    @NotNull
+    @Nullable
     public R add(final @NotNull R item) throws CommandExecutionException, IOException, CommandNotAvailableException {
         if (addCommand == null) throw new CommandNotAvailableException(this, "addCommand");
         addCommand.setItem(item);

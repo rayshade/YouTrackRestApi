@@ -1,16 +1,15 @@
 package youtrack;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.io.*;
 
 /**
@@ -24,6 +23,8 @@ public class IssueAttachment extends BaseItem<Issue> {
     private String url;
     @XmlAttribute(name = "name")
     private String name;
+    @XmlTransient
+    private ContentType contentType = ContentType.APPLICATION_OCTET_STREAM;
 
     IssueAttachment() {
     }
@@ -37,13 +38,14 @@ public class IssueAttachment extends BaseItem<Issue> {
      * @return a new IssueAttachment instance mapped to a local file.
      */
     public static IssueAttachment createAttachment(@NotNull String fileName) throws FileNotFoundException {
-        return createAttachment(new FileInputStream(new File(fileName)), fileName);
+        return createAttachment(new FileInputStream(new File(fileName)), FilenameUtils.getName(fileName));
     }
 
     public static IssueAttachment createAttachment(@NotNull InputStream dataStream, @NotNull String attachmentName) {
         IssueAttachment issueAttachment = new IssueAttachment();
         issueAttachment.dataStream = dataStream;
         issueAttachment.url = attachmentName;
+        issueAttachment.name = attachmentName;
         issueAttachment.wrapper = true;
         return issueAttachment;
     }
@@ -92,5 +94,14 @@ public class IssueAttachment extends BaseItem<Issue> {
     @Nullable
     InputStream getDataStream() {
         return dataStream;
+    }
+
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
+    }
+
+    @NotNull
+    public ContentType getContentType() {
+        return contentType;
     }
 }

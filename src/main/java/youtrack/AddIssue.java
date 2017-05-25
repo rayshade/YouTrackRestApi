@@ -21,6 +21,7 @@ class AddIssue extends AddCommand<YouTrack, Issue> {
         super(owner);
     }
 
+    @NotNull
     @Override
     CommandResult<Issue> getResult() {
         final String[] locations = response.getFirstHeader("Location").getValue().split("/");

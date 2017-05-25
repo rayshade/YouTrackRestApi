@@ -20,6 +20,7 @@ abstract class AddCommand<O extends BaseItem, R> extends RunningCommand<O, R> {
         this.item = item;
     }
 
+    @NotNull
     @Override
     CommandResult<R> getResult() {
         return new CommandResult<R>(this);
