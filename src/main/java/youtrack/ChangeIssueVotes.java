@@ -12,7 +12,7 @@ import java.util.Collections;
 /**
  * Created by egor.malyshev on 03.04.2014.
  */
-public class ChangeIssueVotes extends RunningCommand<Issue, Boolean> {
+public class ChangeIssueVotes extends Command<Issue, Boolean> {
     public ChangeIssueVotes(@NotNull Issue owner) {
         super(owner);
     }

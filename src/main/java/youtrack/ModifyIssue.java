@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
-final class ModifyIssue extends RunningCommand<Issue, String> {
+final class ModifyIssue extends Command<Issue, String> {
     ModifyIssue(@NotNull Issue owner) {
         super(owner);
     }

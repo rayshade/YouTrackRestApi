@@ -14,11 +14,12 @@ import java.util.Collections;
 /**
  * Created by egor.malyshev on 02.04.2014.
  */
-class ModifyIssueField extends RunningCommand<Issue, String> {
+class ModifyIssueField extends Command<Issue, String> {
     ModifyIssueField(@NotNull Issue owner) {
         super(owner);
     }
 
+    @NotNull
     @Override
     CommandResult<String> getResult() {
         final CommandResult<String> result = new CommandResult<String>(this);

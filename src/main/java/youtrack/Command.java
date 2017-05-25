@@ -1,10 +1,10 @@
 package youtrack;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.issues.fields.*;
 import youtrack.issues.fields.values.*;
@@ -65,7 +65,9 @@ public abstract class Command<O extends BaseItem, R> {
     }
 
     @NotNull
-    abstract CommandResult<R> getResult();
+    CommandResult<R> getResult() {
+        return new CommandResult<R>(this);
+    }
 
     /**
      * Helper method to deserealize XML to objects. Used to interpret XML response received from YouTrack.
@@ -103,7 +105,7 @@ public abstract class Command<O extends BaseItem, R> {
                 TagList.class,
                 Error.class,
                 LoginResult.class
-                ).createUnmarshaller().unmarshal(new StringReader(cleanupTypes(xmlString)));
+        ).createUnmarshaller().unmarshal(new StringReader(cleanupTypes(xmlString)));
     }
 
     private static String cleanupTypes(String xmlString) {

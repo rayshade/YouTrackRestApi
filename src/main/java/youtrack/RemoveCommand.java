@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Created by Egor.Malyshev on 23.12.2014.
  */
-abstract class RemoveCommand<O extends BaseItem, R> extends RunningCommand<O, R> {
+abstract class RemoveCommand<O extends BaseItem, R> extends Command<O, R> {
     protected R item;
 
     RemoveCommand(@NotNull O owner) {
@@ -14,10 +14,5 @@ abstract class RemoveCommand<O extends BaseItem, R> extends RunningCommand<O, R>
 
     void setItem(R item) {
         this.item = item;
-    }
-
-    @Override
-    CommandResult<R> getResult() {
-        return new CommandResult<R>(this);
     }
 }

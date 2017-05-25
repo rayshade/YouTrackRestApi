@@ -15,6 +15,7 @@ abstract class SingleItemCommand<O extends BaseItem, R extends BaseItem<O>> exte
         super(owner);
     }
 
+    @NotNull
     @SuppressWarnings("unchecked")
     @Override
     public CommandResult<R> getResult() {

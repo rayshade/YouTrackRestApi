@@ -21,7 +21,7 @@ final class AddAttachment extends AddCommand<Issue, IssueAttachment> {
                 "&files=" + getItem().getUrl());
 
         assert (getItem().getDataStream()) != null;
-        HttpEntity entity = MultipartEntityBuilder
+        final HttpEntity entity = MultipartEntityBuilder
                 .create()
                 .addTextBody("name", getItem().getName())
                 .addBinaryBody("file", getItem().getDataStream(),

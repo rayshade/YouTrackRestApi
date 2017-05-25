@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by egor.malyshev on 31.03.2014.
  */
-final class Login extends RunningCommand<YouTrack, String> {
+final class Login extends Command<YouTrack, String> {
     Login(@NotNull YouTrack owner) {
         super(owner);
     }
@@ -26,6 +26,7 @@ final class Login extends RunningCommand<YouTrack, String> {
         return false;
     }
 
+    @NotNull
     @Override
     CommandResult<String> getResult() {
         final CommandResult<String> result = new CommandResult<String>(this);
