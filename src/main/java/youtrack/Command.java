@@ -1,5 +1,6 @@
 package youtrack;
 
+import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -134,9 +135,9 @@ public abstract class Command<O extends BaseItem, R> {
         if (parameters.containsKey(name)) parameters.remove(name);
     }
 
-    void run(CloseableHttpClient httpClient, String authToken) throws IOException, CommandExecutionException {
+    void run(CloseableHttpClient httpClient, Header auth) throws IOException, CommandExecutionException {
         final HttpRequestBase method = createMethod();
-        if (usesAuthorization()) method.addHeader("Cookie", authToken);
+        if (usesAuthorization()) method.addHeader(auth);
         response = httpClient.execute(method);
     }
 

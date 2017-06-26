@@ -5,6 +5,7 @@ import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,6 +34,16 @@ public class YouTrack extends BaseItem {
     private String userName;
     private String password;
     private long timeout = -1L;
+
+    public boolean isUseTokenAuthorization() {
+        return useTokenAuthorization;
+    }
+
+    public void setUseTokenAuthorization(boolean useTokenAuthorization) {
+        this.useTokenAuthorization = useTokenAuthorization;
+    }
+
+    private boolean useTokenAuthorization = false;
 
     private YouTrack(@NotNull String hostAddress) {
         this(hostAddress, false);
@@ -126,10 +137,11 @@ public class YouTrack extends BaseItem {
     <O extends BaseItem, R> CommandResult<R> execute(Command<O, R> command) throws CommandExecutionException, IOException {
         final CloseableHttpClient httpClient = getHttpClient();
         try {
-            if (command.usesAuthorization()) {
+            if (command.usesAuthorization() && !useTokenAuthorization) {
                 checkAuthState(command);
             }
-            command.run(httpClient, authorization);
+            command.run(httpClient, new BasicHeader(useTokenAuthorization ? "Authorization" : "Cookie",
+                    useTokenAuthorization ? "Bearer " + authorization : authorization));
             final CommandResult<R> result = command.getResult();
             if (result.getException() != null) throw result.getException();
             if (result.getError() != null) throw new CommandExecutionException(command, result.getError());

@@ -107,7 +107,11 @@ public class Issue extends BaseItem<YouTrack> {
     public <V extends BaseIssueFieldValue> V getFieldByName(@NotNull String fieldName) throws IOException, CommandExecutionException {
         if (fields.containsKey(fieldName)) {
             if (!wrapper) updateSelf();
-            return (V) fields.get(fieldName).getValue();
+            Object value = fields.get(fieldName).getValue();
+            if (value instanceof List) {
+                final List<V> valueList = (List) value;
+                return valueList.isEmpty() ? null : valueList.get(0);
+            } else return (V) value;
         } else return null;
     }
 
@@ -179,7 +183,8 @@ public class Issue extends BaseItem<YouTrack> {
 
     public int getVotes() {
         try {
-            return Integer.parseInt(getFieldByName("votes").getValue());
+            BaseIssueFieldValue votes = getFieldByName("votes");
+            return votes == null ? 0 : Integer.parseInt(votes.getValue());
         } catch (Exception e) {
             return 0;
         }
