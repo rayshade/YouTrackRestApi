@@ -1,5 +1,5 @@
 group 'org.jetbrains.webteam.youtrack'
-version '1.1.SNAPSHOT'
+version '1.1'
 
 buildscript {
     repositories {
@@ -31,7 +31,6 @@ publishing {
             groupId 'org.jetbrains.webteam'
             artifactId 'youtrack-rest'
             version '1.1'
-
             from components.java
         }
     }
