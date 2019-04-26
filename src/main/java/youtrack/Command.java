@@ -132,7 +132,7 @@ public abstract class Command<O extends BaseItem, R> {
     }
 
     void removeParameter(final @NotNull String name) {
-        if (parameters.containsKey(name)) parameters.remove(name);
+        parameters.remove(name);
     }
 
     void run(CloseableHttpClient httpClient, Header auth) throws IOException, CommandExecutionException {

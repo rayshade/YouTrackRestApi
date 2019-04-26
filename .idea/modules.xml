@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/YouTrack-REST-API.iml" filepath="$PROJECT_DIR$/.idea/modules/YouTrack-REST-API.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/YouTrack-REST-API.iml" filepath="$PROJECT_DIR$/.idea/modules/YouTrack-REST-API.iml" group="YouTrack-REST-API" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/YouTrackRestApi_main.iml" filepath="$PROJECT_DIR$/.idea/modules/YouTrackRestApi_main.iml" group="YouTrackRestApi" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/YouTrackRestApi_test.iml" filepath="$PROJECT_DIR$/.idea/modules/YouTrackRestApi_test.iml" group="YouTrackRestApi" />
     </modules>
