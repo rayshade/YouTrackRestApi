@@ -1,4 +1,5 @@
-import youtrack.*;
+import youtrack.Issue;
+import youtrack.YouTrack;
 import youtrack.exceptions.AuthenticationErrorException;
 import youtrack.exceptions.CommandExecutionException;
 import youtrack.exceptions.CommandNotAvailableException;
@@ -13,12 +14,11 @@ public class RestApiTests {
         youTrack.setUseTokenAuthorization(true);
         youTrack.setAuthorization("perm:bWVnb3I=.OTItMjQwNw==.scVN5ymttwWm9eEo8h8MzzH7KWC9vK");
 
-        Issue item = youTrack.issues.item("WH-143");
+        Issue item = Issue.createIssue("WH", "Testing REST API", "So this is a test");
 
-        final IssueComment testing_comment_api = IssueComment.createComment("Testing Comment API");
-        testing_comment_api.setVisibility("jetbrains-team");
+        item.setVisibility("jetbrains-team");
 
-        item.comments.add(testing_comment_api);
+        youTrack.issues.add(item);
     }
 
 }

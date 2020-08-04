@@ -44,6 +44,16 @@ public class Issue extends BaseItem<YouTrack> {
     private boolean wikify;
     @XmlTransient
     private String projectId;
+    @XmlTransient
+    private String visibility;
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
+    }
 
     Issue() {
         final Issue thiz = this;

@@ -1,12 +1,12 @@
 package youtrack;
 
-import org.jetbrains.annotations.NotNull;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
+import org.jetbrains.annotations.NotNull;
 import youtrack.exceptions.CommandExecutionException;
 
 import java.io.IOException;
@@ -46,6 +46,10 @@ class AddIssue extends AddCommand<YouTrack, Issue> {
         params.add(new BasicNameValuePair("project", item.getProjectId()));
         params.add(new BasicNameValuePair("summary", getItem().getSummary()));
         params.add(new BasicNameValuePair("description", getItem().getDescription()));
+        final String visibility = item.getVisibility();
+        if (visibility != null && !visibility.isEmpty())
+            params.add(new BasicNameValuePair("permittedGroup", visibility));
+
         result.setEntity(new UrlEncodedFormEntity(params, Charsets.toCharset("UTF-8")));
         return result;
     }

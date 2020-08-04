@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4919a6bb-7084-48ab-b45c-912149796485" name="Default" comment="Fixing request for comment adds">
+    <list default="true" id="4919a6bb-7084-48ab-b45c-912149796485" name="Default" comment="Support comment visibility changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/youtrack/AddComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/youtrack/AddComment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/youtrack/IssueComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/youtrack/IssueComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/youtrack/AddIssue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/youtrack/AddIssue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/youtrack/Issue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/youtrack/Issue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/RestApiTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RestApiTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,41 +49,12 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>847846238561153028</find>
-      <find>858031093487992834</find>
-      <find>2498791758</find>
-      <find>9307922</find>
-      <find>ge</find>
-      <find>gene</find>
-      <find>gener</find>
-      <find>generage</find>
-      <find>generag</find>
-      <find>genera</find>
-      <find>generat</find>
-      <find>generate</find>
-      <find>generateid</find>
-      <find>ile</find>
-      <find>RunningCommand</find>
-      <find>/createMethod</find>
-      <find>anchors</find>
-      <find>a</find>
-      <find>afte</find>
-      <find>after</find>
-      <find>map</find>
-    </findStrings>
-    <replaceStrings>
-      <replace />
-      <replace>Command</replace>
-      <replace>/execute</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1azBvHpz9Y6FI9Md6h51lU3OSL6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -99,8 +70,11 @@
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="JSON" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.31034482" />
@@ -324,7 +298,7 @@
       <workItem from="1558108006017" duration="623000" />
       <workItem from="1558452206377" duration="80000" />
       <workItem from="1587728773801" duration="1278000" />
-      <workItem from="1596558871799" duration="820000" />
+      <workItem from="1596558871799" duration="1513000" />
     </task>
     <task id="LOCAL-00001" summary="No checks for fields">
       <created>1494855658959</created>
@@ -396,7 +370,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587730168005</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Support comment visibility changes">
+      <created>1596560081862</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1596560081862</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -438,33 +419,62 @@
     <MESSAGE value="Fixed URL for method calls" />
     <MESSAGE value="Version fixes" />
     <MESSAGE value="Fixing request for comment adds" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing request for comment adds" />
+    <MESSAGE value="Support comment visibility changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Support comment visibility changes" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="773" y="308" key="#com.intellij.ide.util.MemberChooser" timestamp="1596559066373">
+    <state x="773" y="308" key="#com.intellij.ide.util.MemberChooser" timestamp="1596571746743">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="773" y="308" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1200@0.0.1920.1200" timestamp="1596559066373" />
-    <state width="1878" height="392" key="GridCell.Tab.0.bottom" timestamp="1596559094731">
+    <state x="773" y="308" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1200@0.0.1920.1200" timestamp="1596571746743" />
+    <state x="539" y="196" key="CommitChangelistDialog2" timestamp="1596560081696">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.0.bottom/0.0.1920.1200@0.0.1920.1200" timestamp="1596559094731" />
-    <state width="1878" height="392" key="GridCell.Tab.0.center" timestamp="1596559094726">
+    <state x="539" y="196" key="CommitChangelistDialog2/0.0.1920.1200@0.0.1920.1200" timestamp="1596560081696" />
+    <state width="1878" height="392" key="GridCell.Tab.0.bottom" timestamp="1596572042219">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.0.center/0.0.1920.1200@0.0.1920.1200" timestamp="1596559094726" />
-    <state width="1878" height="392" key="GridCell.Tab.0.left" timestamp="1596559094723">
+    <state width="1878" height="392" key="GridCell.Tab.0.bottom/0.0.1920.1200@0.0.1920.1200" timestamp="1596572042219" />
+    <state width="1878" height="392" key="GridCell.Tab.0.center" timestamp="1596572042211">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.0.left/0.0.1920.1200@0.0.1920.1200" timestamp="1596559094723" />
-    <state width="1878" height="392" key="GridCell.Tab.0.right" timestamp="1596559094729">
+    <state width="1878" height="392" key="GridCell.Tab.0.center/0.0.1920.1200@0.0.1920.1200" timestamp="1596572042211" />
+    <state width="1878" height="392" key="GridCell.Tab.0.left" timestamp="1596572042208">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state width="1878" height="392" key="GridCell.Tab.0.right/0.0.1920.1200@0.0.1920.1200" timestamp="1596559094729" />
-    <state x="625" y="271" key="search.everywhere.popup" timestamp="1596559057601">
+    <state width="1878" height="392" key="GridCell.Tab.0.left/0.0.1920.1200@0.0.1920.1200" timestamp="1596572042208" />
+    <state width="1878" height="392" key="GridCell.Tab.0.right" timestamp="1596572042215">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="625" y="271" key="search.everywhere.popup/0.0.1920.1200@0.0.1920.1200" timestamp="1596559057601" />
+    <state width="1878" height="392" key="GridCell.Tab.0.right/0.0.1920.1200@0.0.1920.1200" timestamp="1596572042215" />
+    <state width="1878" height="392" key="GridCell.Tab.1.bottom" timestamp="1596572044225">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.1.bottom/0.0.1920.1200@0.0.1920.1200" timestamp="1596572044225" />
+    <state width="1878" height="392" key="GridCell.Tab.1.center" timestamp="1596572044222">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.1.center/0.0.1920.1200@0.0.1920.1200" timestamp="1596572044222" />
+    <state width="1878" height="392" key="GridCell.Tab.1.left" timestamp="1596572044220">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.1.left/0.0.1920.1200@0.0.1920.1200" timestamp="1596572044220" />
+    <state width="1878" height="392" key="GridCell.Tab.1.right" timestamp="1596572044223">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.1.right/0.0.1920.1200@0.0.1920.1200" timestamp="1596572044223" />
+    <state x="560" y="340" key="Vcs.Push.Dialog.v2" timestamp="1596560084735">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="560" y="340" key="Vcs.Push.Dialog.v2/0.0.1920.1200@0.0.1920.1200" timestamp="1596560084735" />
+    <state x="748" y="521" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596571664754">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="748" y="521" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1200@0.0.1920.1200" timestamp="1596571664754" />
+    <state x="625" y="271" width="670" height="676" key="search.everywhere.popup" timestamp="1596571740870">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="625" y="271" width="670" height="676" key="search.everywhere.popup/0.0.1920.1200@0.0.1920.1200" timestamp="1596571740870" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
