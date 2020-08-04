@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4919a6bb-7084-48ab-b45c-912149796485" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="4919a6bb-7084-48ab-b45c-912149796485" name="Default" comment="Fixing request for comment adds">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/youtrack/AddComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/youtrack/AddComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/youtrack/IssueComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/youtrack/IssueComment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/RestApiTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RestApiTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -327,7 +323,8 @@
       <workItem from="1556272095268" duration="4068000" />
       <workItem from="1558108006017" duration="623000" />
       <workItem from="1558452206377" duration="80000" />
-      <workItem from="1587728773801" duration="924000" />
+      <workItem from="1587728773801" duration="1278000" />
+      <workItem from="1596558871799" duration="820000" />
     </task>
     <task id="LOCAL-00001" summary="No checks for fields">
       <created>1494855658959</created>
@@ -392,7 +389,14 @@
       <option name="project" value="LOCAL" />
       <updated>1556279060132</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Fixing request for comment adds">
+      <created>1587730168005</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1587730168005</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -436,13 +440,39 @@
     <MESSAGE value="Fixing request for comment adds" />
     <option name="LAST_COMMIT_MESSAGE" value="Fixing request for comment adds" />
   </component>
+  <component name="WindowStateProjectService">
+    <state x="773" y="308" key="#com.intellij.ide.util.MemberChooser" timestamp="1596559066373">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="773" y="308" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1200@0.0.1920.1200" timestamp="1596559066373" />
+    <state width="1878" height="392" key="GridCell.Tab.0.bottom" timestamp="1596559094731">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.0.bottom/0.0.1920.1200@0.0.1920.1200" timestamp="1596559094731" />
+    <state width="1878" height="392" key="GridCell.Tab.0.center" timestamp="1596559094726">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.0.center/0.0.1920.1200@0.0.1920.1200" timestamp="1596559094726" />
+    <state width="1878" height="392" key="GridCell.Tab.0.left" timestamp="1596559094723">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.0.left/0.0.1920.1200@0.0.1920.1200" timestamp="1596559094723" />
+    <state width="1878" height="392" key="GridCell.Tab.0.right" timestamp="1596559094729">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="392" key="GridCell.Tab.0.right/0.0.1920.1200@0.0.1920.1200" timestamp="1596559094729" />
+    <state x="625" y="271" key="search.everywhere.popup" timestamp="1596559057601">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="625" y="271" key="search.everywhere.popup/0.0.1920.1200@0.0.1920.1200" timestamp="1596559057601" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/RestApiTests.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="2" />
+          <line>21</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

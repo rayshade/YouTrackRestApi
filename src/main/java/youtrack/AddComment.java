@@ -1,19 +1,13 @@
 package youtrack;
 
-import org.apache.commons.codec.Charsets;
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,6 +27,9 @@ final class AddComment extends AddCommand<Issue, IssueComment> {
 
         params.add(new BasicNameValuePair("command", "comment"));
         params.add(new BasicNameValuePair("comment", item.getText()));
+        final String visibility = item.getVisibility();
+        if (visibility != null && !visibility.isEmpty())
+            params.add(new BasicNameValuePair("group", visibility));
 
         return result = new HttpPost(owner.getYouTrack().getHostAddress() + "issue/" +
                 getOwner().getId() + "/execute?" + URLEncodedUtils.format(params, "UTF-8"));

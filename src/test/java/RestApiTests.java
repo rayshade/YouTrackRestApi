@@ -11,11 +11,14 @@ public class RestApiTests {
 
         final YouTrack youTrack = YouTrack.getInstance("https://youtrack.jetbrains.com/rest/", true);
         youTrack.setUseTokenAuthorization(true);
-        youTrack.setAuthorization("perm:bWVnb3I=.VGVzdHM=.xoigslREdhjZs78Qj5bQNckmsuQEXt");
+        youTrack.setAuthorization("perm:bWVnb3I=.OTItMjQwNw==.scVN5ymttwWm9eEo8h8MzzH7KWC9vK");
 
         Issue item = youTrack.issues.item("WH-143");
 
-        item.comments.add(IssueComment.createComment("Testing Comment API"));
+        final IssueComment testing_comment_api = IssueComment.createComment("Testing Comment API");
+        testing_comment_api.setVisibility("jetbrains-team");
+
+        item.comments.add(testing_comment_api);
     }
 
 }

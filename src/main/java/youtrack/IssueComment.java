@@ -25,6 +25,17 @@ public class IssueComment extends BaseItem<Issue> {
     private String authorFullName;
     @XmlAttribute(name = "updated")
     private Long updated;
+    @XmlAttribute(name = "permittedGroup")
+    private String visibility;
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
+    }
+
     @XmlElementWrapper(name = "replies")
     @XmlElement(name = "comment")
     private List<IssueComment> replies;
