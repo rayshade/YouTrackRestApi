@@ -155,6 +155,10 @@ public class Issue extends BaseItem<YouTrack> {
         setFieldByName("State", state);
     }
 
+    public void setFieldByName(final String name, final BaseIssueField field) {
+        fields.put(name, field);
+    }
+
     public boolean isWikify() {
         return wikify;
     }
