@@ -14,6 +14,6 @@ final class QueryIssues extends ListCommand<YouTrack, Issue> {
 
     @Override
     HttpRequestBase createMethod() {
-        return new HttpGet(owner.getYouTrack().getHostAddress() + "issue/?" + parametersAsQuery());
+        return new HttpGet(owner.getYouTrack().getHostAddress() + "issues/?" + parametersAsQuery());
     }
 }
